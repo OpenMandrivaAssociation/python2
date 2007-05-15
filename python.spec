@@ -56,6 +56,7 @@ BuildRequires:	tix
 BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
+BuildRequires:	emacs
 # not needed, we only have version 2.0 in distro
 #Obsoletes:      python-sqlite3
 #Provides:       python-sqlite3
