@@ -273,7 +273,6 @@ sed -e "s|$RPM_BUILD_ROOT||g" < modules-list.full > modules-list
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-tkinter.desktop << EOF
 [Desktop Entry]
-Encoding=UTF-8
 Name=IDLE
 Comment=IDE for Python
 Exec=%{_bindir}/idle
@@ -286,7 +285,6 @@ EOF
 
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
 [Desktop Entry]
-Encoding=UTF-8
 Name=Python documentation
 Comment=Python complete reference
 Exec=%{_bindir}/www-browser %_defaultdocdir/%{name}-docs-%{version}/index.html
