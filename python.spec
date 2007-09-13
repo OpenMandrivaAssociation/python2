@@ -138,6 +138,14 @@ the Python scripting language.
 You should install the tkinter package if you'd like to use a graphical
 user interface for Python programming.
 
+%package -n	tkinter-apps
+Summary:	Various applications written using tkinter
+Group:		Development/Python
+Requires:   tkinter
+
+%description -n	tkinter-apps
+Various applications written using tkinter
+
 %package	base
 Summary:	Python base files
 Group:		Development/Python
@@ -415,6 +423,9 @@ rm -f modules-list main.list
 %{_libdir}/python*/idlelib
 %{_libdir}/python*/site-packages/modulator
 %{_libdir}/python*/site-packages/pynche
+
+%files -n tkinter-apps
+%defattr(-, root, root, 755)
 %{_bindir}/idle
 %{_bindir}/pynche
 %{_bindir}/modulator
