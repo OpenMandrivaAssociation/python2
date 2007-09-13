@@ -287,7 +287,7 @@ cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}-docs.desktop << E
 [Desktop Entry]
 Name=Python documentation
 Comment=Python complete reference
-Exec=%{_bindir}/www-browser %_defaultdocdir/%{name}-docs-%{version}/index.html
+Exec=%{_bindir}/www-browser %_defaultdocdir/%{name}-docs/index.html
 Icon=documentation_section
 Terminal=false
 Type=Application
