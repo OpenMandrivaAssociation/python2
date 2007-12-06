@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.1
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -176,6 +176,15 @@ bzcat %{SOURCE1} | tar x  -C html
 find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
 
 tar --strip-components=1 -xjf %{SOURCE4} -C Misc   
+
+cat > README.mdk << EOF
+Python interpreter support readline completion by default.
+This is only used with the interpreter. In order to remove it,
+you can :
+1) unset PYTHONSTARTUP when you login
+2) create a empty file \$HOME/.pythonrc.py
+3) change %{_sysconfdir}/pythonrc.py
+EOF
 
 %build
 rm -f Modules/Setup.local
@@ -370,15 +379,6 @@ except:
 EOF
 
 chmod ugo+rx $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/*
-
-cat > README.mdk << EOF
-Python interpreter support readline completion by default.
-This is only used with the interpreter. In order to remove it,
-you can :
-1) unset PYTHONSTARTUP when you login
-2) create a empty file $HOME/.pythonrc.py
-3) change /etc/pythonrc.py
-EOF
 
 %multiarch_includes $RPM_BUILD_ROOT/usr/include/python*/pyconfig.h
 
