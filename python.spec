@@ -346,13 +346,11 @@ chmod u+w $RPM_BUILD_ROOT%{_libdir}/libpython%{lib_major}.so.1.0
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
 
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/python.sh << EOF
-#!/bin/sh
 if [ -f \$HOME/.pythonrc.py ] ; then
 	export PYTHONSTARTUP=\$HOME/.pythonrc.py
 else
 	export PYTHONSTARTUP=/etc/pythonrc.py
 fi
-	
 EOF
 
 cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/python.csh << EOF
@@ -361,7 +359,6 @@ if ( -f \${HOME}/.pythonrc.py ) then
 else
 	setenv PYTHONSTARTUP /etc/pythonrc.py
 endif
-
 EOF
 
 cat >  $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
@@ -377,8 +374,6 @@ except:
 # you can place a file .pythonrc.py in your home to overrides this one
 # but then, this file will not be sourced
 EOF
-
-chmod ugo+rx $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/*
 
 %multiarch_includes $RPM_BUILD_ROOT/usr/include/python*/pyconfig.h
 
