@@ -34,7 +34,6 @@ Patch6:		Python-2.4.1-gdbm.patch
 
 Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
 URL:		http://www.python.org/
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
 Requires:	%{name}-base = %{version}
