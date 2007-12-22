@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.1
-Release:	%mkrel 7
+Release:	%mkrel 8
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -346,23 +346,23 @@ chmod u+w $RPM_BUILD_ROOT%{_libdir}/libpython%{lib_major}.so.1.0
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
 
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/python.sh << EOF
-if [ -f \$HOME/.pythonrc.py ] ; then
-	export PYTHONSTARTUP=\$HOME/.pythonrc.py
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/30python.sh << 'EOF'
+if [ -f $HOME/.pythonrc.py ] ; then
+	export PYTHONSTARTUP=$HOME/.pythonrc.py
 else
 	export PYTHONSTARTUP=/etc/pythonrc.py
 fi
 EOF
 
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/python.csh << EOF
-if ( -f \${HOME}/.pythonrc.py ) then
-	setenv PYTHONSTARTUP \${HOME}/.pythonrc.py
+cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
+if ( -f ${HOME}/.pythonrc.py ) then
+	setenv PYTHONSTARTUP ${HOME}/.pythonrc.py
 else
 	setenv PYTHONSTARTUP /etc/pythonrc.py
 endif
 EOF
 
-cat >  $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
 try:
     # this add completion to python interpreter
     import readline
