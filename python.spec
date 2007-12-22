@@ -388,7 +388,7 @@ rm -f modules-list main.list
 %dir %{_libdir}/python*/lib-dynload
 %dir %{_libdir}/python*/site-packages
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
-%{_sysconfdir}/profile.d/python.*
+%{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
 
 %files -n %{lib_name}
