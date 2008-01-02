@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.1
-Release:	%mkrel 8
+Release:	%mkrel 9
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -17,6 +17,8 @@ Source1:	http://www.python.org/ftp/python/doc/%{docver}/html-%{docver}.tar.bz2
 Source2:	python-2.5-base.list
 Source3:	exclude.py
 Source4:	python-mode-1.0.tar.bz2
+# gw allow to build with libdb 4.6
+Patch: Python-2.5.1-db4.6.patch
 
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
@@ -158,6 +160,7 @@ of a Mandriva Linux distribution.
 
 %prep
 %setup -q -n Python-%{version}
+%patch -p1
 # local include
 %patch3 -p1 
 # lib64
