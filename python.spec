@@ -35,6 +35,11 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 Patch6:		Python-2.4.1-gdbm.patch
 
 Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
+# patch from 2.6 branch, to reduce number of wakeup
+# see http://qa.mandriva.com/show_bug.cgi?id=36743
+Patch8:     python2.6-set_wakeup_fd4.patch 
+
+
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
@@ -171,7 +176,8 @@ of a Mandriva Linux distribution.
 %patch6 -p1 
 # fix some crash du to a buffer overflow
 %patch7 -p0
-
+# reduce number of wakeup
+%patch8 -p1
 autoconf
 
 mkdir html
