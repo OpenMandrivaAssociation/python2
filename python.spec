@@ -39,6 +39,8 @@ Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
 # see http://qa.mandriva.com/show_bug.cgi?id=36743
 Patch8:     python2.6-set_wakeup_fd4.patch 
 
+# fix CVE-2007-4965
+Patch9:     python-2.5-CVE-2007-4965.patch 
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -178,6 +180,9 @@ of a Mandriva Linux distribution.
 %patch7 -p0
 # reduce number of wakeup
 %patch8 -p1
+# fix CVE-2007-4965
+%patch9 -p1
+
 autoconf
 
 mkdir html
