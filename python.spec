@@ -7,8 +7,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.5.1
-Release:	%mkrel 10
+Version:	2.5.2
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -167,7 +167,8 @@ of a Mandriva Linux distribution.
 
 %prep
 %setup -q -n Python-%{version}
-%patch -p1
+# db 4.6
+%patch -p0
 # local include
 %patch3 -p1 
 # lib64
@@ -179,7 +180,7 @@ of a Mandriva Linux distribution.
 # fix some crash du to a buffer overflow
 %patch7 -p0
 # reduce number of wakeup
-%patch8 -p1
+%patch8 -p0
 # fix CVE-2007-4965
 %patch9 -p1
 
