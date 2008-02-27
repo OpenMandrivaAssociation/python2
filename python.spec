@@ -449,10 +449,10 @@ rm -f modules-list main.list
 %post -n %{lib_name} -p /sbin/ldconfig
 %postun -n %{lib_name} -p /sbin/ldconfig
 
-%post -n tkinter
+%post -n tkinter-apps
 %update_menus
 
-%postun -n tkinter
+%postun -n tkinter-apps
 %clean_menus
 
 
