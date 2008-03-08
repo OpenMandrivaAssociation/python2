@@ -42,7 +42,7 @@ Patch8:     python2.6-set_wakeup_fd4.patch
 # fix CVE-2007-4965
 Patch9:     python-2.5-CVE-2007-4965.patch 
 
-# fix bug#9482
+# add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
 URL:		http://www.python.org/
@@ -186,6 +186,7 @@ of a Mandriva Linux distribution.
 %patch8 -p0
 # fix CVE-2007-4965
 %patch9 -p1
+# add mandriva to the list of supported distribution
 %patch10 -p0
 
 autoconf
