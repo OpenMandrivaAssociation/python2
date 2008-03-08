@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -41,6 +41,9 @@ Patch8:     python2.6-set_wakeup_fd4.patch
 
 # fix CVE-2007-4965
 Patch9:     python-2.5-CVE-2007-4965.patch 
+
+# fix bug#9482
+Patch10:	python-2.5.1-detect-mandriva.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -183,6 +186,7 @@ of a Mandriva Linux distribution.
 %patch8 -p0
 # fix CVE-2007-4965
 %patch9 -p1
+%patch10 -p0
 
 autoconf
 
