@@ -462,10 +462,14 @@ rm -f modules-list main.list
 %postun -n %{lib_name} -p /sbin/ldconfig
 %endif
 
+%if %mdkversion < 200900
 %post -n tkinter-apps
 %update_menus
+%endif
 
+%if %mdkversion < 200900
 %postun -n tkinter-apps
 %clean_menus
+%endif
 
 
