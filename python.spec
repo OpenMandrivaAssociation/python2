@@ -48,6 +48,18 @@ Patch10:	python-2.5.1-detect-mandriva.patch
 # security fix, from Python SVN, already applied for versions post 2.5.2
 Patch11:	python-2.5-CVE-2008-1721.patch
 
+# security fix, CVE-2008-1679
+# problem on imaageop
+Patch12:    python-2.5-int-overflow-2.patch
+# security fix, unicode overflow
+Patch13:    python-2.5.2-CVE-2008-2315.patch
+# security, interger overflow in hashlib
+Patch14:    python-2.5.2-CVE-2008-2316.patch
+# VArious buffer overflow
+Patch15:    python-2.5.2-CVE-2008-3142.patch
+# interger overflow, in vsnprintf
+Patch16:    python-2.5.2-CVE-2008-3144.patch
+
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
@@ -191,7 +203,14 @@ of a Mandriva Linux distribution.
 %patch9 -p1
 # add mandriva to the list of supported distribution
 %patch10 -p0
+
+# security fix
 %patch11 -p0
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
 
 autoconf
 
