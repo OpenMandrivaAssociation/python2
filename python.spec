@@ -186,7 +186,7 @@ of a Mandriva Linux distribution.
 %prep
 %setup -q -n Python-%{version}
 # db 4.6
-%patch -p0
+%patch0 -p0
 # local include
 %patch3 -p1 
 # lib64
