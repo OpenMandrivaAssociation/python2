@@ -1,5 +1,5 @@
-%define docver  2.5
-%define dirver  2.5
+%define docver  2.6
+%define dirver  2.6
 
 %define lib_major	%{dirver}
 %define lib_name_orig	libpython
@@ -7,24 +7,22 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.5.2
-Release:	%mkrel 5
+Version:	2.6
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
-Source1:	http://www.python.org/ftp/python/doc/%{docver}/html-%{docver}.tar.bz2
+Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-docs-html.tar.bz2
 Source2:	python-2.5-base.list
 Source3:	exclude.py
 Source4:	python-mode-1.0.tar.bz2
-# gw allow to build with libdb 4.6
-Patch: Python-2.5.1-db4.6.patch
 
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
-Patch4:		Python-2.4.1-lib64.patch
+Patch4:		python-lib64.patch 
 
 # Do handle <asm-XXX/*.h> headers in h2py.py
 # FIXME: incomplete for proper bi-arch support as #if/#else/#endif
@@ -35,33 +33,9 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 Patch6:		Python-2.4.1-gdbm.patch
 
 Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
-# patch from 2.6 branch, to reduce number of wakeup
-# see http://qa.mandriva.com/show_bug.cgi?id=36743
-Patch8:     python2.6-set_wakeup_fd4.patch 
-
-# fix CVE-2007-4965
-Patch9:     python-2.5-CVE-2007-4965.patch 
 
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
-
-# security fix, from Python SVN, already applied for versions post 2.5.2
-Patch11:	python-2.5-CVE-2008-1721.patch
-
-# security fix, CVE-2008-1679
-# problem on imaageop
-Patch12:    python-2.5-int-overflow-2.patch
-# security fix, unicode overflow
-Patch13:    python-2.5.2-CVE-2008-2315.patch
-# security, interger overflow in hashlib
-Patch14:    python-2.5.2-CVE-2008-2316.patch
-# VArious buffer overflow
-Patch15:    python-2.5.2-CVE-2008-3142.patch
-# interger overflow, in vsnprintf
-Patch16:    python-2.5.2-CVE-2008-3144.patch
-# security fix, symbolic link attack possibility on temp file
-# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=498899
-Patch17:    python-2.5.2-CVE-2008-4108.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -188,8 +162,6 @@ of a Mandriva Linux distribution.
 
 %prep
 %setup -q -n Python-%{version}
-# db 4.6
-%patch0 -p0
 # local include
 %patch3 -p1 
 # lib64
@@ -200,21 +172,8 @@ of a Mandriva Linux distribution.
 %patch6 -p1 
 # fix some crash du to a buffer overflow
 %patch7 -p0
-# reduce number of wakeup
-%patch8 -p0
-# fix CVE-2007-4965
-%patch9 -p1
 # add mandriva to the list of supported distribution
 %patch10 -p0
-
-# security fix
-%patch11 -p0
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
 
 autoconf
 
@@ -263,7 +222,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 11/12/2006) test_sax fail too, will take a look later 
 # (misc, 21/08/2007) test_string and test_str segfault, test_unicode, test_userstring, I need to pass the package as a security update
 # test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
-make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring"
+make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -366,6 +325,7 @@ cat >> modules-list << EOF
 %{_bindir}/python
 %{_bindir}/python%dirver
 %{_bindir}/pydoc
+%{_bindir}/2to3
 %{_mandir}/man1/python*
 %{_libdir}/python*/bsddb/
 %{_libdir}/python*/curses/
@@ -377,6 +337,9 @@ cat >> modules-list << EOF
 %{_libdir}/python*/ctypes/
 %{_libdir}/python*/sqlite3/
 %{_libdir}/python*/compiler/
+%{_libdir}/python*/multiprocessing/
+%{_libdir}/python*/lib2to3/
+%{_libdir}/python*/json/
 %{_libdir}/python*/email/
 %{_libdir}/python*/hotshot/
 %{_libdir}/python*/site-packages/README
