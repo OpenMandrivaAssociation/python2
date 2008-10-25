@@ -363,6 +363,8 @@ if [ -f $HOME/.pythonrc.py ] ; then
 else
 	export PYTHONSTARTUP=/etc/pythonrc.py
 fi
+
+export PYTHONDONTWRITEBYTECODE=1
 EOF
 
 cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
@@ -371,6 +373,7 @@ if ( -f ${HOME}/.pythonrc.py ) then
 else
 	setenv PYTHONSTARTUP /etc/pythonrc.py
 endif
+setenv PYTHONDONTWRITEBYTECODE 1
 EOF
 
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
