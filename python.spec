@@ -14,8 +14,6 @@ Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-docs-html.tar.bz2
-Source2:	python-2.5-base.list
-Source3:	exclude.py
 Source4:	python-mode-1.0.tar.bz2
 
 # Don't include /usr/local/* in search path
@@ -277,16 +275,6 @@ chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,modulator,pynche}
 ln -f Tools/modulator/README Tools/modulator/README.modulator
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
-rm -f modules-list.full
-for n in $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/*; do
-  [ -d $n ] || echo $n
-done >> modules-list.full
-
-for mod in $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/lib-dynload/* ; do
-  [ `basename $mod` = _tkinter.so ] || echo $mod
-done >> modules-list.full
-sed -e "s|$RPM_BUILD_ROOT||g" < modules-list.full > modules-list
-
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-tkinter.desktop << EOF
@@ -312,35 +300,6 @@ Type=Application
 Categories=X-MandrivaLinux-MoreApplications-Documentation;
 EOF
 
-rm -f include.list main.list
-cat %{SOURCE2} | sed 's@%%{_libdir}@%{_libdir}@' > include.list
-cat >> modules-list << EOF
-%{_bindir}/python
-%{_bindir}/python%dirver
-%{_bindir}/pydoc
-%{_bindir}/2to3
-%{_mandir}/man1/python*
-%{_libdir}/python*/bsddb/
-%{_libdir}/python*/curses/
-%{_libdir}/python*/distutils/
-%{_libdir}/python*/encodings/*
-%{_libdir}/python*/logging/
-%{_libdir}/python*/xml/
-%{_libdir}/python*/wsgiref/
-%{_libdir}/python*/ctypes/
-%{_libdir}/python*/sqlite3/
-%{_libdir}/python*/compiler/
-%{_libdir}/python*/multiprocessing/
-%{_libdir}/python*/lib2to3/
-%{_libdir}/python*/json/
-%{_libdir}/python*/email/
-%{_libdir}/python*/hotshot/
-%{_libdir}/python*/site-packages/README
-%{_libdir}/python*/plat-linux2/
-%{_datadir}/emacs/site-lisp/python-mode.el*
-EOF
-
-LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_bindir}/python %{SOURCE3} $RPM_BUILD_ROOT include.list modules-list > main.list
 
 # fix non real scripts
 chmod 644 $RPM_BUILD_ROOT%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
@@ -387,7 +346,6 @@ EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-rm -f modules-list main.list
 
 %files 
 %defattr(-, root, root, 755)
