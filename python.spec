@@ -68,6 +68,8 @@ Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
 Provides:       python-elementtree
+Obsoletes:      python-base
+Provides:       python-base
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 
