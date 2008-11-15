@@ -151,15 +151,6 @@ Requires:   tkinter
 %description -n	tkinter-apps
 Various applications written using tkinter
 
-%package	base
-Summary:	Python base files
-Group:		Development/Python
-Requires:	%{lib_name} = %{version}
-
-%description	base
-This packages contains the Python part that is used by the base packages
-of a Mandriva Linux distribution.
-
 %prep
 %setup -q -n Python-%{version}
 # local include
@@ -396,7 +387,7 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 rm -f modules-list main.list
 
-%files -f main.list
+%files 
 %defattr(-, root, root, 755)
 %doc README.mdk 
 %dir %{_libdir}/python*/lib-dynload
@@ -404,6 +395,15 @@ rm -f modules-list main.list
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
+%exclude %{_libdir}/python*/config/
+%exclude %{_libdir}/python*/test/
+%{_libdir}/python*
+%{_bindir}/python%{dirver}
+%{_bindir}/pydoc
+%{_bindir}/python
+%{_bindir}/2to3
+%{_datadir}/emacs/site-lisp/*
+%{_mandir}/man*/*
 
 %files -n %{lib_name}
 %defattr(-,root,root)
@@ -440,10 +440,6 @@ rm -f modules-list main.list
 %{_bindir}/pynche
 %{_bindir}/modulator
 %{_datadir}/applications/mandriva-tkinter.desktop
-
-%files base -f include.list
-%defattr(-, root, root, 755)
-%dir %{_libdir}/python*
 
 %if %mdkversion < 200900
 %post -n %{lib_name} -p /sbin/ldconfig
