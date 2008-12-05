@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.2
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -62,6 +62,8 @@ Patch16:    python-2.5.2-CVE-2008-3144.patch
 # security fix, symbolic link attack possibility on temp file
 # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=498899
 Patch17:    python-2.5.2-CVE-2008-4108.patch
+# support tcl 8.6
+Patch18:	python-2.5-tcl86.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -215,6 +217,7 @@ of a Mandriva Linux distribution.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 autoconf
 
