@@ -205,7 +205,7 @@ of a Mandriva Linux distribution.
 # reduce number of wakeup
 %patch8 -p0
 # fix CVE-2007-4965
-%patch9 -p1
+%patch9 -p0
 # add mandriva to the list of supported distribution
 %patch10 -p0
 
