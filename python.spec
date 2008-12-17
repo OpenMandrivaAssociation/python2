@@ -193,7 +193,7 @@ of a Mandriva Linux distribution.
 # db 4.6
 %patch0 -p0
 # local include
-%patch3 -p1 
+%patch3 -p0 
 # lib64
 %patch4 -p0
 # biarch header
