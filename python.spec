@@ -197,7 +197,7 @@ of a Mandriva Linux distribution.
 # lib64
 %patch4 -p0
 # biarch header
-%patch5 -p1
+%patch5 -p0
 # gdbm 
 %patch6 -p1 
 # fix some crash du to a buffer overflow
