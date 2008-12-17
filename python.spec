@@ -64,6 +64,8 @@ Patch16:    python-2.5.2-CVE-2008-3144.patch
 Patch17:    python-2.5.2-CVE-2008-4108.patch
 # support tcl 8.6
 Patch18:	python-2.5-tcl86.patch
+# correct various issues on format string
+Patch19: python-2.5-format-string.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -218,6 +220,7 @@ of a Mandriva Linux distribution.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p0
 
 autoconf
 
