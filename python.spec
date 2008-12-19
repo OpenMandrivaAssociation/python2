@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.2
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
