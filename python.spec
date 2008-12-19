@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.5.2
-Release:	%mkrel 7
+Release:	%mkrel 8
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -74,7 +74,10 @@ Requires:	%{lib_name} = %{version}
 Requires:	%{name}-base = %{version}
 BuildRequires:	X11-devel 
 BuildRequires:	blt
-BuildRequires:	db2-devel, db4-devel
+# Python 2.5.2 will not build the _bsddb extension against db4.7,
+# not even with an update of db4.6.patch: there is an actual code
+# incompatibility which would need patching - AdamW 2008/12
+BuildRequires:	db2-devel, db4-devel < 4.7
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel 
