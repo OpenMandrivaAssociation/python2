@@ -1,5 +1,5 @@
-%define docver  2.5
-%define dirver  2.5
+%define docver  2.6
+%define dirver  2.6
 
 %define lib_major	%{dirver}
 %define lib_name_orig	libpython
@@ -7,24 +7,20 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.5.2
-Release:	%mkrel 8
+Version:	2.6
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
-Source1:	http://www.python.org/ftp/python/doc/%{docver}/html-%{docver}.tar.bz2
-Source2:	python-2.5-base.list
-Source3:	exclude.py
+Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-docs-html.tar.bz2
 Source4:	python-mode-1.0.tar.bz2
-# gw allow to build with libdb 4.6
-Patch0: Python-2.5.1-db4.6.patch
 
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
-Patch4:		Python-2.4.1-lib64.patch
+Patch4:		python-lib64.patch 
 
 # Do handle <asm-XXX/*.h> headers in h2py.py
 # FIXME: incomplete for proper bi-arch support as #if/#else/#endif
@@ -35,37 +31,13 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 Patch6:		Python-2.4.1-gdbm.patch
 
 Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
-# patch from 2.6 branch, to reduce number of wakeup
-# see http://qa.mandriva.com/show_bug.cgi?id=36743
-Patch8:     python2.6-set_wakeup_fd4.patch 
-
-# fix CVE-2007-4965
-Patch9:     python-2.5-CVE-2007-4965.patch 
 
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
-
-# security fix, from Python SVN, already applied for versions post 2.5.2
-Patch11:	python-2.5-CVE-2008-1721.patch
-
-# security fix, CVE-2008-1679
-# problem on imaageop
-Patch12:    python-2.5-int-overflow-2.patch
-# security fix, unicode overflow
-Patch13:    python-2.5.2-CVE-2008-2315.patch
-# security, interger overflow in hashlib
-Patch14:    python-2.5.2-CVE-2008-2316.patch
-# VArious buffer overflow
-Patch15:    python-2.5.2-CVE-2008-3142.patch
-# interger overflow, in vsnprintf
-Patch16:    python-2.5.2-CVE-2008-3144.patch
-# security fix, symbolic link attack possibility on temp file
-# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=498899
-Patch17:    python-2.5.2-CVE-2008-4108.patch
-# support tcl 8.6
-Patch18:	python-2.5-tcl86.patch
-# correct various issues on format string
-Patch19: python-2.5-format-string.patch
+# correct format string error
+Patch11:    python-2.5-format-string.patch
+# patch for new tcl 
+Patch12:    python-2.5-tcl86.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -101,6 +73,8 @@ Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
 Provides:       python-elementtree
+Obsoletes:      python-base
+Provides:       python-base
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 
@@ -184,19 +158,8 @@ Requires:   tkinter
 %description -n	tkinter-apps
 Various applications written using tkinter
 
-%package	base
-Summary:	Python base files
-Group:		Development/Python
-Requires:	%{lib_name} = %{version}
-
-%description	base
-This packages contains the Python part that is used by the base packages
-of a Mandriva Linux distribution.
-
 %prep
 %setup -q -n Python-%{version}
-# db 4.6
-%patch0 -p0
 # local include
 %patch3 -p0 
 # lib64
@@ -207,23 +170,12 @@ of a Mandriva Linux distribution.
 %patch6 -p1 
 # fix some crash du to a buffer overflow
 %patch7 -p0
-# reduce number of wakeup
-%patch8 -p0
-# fix CVE-2007-4965
-%patch9 -p0
 # add mandriva to the list of supported distribution
 %patch10 -p0
-
-# security fix
+# correct format string error
 %patch11 -p0
+# adapt for new tcl
 %patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p0
 
 autoconf
 
@@ -272,7 +224,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 11/12/2006) test_sax fail too, will take a look later 
 # (misc, 21/08/2007) test_string and test_str segfault, test_unicode, test_userstring, I need to pass the package as a security update
 # test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
-make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring"
+make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -334,16 +286,6 @@ chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,modulator,pynche}
 ln -f Tools/modulator/README Tools/modulator/README.modulator
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
-rm -f modules-list.full
-for n in $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/*; do
-  [ -d $n ] || echo $n
-done >> modules-list.full
-
-for mod in $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/lib-dynload/* ; do
-  [ `basename $mod` = _tkinter.so ] || echo $mod
-done >> modules-list.full
-sed -e "s|$RPM_BUILD_ROOT||g" < modules-list.full > modules-list
-
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-tkinter.desktop << EOF
@@ -369,31 +311,6 @@ Type=Application
 Categories=X-MandrivaLinux-MoreApplications-Documentation;
 EOF
 
-rm -f include.list main.list
-cat %{SOURCE2} | sed 's@%%{_libdir}@%{_libdir}@' > include.list
-cat >> modules-list << EOF
-%{_bindir}/python
-%{_bindir}/python%dirver
-%{_bindir}/pydoc
-%{_mandir}/man1/python*
-%{_libdir}/python*/bsddb/
-%{_libdir}/python*/curses/
-%{_libdir}/python*/distutils/
-%{_libdir}/python*/encodings/*
-%{_libdir}/python*/logging/
-%{_libdir}/python*/xml/
-%{_libdir}/python*/wsgiref/
-%{_libdir}/python*/ctypes/
-%{_libdir}/python*/sqlite3/
-%{_libdir}/python*/compiler/
-%{_libdir}/python*/email/
-%{_libdir}/python*/hotshot/
-%{_libdir}/python*/site-packages/README
-%{_libdir}/python*/plat-linux2/
-%{_datadir}/emacs/site-lisp/python-mode.el*
-EOF
-
-LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_bindir}/python %{SOURCE3} $RPM_BUILD_ROOT include.list modules-list > main.list
 
 # fix non real scripts
 chmod 644 $RPM_BUILD_ROOT%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
@@ -409,6 +326,8 @@ if [ -f $HOME/.pythonrc.py ] ; then
 else
 	export PYTHONSTARTUP=/etc/pythonrc.py
 fi
+
+export PYTHONDONTWRITEBYTECODE=1
 EOF
 
 cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
@@ -417,6 +336,7 @@ if ( -f ${HOME}/.pythonrc.py ) then
 else
 	setenv PYTHONSTARTUP /etc/pythonrc.py
 endif
+setenv PYTHONDONTWRITEBYTECODE 1
 EOF
 
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
@@ -437,9 +357,8 @@ EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-rm -f modules-list main.list
 
-%files -f main.list
+%files 
 %defattr(-, root, root, 755)
 %doc README.mdk 
 %dir %{_libdir}/python*/lib-dynload
@@ -447,6 +366,15 @@ rm -f modules-list main.list
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
+%exclude %{_libdir}/python*/config/
+%exclude %{_libdir}/python*/test/
+%{_libdir}/python*
+%{_bindir}/python%{dirver}
+%{_bindir}/pydoc
+%{_bindir}/python
+%{_bindir}/2to3
+%{_datadir}/emacs/site-lisp/*
+%{_mandir}/man*/*
 
 %files -n %{lib_name}
 %defattr(-,root,root)
@@ -483,10 +411,6 @@ rm -f modules-list main.list
 %{_bindir}/pynche
 %{_bindir}/modulator
 %{_datadir}/applications/mandriva-tkinter.desktop
-
-%files base -f include.list
-%defattr(-, root, root, 755)
-%dir %{_libdir}/python*
 
 %if %mdkversion < 200900
 %post -n %{lib_name} -p /sbin/ldconfig
