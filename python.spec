@@ -8,7 +8,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -43,7 +43,6 @@ URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
-Requires:	%{name}-base = %{version}
 BuildRequires:	X11-devel 
 BuildRequires:	blt
 # Python 2.5.2 will not build the _bsddb extension against db4.7,
@@ -73,7 +72,7 @@ Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
 Provides:       python-elementtree
-Obsoletes:      python-base
+Obsoletes:      python-base < 2.6
 Provides:       python-base
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
