@@ -7,8 +7,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6
-Release:	%mkrel 2
+Version:	2.6.1
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -20,7 +20,7 @@ Source4:	python-mode-1.0.tar.bz2
 Patch3:		Python-2.3-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
-Patch4:		python-lib64.patch 
+Patch4:		python-lib64.patch
 
 # Do handle <asm-XXX/*.h> headers in h2py.py
 # FIXME: incomplete for proper bi-arch support as #if/#else/#endif
@@ -36,14 +36,14 @@ Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
 Patch10:	python-2.5.1-detect-mandriva.patch
 # correct format string error
 Patch11:    python-2.5-format-string.patch
-# patch for new tcl 
+# patch for new tcl
 Patch12:    python-2.5-tcl86.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
-BuildRequires:	X11-devel 
+BuildRequires:	X11-devel
 BuildRequires:	blt
 # Python 2.5.2 will not build the _bsddb extension against db4.7,
 # not even with an update of db4.6.patch: there is an actual code
@@ -51,11 +51,11 @@ BuildRequires:	blt
 BuildRequires:	db2-devel, db4-devel < 4.7
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
-BuildRequires:	gdbm-devel 
+BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
-BuildRequires:	ncurses-devel 
-BuildRequires:	openssl-devel 
-BuildRequires:	readline-devel 
+BuildRequires:	ncurses-devel
+BuildRequires:	openssl-devel
+BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:	tcl tcl-devel
 BuildRequires:	tk tk-devel
@@ -160,13 +160,13 @@ Various applications written using tkinter
 %prep
 %setup -q -n Python-%{version}
 # local include
-%patch3 -p0 
+%patch3 -p0
 # lib64
 %patch4 -p0
 # biarch header
 %patch5 -p0
-# gdbm 
-%patch6 -p1 
+# gdbm
+%patch6 -p1
 # fix some crash du to a buffer overflow
 %patch7 -p0
 # add mandriva to the list of supported distribution
@@ -183,7 +183,7 @@ bzcat %{SOURCE1} | tar x  -C html
 
 find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
 
-tar --strip-components=1 -xjf %{SOURCE4} -C Misc   
+tar --strip-components=1 -xjf %{SOURCE4} -C Misc
 
 cat > README.mdk << EOF
 Python interpreter support readline completion by default.
@@ -215,12 +215,12 @@ export TMP="/tmp" TMPDIR="/tmp"
 export TMP="/tmp" TMPDIR="/tmp"
 
 # all tests must pass
-# (misc, 28/11/2006) test_shutil is causing problem in iurt, it seems to remove /tmp, 
+# (misc, 28/11/2006) test_shutil is causing problem in iurt, it seems to remove /tmp,
 # which make other test fail
 # (misc, 11/12/2006) test_pyexpat is icrashing, seem to be done on purpose ( http://python.org/sf/1296433 )
 # (misc, 11/12/2006) test_minidom is not working anymore, something changed either on my computer
 # or elsewhere.
-# (misc, 11/12/2006) test_sax fail too, will take a look later 
+# (misc, 11/12/2006) test_sax fail too, will take a look later
 # (misc, 21/08/2007) test_string and test_str segfault, test_unicode, test_userstring, I need to pass the package as a security update
 # test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
 make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
@@ -357,9 +357,9 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files 
+%files
 %defattr(-, root, root, 755)
-%doc README.mdk 
+%doc README.mdk
 %dir %{_libdir}/python*/lib-dynload
 %dir %{_libdir}/python*/site-packages
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
