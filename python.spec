@@ -48,7 +48,7 @@ BuildRequires:	blt
 # Python 2.5.2 will not build the _bsddb extension against db4.7,
 # not even with an update of db4.6.patch: there is an actual code
 # incompatibility which would need patching - AdamW 2008/12
-BuildRequires:	db2-devel, db4-devel < 4.7
+BuildRequires:	db2-devel, db4-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
