@@ -5,6 +5,11 @@
 %define lib_name_orig	libpython
 %define lib_name	%mklibname %{name} %{lib_major}
 
+%ifarch %{ix86} x86_64 ppc
+%bcond_without	valgrind
+%else
+%bcond_with	valgrind
+%endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.1
@@ -39,6 +44,10 @@ Patch11:    python-2.5-format-string.patch
 # patch for new tcl
 Patch12:    python-2.5-tcl86.patch
 
+# disables pymalloc when running under valgrind (http://bugs.python.org/issue2422)
+Patch13:	python-2.6.1-disable-pymalloc-on-valgrind.patch
+
+
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
@@ -65,6 +74,9 @@ BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
 BuildRequires:	emacs
+%if %{with valgrind}
+BuildRequires:	valgrind
+%endif
 # not needed, we only have version 2.0 in distro
 #Obsoletes:      python-sqlite3
 #Provides:       python-sqlite3
@@ -176,6 +188,8 @@ Various applications written using tkinter
 # adapt for new tcl
 %patch12 -p1
 
+%patch13 -p1 -b .valgrind~
+
 autoconf
 
 mkdir html
@@ -202,7 +216,15 @@ EOF
 
 OPT="$RPM_OPT_FLAGS -g"
 export OPT
-%configure2_5x --with-threads --with-cycle-gc --with-cxx=g++ --without-libdb --enable-ipv6 --enable-shared
+%configure2_5x	--with-threads \
+		--with-cycle-gc \
+		--with-cxx=g++ \
+		--without-libdb \
+		--enable-ipv6 \
+		--enable-shared \
+%if %{with valgrind}
+		--with-valgrind
+%endif
 
 # fix build
 perl -pi -e 's/^(LDFLAGS=.*)/$1 -lstdc++/' Makefile
@@ -285,6 +307,9 @@ chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,modulator,pynche}
 ln -f Tools/modulator/README Tools/modulator/README.modulator
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
+%if %{with valgrind}
+install Misc/valgrind-python.supp -D $RPM_BUILD_ROOT%{_libdir}/valgrind/valgrind-python.supp
+%endif
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-tkinter.desktop << EOF
@@ -374,6 +399,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/2to3
 %{_datadir}/emacs/site-lisp/*
 %{_mandir}/man*/*
+%if %{with valgrind}
+%{_libdir}/valgrind/valgrind-python.supp
+%endif
 
 %files -n %{lib_name}
 %defattr(-,root,root)
