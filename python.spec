@@ -392,6 +392,13 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/pythonrc.py
 %exclude %{_libdir}/python*/config/
 %exclude %{_libdir}/python*/test/
+
+%exclude %{_libdir}/python*/idlelib
+%exclude %{_libdir}/python*/lib-tk
+%exclude %{_libdir}/python*/lib-dynload/_tkinter.so
+%exclude %{_libdir}/python*/site-packages/pynche
+%exclude %{_libdir}/python*/site-packages/modulator
+
 %{_libdir}/python*
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
