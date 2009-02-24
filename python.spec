@@ -13,7 +13,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -121,6 +121,8 @@ Group:		Development/Python
 Requires:	%{name} = %version
 Requires:	%{lib_name} = %{version}
 Obsoletes:	%{name}-devel
+# (misc) needed to ease upgrade , see #47803
+Obsoletes:  %mklibname -d %{name} 2.5
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	%{lib_name_orig}-devel = %{version}-%{release}
 
