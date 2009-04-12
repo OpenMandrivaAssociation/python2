@@ -13,7 +13,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.1
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -52,6 +52,9 @@ Patch14:	Python-2.6.1-distutils-xz-support.patch
 
 # fixes UTF-8 name (fixes system-config-printer mdv bug #48158)
 Patch15:	python-2.5.2-fix_UTF-8_name.patch
+
+# from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
+Patch16:	python-2.5.1-plural-fix.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -198,6 +201,7 @@ Various applications written using tkinter
 %patch13 -p1 -b .valgrind~
 %patch14 -p1 -b .xz~
 %patch15 -p1 -b .fix_UTF-8_name
+%patch16 -p1 -b .plural-fix
 
 autoconf
 
