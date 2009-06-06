@@ -12,8 +12,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6.1
-Release:	%mkrel 6
+Version:	2.6.2
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -32,15 +32,12 @@ Patch4:		python-lib64.patch
 # clauses generally should have been handled
 Patch5:		Python-2.2.2-biarch-headers.patch
 
-# detect and link with gdbm_compat for dbm module
-Patch6:		Python-2.4.1-gdbm.patch
-
-Patch7:     python-2.4.3-fix-buffer_overflow_with_glibc2.3.5.diff
+Patch7:     python-2.6.2-fix-buffer_overflow_with_glibc2.3.5.diff
 
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 # correct format string error
-Patch11:    python-2.5-format-string.patch
+Patch11:    python-2.6.2-format-string.patch
 # patch for new tcl
 Patch12:    python-2.5-tcl86.patch
 
@@ -55,6 +52,9 @@ Patch15:	python-2.5.2-fix_UTF-8_name.patch
 
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
 Patch16:	python-2.5.1-plural-fix.patch
+
+# fix linakge of _ctypes Module
+Patch17:	python-2.6.2-linkage.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -187,8 +187,6 @@ Various applications written using tkinter
 %patch4 -p0
 # biarch header
 %patch5 -p0
-# gdbm
-%patch6 -p1
 # fix some crash du to a buffer overflow
 %patch7 -p0
 # add mandriva to the list of supported distribution
@@ -202,6 +200,7 @@ Various applications written using tkinter
 %patch14 -p1 -b .xz~
 %patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
+%patch17 -p0 -b .linkage
 
 autoconf
 
