@@ -1,4 +1,4 @@
-%define docver  2.6
+%define docver  2.6.2
 %define dirver  2.6
 
 %define lib_major	%{dirver}
@@ -18,7 +18,7 @@ License:	Modified CNRI Open Source License
 Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
-Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-docs-html.tar.bz2
+Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source4:	python-mode-1.0.tar.bz2
 
 # Don't include /usr/local/* in search path
