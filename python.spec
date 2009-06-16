@@ -25,35 +25,44 @@ Source4:	python-mode-1.0.tar.bz2
 Patch3:		Python-2.3-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
+# similar patches reported upstream on http://bugs.python.org/issue1294959
 Patch4:		python-lib64.patch
 
 # Do handle <asm-XXX/*.h> headers in h2py.py
 # FIXME: incomplete for proper bi-arch support as #if/#else/#endif
 # clauses generally should have been handled
+# to send upstream after cleaning
 Patch5:		Python-2.2.2-biarch-headers.patch
-
-Patch7:     python-2.6.2-fix-buffer_overflow_with_glibc2.3.5.diff
 
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
+
 # correct format string error
+# to send upstream
 Patch11:    python-2.6.2-format-string.patch
+
 # patch for new tcl
+# send upstream : http://bugs.python.org/issue6244
 Patch12:    python-2.5-tcl86.patch
 
-# disables pymalloc when running under valgrind (http://bugs.python.org/issue2422)
+# disables pymalloc when running under valgrind 
+# (http://bugs.python.org/issue2422)
 Patch13:	python-2.6.1-disable-pymalloc-on-valgrind.patch
 
 # adds xz support to distutils targets: 'sdist', 'bdist' & 'bdist_rpm'
+# sent upstream : http://bugs.python.org/issue5411
 Patch14:	Python-2.6.1-distutils-xz-support.patch
 
 # fixes UTF-8 name (fixes system-config-printer mdv bug #48158)
+# send upstream on http://bugs.python.org/issue1176504
 Patch15:	python-2.5.2-fix_UTF-8_name.patch
 
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
+# to send upstream
 Patch16:	python-2.5.1-plural-fix.patch
 
 # fix linakge of _ctypes Module
+# to send upstream, and complete description 
 Patch17:	python-2.6.2-linkage.patch
 
 URL:		http://www.python.org/
@@ -187,8 +196,6 @@ Various applications written using tkinter
 %patch4 -p0
 # biarch header
 %patch5 -p0
-# fix some crash du to a buffer overflow
-%patch7 -p0
 # add mandriva to the list of supported distribution
 %patch10 -p0
 # correct format string error
