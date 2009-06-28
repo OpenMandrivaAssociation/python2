@@ -246,7 +246,7 @@ export OPT
 %endif
 
 # fix build
-perl -pi -e 's/^(LDFLAGS=.*)/$1 -lstdc++/' Makefile
+#perl -pi -e 's/^(LDFLAGS=.*)/$1 -lstdc++/' Makefile
 # (misc) if the home is nfs mounted, rmdir fails due to delay
 export TMP="/tmp" TMPDIR="/tmp"
 %make
