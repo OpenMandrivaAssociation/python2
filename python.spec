@@ -405,8 +405,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root, 755)
 %doc README.mdk
-%dir %{_libdir}/python*/lib-dynload
-%dir %{_libdir}/python*/site-packages
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
@@ -420,6 +418,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_libdir}/python*/site-packages/modulator
 
 %{_libdir}/python*
+%{_prefix/lib/python*
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
@@ -437,9 +436,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{lib_name}-devel
 %defattr(-, root, root, 755)
 %{_libdir}/libpython*.so
-%dir %{_includedir}/python*
 %multiarch %multiarch_includedir/python*/pyconfig.h
-%{_includedir}/python*/*
+%{_includedir}/python*
 %{_libdir}/python*/config/
 %{_libdir}/python*/test/
 %{_bindir}/python%{dirver}-config
