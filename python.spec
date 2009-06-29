@@ -157,6 +157,7 @@ documentation.
 %package	docs
 Summary:	Documentation for the Python programming language
 Requires:	python = %version
+Requires:	xdg-utils
 Group:		Development/Python
 
 %description	docs
@@ -339,7 +340,7 @@ Exec=%{_bindir}/idle
 Icon=development_environment_section
 Terminal=false
 Type=Application
-Categories=X-MandrivaLinux-MoreApplications-Development-DevelopmentEnvironments;Development;IDE;
+Categories=Development;IDE;
 EOF
 
 
@@ -347,11 +348,11 @@ cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}-docs.desktop << E
 [Desktop Entry]
 Name=Python documentation
 Comment=Python complete reference
-Exec=%{_bindir}/www-browser %_defaultdocdir/%{name}-docs/index.html
+Exec=%{_bindir}/xdg-open %_defaultdocdir/%{name}-docs/index.html
 Icon=documentation_section
 Terminal=false
 Type=Application
-Categories=X-MandrivaLinux-MoreApplications-Documentation;
+Categories=Documentation;
 EOF
 
 
