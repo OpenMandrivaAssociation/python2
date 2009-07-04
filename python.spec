@@ -269,7 +269,7 @@ make test TESTOPTS="-w -l -x test_linuxaudiodev -x test_nis -x test_shutil -x te
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_prefix}
+mkdir -p %buildroot%{_prefix}/lib
 
 # fix Makefile to get rid of reference to distcc
 perl -pi -e "/^CC=/ and s/distcc/gcc/" Makefile
