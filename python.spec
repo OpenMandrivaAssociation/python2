@@ -418,7 +418,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_libdir}/python*/site-packages/modulator
 
 %{_libdir}/python*
-%{_prefix/lib/python*
+%{_prefix}/lib/python*
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
