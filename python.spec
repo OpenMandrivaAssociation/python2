@@ -12,8 +12,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6.2
-Release:	%mkrel 4
+Version:	2.6.3
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -64,8 +64,6 @@ Patch16:	python-2.5.1-plural-fix.patch
 # fix linakge of _ctypes Module
 # to send upstream, and complete description 
 Patch17:	python-2.6.2-linkage.patch
-
-Patch18:	Python-2.5.2-CVE-2009-XXXX.diff
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -211,7 +209,6 @@ Various applications written using tkinter
 %patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
-%patch18 -p0 -b .CVE-2009-XXXX
 
 autoconf
 
