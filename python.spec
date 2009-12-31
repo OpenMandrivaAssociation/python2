@@ -1,4 +1,4 @@
-%define docver  2.6.3
+%define docver  2.6.4
 %define dirver  2.6
 
 %define lib_major	%{dirver}
@@ -13,7 +13,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
