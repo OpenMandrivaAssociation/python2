@@ -13,7 +13,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.4
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -80,7 +80,7 @@ BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
-BuildRequires:	ncurses-devel
+BuildRequires:	ncursesw-devel
 BuildRequires:	openssl-devel
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
