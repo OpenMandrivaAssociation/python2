@@ -13,7 +13,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.4
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -66,16 +66,17 @@ Patch16:	python-2.5.1-plural-fix.patch
 Patch17:	python-2.6.2-linkage.patch
 Patch18:	Python-2.5.2-CVE-2009-3560.diff
 
+# from Fedora, build with db4.8 rather than 4.6
+Patch19:	python-2.6-update-bsddb3-4.8.patch
+Patch20:	python-2.6.4-setup-db48.patch
+
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
-# Python 2.5.2 will not build the _bsddb extension against db4.7,
-# not even with an update of db4.6.patch: there is an actual code
-# incompatibility which would need patching - AdamW 2008/12
-BuildRequires:	db2-devel, db4.6-devel
+BuildRequires:	db2-devel, db4-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
@@ -211,6 +212,8 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
 %patch18 -p0 -b .CVE-2009-3560
+%patch19 -p1
+%patch20 -p1
 
 autoconf
 
