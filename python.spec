@@ -1,4 +1,4 @@
-%define docver  2.6.4
+%define docver  2.6.5
 %define dirver  2.6
 
 %define lib_major	%{dirver}
@@ -12,8 +12,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6.4
-Release:	%mkrel 7
+Version:	2.6.5
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -64,11 +64,10 @@ Patch16:	python-2.5.1-plural-fix.patch
 # fix linakge of _ctypes Module
 # to send upstream, and complete description 
 Patch17:	python-2.6.2-linkage.patch
-Patch18:	Python-2.5.2-CVE-2009-3560.diff
 
 # from Fedora, build with db4.8 rather than 4.6
-Patch19:	python-2.6-update-bsddb3-4.8.patch
-Patch20:	python-2.6.4-setup-db48.patch
+#Patch19:	python-2.6-update-bsddb3-4.8.patch
+#Patch20:	python-2.6.4-setup-db48.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -76,7 +75,7 @@ Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
-BuildRequires:	db2-devel, db4-devel
+BuildRequires:	db2-devel, db4.7-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
@@ -211,9 +210,8 @@ Various applications written using tkinter
 %patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
-%patch18 -p0 -b .CVE-2009-3560
-%patch19 -p1
-%patch20 -p1
+#%patch19 -p1
+#%patch20 -p1
 
 autoconf
 
@@ -271,7 +269,8 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 21/08/2007) test_string and test_str segfault, test_unicode, test_userstring, I need to pass the package as a security update
 # test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
 # (misc, 05/10/2009) test_distutils fail as it requires python-devel to test the link with the library
-make test TESTOPTS="-w -l -x test_distutils -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
+#make test TESTOPTS="-w -l -x test_distutils -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
+make test TESTOPTS="-w -l -x test___all__ -x test_pyexpat -x test_minidom -x test_sax"
 
 %install
 rm -rf $RPM_BUILD_ROOT
