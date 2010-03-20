@@ -1,3 +1,11 @@
+# Patching guideline for python :
+# - no big patch with invasive change not 
+#     approved by upstream ( ie not coming from upstream svn )
+# - small bugfix must be sent to upstream and approved if they 
+#     change any interface
+# - all patchs should be commented ( unless for security, 
+#     as they are usually easy to spot )
+
 %define docver  2.6.5
 %define dirver  2.6
 
@@ -65,9 +73,6 @@ Patch16:	python-2.5.1-plural-fix.patch
 # to send upstream, and complete description 
 Patch17:	python-2.6.2-linkage.patch
 
-# from Fedora, build with db4.8 rather than 4.6
-#Patch19:	python-2.6-update-bsddb3-4.8.patch
-#Patch20:	python-2.6.4-setup-db48.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -75,6 +80,8 @@ Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
+# (misc) do not use db4-devel, as this will likely change once the default
+# version change, and python is most of the time lagging on this
 BuildRequires:	db2-devel, db4.7-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
@@ -95,9 +102,6 @@ BuildRequires:	emacs
 %if %{with valgrind}
 BuildRequires:	valgrind
 %endif
-# not needed, we only have version 2.0 in distro
-#Obsoletes:      python-sqlite3
-#Provides:       python-sqlite3
 Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
