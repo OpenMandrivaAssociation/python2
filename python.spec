@@ -46,7 +46,7 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 Patch10:	python-2.5.1-detect-mandriva.patch
 
 # correct format string error
-# to send upstream
+# fixed upstream
 Patch11:    python-2.6.2-format-string.patch
 
 # patch for new tcl
@@ -102,6 +102,10 @@ BuildRequires:	emacs
 %if %{with valgrind}
 BuildRequires:	valgrind
 %endif
+
+# (2010/03/21, misc: interfere with test__all )
+BuildConflicts: python-pyxml
+
 Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
@@ -274,7 +278,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
 # (misc, 05/10/2009) test_distutils fail as it requires python-devel to test the link with the library
 #make test TESTOPTS="-w -l -x test_distutils -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
-make test TESTOPTS="-w -l -x test___all__ -x test_pyexpat -x test_minidom -x test_sax -x test_distutils"
+make test TESTOPTS="-w -l -x test_pyexpat -x test_minidom -x test_sax -x test_distutils"
 
 %install
 rm -rf $RPM_BUILD_ROOT
