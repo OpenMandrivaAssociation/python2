@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.6.5
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -73,6 +73,13 @@ Patch16:	python-2.5.1-plural-fix.patch
 # to send upstream, and complete description 
 Patch17:	python-2.6.2-linkage.patch
 
+# Upstream patch to compile against db-4.8
+# http://bugs.python.org/issue6949
+# Based on http://svn.python.org/view?view=rev&revision=78974
+Patch18: python-2.6.5-db48.patch
+
+Patch19: python-2.6.2-CVE-2008-5983.patch
+Patch20: python-2.6.2-CVE-2010-1634.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -80,9 +87,7 @@ Conflicts:	tkinter < %{version}
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
-# (misc) do not use db4-devel, as this will likely change once the default
-# version change, and python is most of the time lagging on this
-BuildRequires:	db2-devel, db4.7-devel
+BuildRequires:	db2-devel, db-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
@@ -218,8 +223,9 @@ Various applications written using tkinter
 %patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
-#%patch19 -p1
-#%patch20 -p1
+%patch18 -p0 -b .db48
+%patch19 -p1 -b .cve
+%patch20 -p1 -b .cve
 
 autoconf
 
