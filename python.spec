@@ -80,6 +80,7 @@ Patch18: python-2.6.5-db48.patch
 
 Patch19: python-2.6.2-CVE-2008-5983.patch
 Patch20: python-2.6.2-CVE-2010-1634.patch
+Patch21:	Python-2.6.1-CVE-2010-2089.diff
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -224,8 +225,9 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
 %patch18 -p0 -b .db48
-%patch19 -p1 -b .cve
-%patch20 -p1 -b .cve
+%patch19 -p1 -b .CVE-2008-5983
+%patch20 -p1 -b .CVE-2010-1634
+%patch21 -p0 -b .CVE-2010-2089
 
 autoconf
 
