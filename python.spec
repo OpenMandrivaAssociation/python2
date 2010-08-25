@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver  2.6.5
+%define docver  2.6.6
 %define dirver  2.6
 
 %define lib_major	%{dirver}
@@ -20,8 +20,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6.5
-Release:	%mkrel 5
+Version:	2.6.6
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -45,17 +45,13 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
-# correct format string error
-# fixed upstream
-Patch11:    python-2.6.2-format-string.patch
-
 # patch for new tcl
 # send upstream : http://bugs.python.org/issue6244
 Patch12:    python-2.5-tcl86.patch
 
 # disables pymalloc when running under valgrind 
 # (http://bugs.python.org/issue2422)
-Patch13:	python-2.6.1-disable-pymalloc-on-valgrind.patch
+Patch13:	python-2.6.6-disable-pymalloc-on-valgrind.patch
 
 # adds xz support to distutils targets: 'sdist', 'bdist' & 'bdist_rpm'
 # sent upstream : http://bugs.python.org/issue5411
@@ -76,11 +72,7 @@ Patch17:	python-2.6.2-linkage.patch
 # Upstream patch to compile against db-4.8
 # http://bugs.python.org/issue6949
 # Based on http://svn.python.org/view?view=rev&revision=78974
-Patch18: python-2.6.5-db48.patch
-
-Patch19: python-2.6.2-CVE-2008-5983.patch
-Patch20: python-2.6.2-CVE-2010-1634.patch
-Patch21:	Python-2.6.1-CVE-2010-2089.diff
+Patch18: python-2.6.6-db48.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -209,13 +201,11 @@ Various applications written using tkinter
 # local include
 %patch3 -p0
 # lib64
-%patch4 -p0
+%patch4 -p0 -b .lib64
 # biarch header
 %patch5 -p0
 # add mandriva to the list of supported distribution
 %patch10 -p0
-# correct format string error
-%patch11 -p0
 # adapt for new tcl
 %patch12 -p1
 
@@ -225,9 +215,6 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 %patch17 -p0 -b .linkage
 %patch18 -p0 -b .db48
-%patch19 -p1 -b .CVE-2008-5983
-%patch20 -p1 -b .CVE-2010-1634
-%patch21 -p0 -b .CVE-2010-2089
 
 autoconf
 
