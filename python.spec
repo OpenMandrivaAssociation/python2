@@ -263,17 +263,10 @@ export TMP="/tmp" TMPDIR="/tmp"
 export TMP="/tmp" TMPDIR="/tmp"
 
 # all tests must pass
-# (misc, 28/11/2006) test_shutil is causing problem in iurt, it seems to remove /tmp,
-# which make other test fail
-# (misc, 11/12/2006) test_pyexpat is icrashing, seem to be done on purpose ( http://python.org/sf/1296433 )
-# (misc, 11/12/2006) test_minidom is not working anymore, something changed either on my computer
-# or elsewhere.
-# (misc, 11/12/2006) test_sax fail too, will take a look later
-# (misc, 21/08/2007) test_string and test_str segfault, test_unicode, test_userstring, I need to pass the package as a security update
-# test test_sax failed -- 1 of 44 tests failed: test_xmlgen_attr_escape
-# (misc, 05/10/2009) test_distutils fail as it requires python-devel to test the link with the library
-#make test TESTOPTS="-w -l -x test_distutils -x test_linuxaudiodev -x test_nis -x test_shutil -x test_pyexpat -x test_minidom -x test_sax -x test_string -x test_str -x test_unicode -x test_userstring -x test_bytes"
-make test TESTOPTS="-w -l -x test_pyexpat -x test_minidom -x test_sax -x test_distutils"
+# if a test doesn't pass, it can be disabled with -x test, but this should be documented in the
+# spec file, and a bug should be reported if possible ( on python side )
+#make test TESTOPTS="-w -l -x test_distutils"
+make test TESTOPTS="-w -l "
 
 %install
 rm -rf $RPM_BUILD_ROOT
