@@ -249,7 +249,8 @@ export TMP="/tmp" TMPDIR="/tmp"
 # spec file, and a bug should be reported if possible ( on python side )
 # (misc, 28/10/2010) test_gdb fail, didn't time too look
 # (misc, 29/10/2010) test_getsitepackages fail due to one of our patch, will fix later
-make test TESTOPTS="-w -l -x test_gdb -x test_getsitepackages"
+#   test_get_outputs , requires python to be installed to work ( and so, it doesn't work with upgrade )
+make test TESTOPTS="-w -l -x test_gdb -x test_getsitepackages -x test_get_outputs"
 
 %install
 rm -rf $RPM_BUILD_ROOT
