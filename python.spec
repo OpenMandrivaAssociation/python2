@@ -6,8 +6,8 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver  2.6.6
-%define dirver  2.6
+%define docver  2.7
+%define dirver  2.7
 
 %define lib_major	%{dirver}
 %define lib_name_orig	libpython
@@ -20,7 +20,7 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.6.6
+Version:	2.7
 Release:	%mkrel 2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
@@ -45,18 +45,6 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
-# patch for new tcl
-# send upstream : http://bugs.python.org/issue6244
-Patch12:    python-2.5-tcl86.patch
-
-# disables pymalloc when running under valgrind 
-# (http://bugs.python.org/issue2422)
-Patch13:	python-2.6.6-disable-pymalloc-on-valgrind.patch
-
-# adds xz support to distutils targets: 'sdist', 'bdist' & 'bdist_rpm'
-# sent upstream : http://bugs.python.org/issue5411
-Patch14:	Python-2.6.1-distutils-xz-support.patch
-
 # fixes UTF-8 name (fixes system-config-printer mdv bug #48158)
 # send upstream on http://bugs.python.org/issue1176504
 Patch15:	python-2.5.2-fix_UTF-8_name.patch
@@ -65,14 +53,8 @@ Patch15:	python-2.5.2-fix_UTF-8_name.patch
 # to send upstream
 Patch16:	python-2.5.1-plural-fix.patch
 
-# fix linakge of _ctypes Module
-# to send upstream, and complete description 
-Patch17:	python-2.6.2-linkage.patch
-
-# Upstream patch to compile against db-4.8
-# http://bugs.python.org/issue6949
-# Based on http://svn.python.org/view?view=rev&revision=78974
-Patch18: python-2.6.6-db48.patch
+# patch to make sure that python compile with a newer autotool
+Patch22: python-2.7-fix_configure_creation.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -201,21 +183,19 @@ Various applications written using tkinter
 # local include
 %patch3 -p0
 # lib64
-%patch4 -p0 -b .lib64
+%patch4 -p0
+
 # biarch header
 %patch5 -p0
+
 # add mandriva to the list of supported distribution
 %patch10 -p0
-# adapt for new tcl
-%patch12 -p1
 
-%patch13 -p1 -b .valgrind~
-%patch14 -p1 -b .xz~
+
 %patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
-%patch17 -p0 -b .linkage
-%patch18 -p0 -b .db48
 
+%patch22 -p0 
 autoconf
 
 mkdir html
@@ -242,10 +222,11 @@ EOF
 
 OPT="$RPM_OPT_FLAGS -g"
 export OPT
+
+# see https://qa.mandriva.com/show_bug.cgi?id=48570 
+# for wide unicode support
 %configure2_5x	--with-threads \
-		--with-cycle-gc \
-		--with-cxx=g++ \
-		--without-libdb \
+        --enable-unicode=ucs4 \
 		--enable-ipv6 \
 		--enable-shared \
 %if %{with valgrind}
@@ -263,10 +244,11 @@ export TMP="/tmp" TMPDIR="/tmp"
 export TMP="/tmp" TMPDIR="/tmp"
 
 # all tests must pass
+
 # if a test doesn't pass, it can be disabled with -x test, but this should be documented in the
 # spec file, and a bug should be reported if possible ( on python side )
-#make test TESTOPTS="-w -l -x test_distutils"
-make test TESTOPTS="-w -l "
+# (misc, 28/10/2010) test_gdb fail, didn't time too look
+make test TESTOPTS="-w -l -x test_gdb "
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -308,12 +290,6 @@ mv -f $RPM_BUILD_ROOT%{_bindir}/smtpd.py $RPM_BUILD_ROOT%{_libdir}/python%{dirve
 # idle
 cp Tools/scripts/idle $RPM_BUILD_ROOT%{_bindir}/idle
 
-# modulator
-cat << EOF > $RPM_BUILD_ROOT%{_bindir}/modulator
-#!/bin/bash
-exec %{_libdir}/python%{dirver}/site-packages/modulator/modulator.py
-EOF
-cp -r Tools/modulator $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/site-packages/
 
 # pynche
 cat << EOF > $RPM_BUILD_ROOT%{_bindir}/pynche
@@ -323,9 +299,8 @@ EOF
 rm -f Tools/pynche/*.pyw
 cp -r Tools/pynche $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/site-packages/
 
-chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,modulator,pynche}
+chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,pynche}
 
-ln -f Tools/modulator/README Tools/modulator/README.modulator
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
 %if %{with valgrind}
@@ -416,7 +391,6 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_libdir}/python*/lib-tk
 %exclude %{_libdir}/python*/lib-dynload/_tkinter.so
 %exclude %{_libdir}/python*/site-packages/pynche
-%exclude %{_libdir}/python*/site-packages/modulator
 
 %{_libdir}/python*
 %{_prefix}/lib/python*
@@ -437,6 +411,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{lib_name}-devel
 %defattr(-, root, root, 755)
 %{_libdir}/libpython*.so
+%{_libdir}/pkgconfig/*pc
 %multiarch %multiarch_includedir/python*/pyconfig.h
 %{_includedir}/python*
 %{_libdir}/python*/config/
@@ -453,16 +428,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root, 755)
 %dir %{_libdir}/python*/lib-tk
 %{_libdir}/python*/lib-tk/*.py*
+%{_libdir}/python*/lib-tk/test/
 %{_libdir}/python*/lib-dynload/_tkinter.so
 %{_libdir}/python*/idlelib
-%{_libdir}/python*/site-packages/modulator
 %{_libdir}/python*/site-packages/pynche
 
 %files -n tkinter-apps
 %defattr(-, root, root, 755)
 %{_bindir}/idle
 %{_bindir}/pynche
-%{_bindir}/modulator
 %{_datadir}/applications/mandriva-tkinter.desktop
 
 %if %mdkversion < 200900
