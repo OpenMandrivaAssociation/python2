@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -86,6 +86,7 @@ BuildRequires:	valgrind
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts: python-pyxml
 
+Provides:       python(abi) = %dirver
 Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
