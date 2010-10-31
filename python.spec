@@ -82,7 +82,6 @@ BuildRequires:	tix
 BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
-BuildRequires:	python-devel
 BuildRequires:	emacs
 %if %{with valgrind}
 BuildRequires:	valgrind
