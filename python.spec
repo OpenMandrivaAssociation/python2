@@ -22,14 +22,14 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source4:	python-mode-1.0.tar.bz2
-
+Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
 
@@ -62,6 +62,7 @@ Patch24:	Python-2.7-CVE-2010-3492.diff
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
+Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
@@ -186,6 +187,7 @@ Various applications written using tkinter
 
 %prep
 %setup -q -n Python-%{version}
+%patch0 -p0
 # local include
 %patch3 -p0
 # lib64
@@ -396,16 +398,23 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
-%exclude %{_libdir}/python*/config/
-%exclude %{_libdir}/python*/test/
+# "Makefile" and the config.h file are needed by
+# distutils/sysconfig.py:_init_posix(), so we include them in the libs
+# package, along with their parent directories (RH bug#531901):
+%dir %{_libdir}/python%{dirver}/config
+%{_libdir}/python%{dirver}/config/Makefile
+%dir %{_includedir}/python%{dirver}
+%{_includedir}/python%{dirver}/pyconfig.h
+%multiarch %multiarch_includedir/python%{dirver}/pyconfig.h
 
-%exclude %{_libdir}/python*/idlelib
-%exclude %{_libdir}/python*/lib-tk
-%exclude %{_libdir}/python*/lib-dynload/_tkinter.so
-%exclude %{_libdir}/python*/site-packages/pynche
+%exclude %{_libdir}/python%{dirver}/test/
+%exclude %{_libdir}/python%{dirver}/idlelib
+%exclude %{_libdir}/python%{dirver}/lib-tk
+%exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
+%exclude %{_libdir}/python%{dirver}/site-packages/pynche
 
-%{_libdir}/python*
-%{_prefix}/lib/python*
+%{_libdir}/python%{dirver}
+%{_prefix}/lib/python%{dirver}
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
@@ -423,13 +432,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{dev_name}
 %defattr(-, root, root, 755)
 %{_libdir}/libpython*.so
-%{_libdir}/pkgconfig/*pc
-%multiarch %multiarch_includedir/python*/pyconfig.h
-%{_includedir}/python*
-%{_libdir}/python*/config/
-%{_libdir}/python*/test/
+%{_libdir}/pkgconfig/*.pc
+%{_includedir}/python%{dirver}
+%{_libdir}/python%{dirver}/config/
+%{_libdir}/python%{dirver}/test/
 %{_bindir}/python%{dirver}-config
 %{_bindir}/python-config
+%exclude %{_libdir}/python%{dirver}/config/Makefile
+%exclude %{_includedir}/python%{dirver}/pyconfig.h
 
 %files docs
 %defattr(-,root,root,755)
@@ -438,12 +448,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n tkinter
 %defattr(-, root, root, 755)
-%dir %{_libdir}/python*/lib-tk
-%{_libdir}/python*/lib-tk/*.py*
-%{_libdir}/python*/lib-tk/test/
-%{_libdir}/python*/lib-dynload/_tkinter.so
-%{_libdir}/python*/idlelib
-%{_libdir}/python*/site-packages/pynche
+%dir %{_libdir}/python%{dirver}/lib-tk
+%{_libdir}/python%{dirver}/lib-tk/*.py*
+%{_libdir}/python%{dirver}/lib-tk/test/
+%{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
+%{_libdir}/python%{dirver}/idlelib
+%{_libdir}/python%{dirver}/site-packages/pynche
 
 %files -n tkinter-apps
 %defattr(-, root, root, 755)
@@ -467,5 +477,3 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n tkinter-apps
 %clean_menus
 %endif
-
-
