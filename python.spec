@@ -59,10 +59,6 @@ Patch22: python-2.7-fix_configure_creation.patch
 Patch23:	Python-2.7-CVE-2010-3493.diff
 Patch24:	Python-2.7-CVE-2010-3492.diff
 
-# http://bugs.python.org/issue7689
-# (partially rediffed due to tabs replaced with spaces in C source)
-Patch25:	dynamic_class_copyreg.patch
-
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
@@ -210,8 +206,6 @@ Various applications written using tkinter
 %patch22 -p0 
 %patch23 -p0 -b .CVE-2010-3493
 %patch24 -p1 -b .CVE-2010-3492
-
-%patch25 -p0
 
 autoconf
 
