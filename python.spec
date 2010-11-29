@@ -64,7 +64,6 @@ Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
-BuildRequires:	X11-devel
 BuildRequires:	blt
 BuildRequires:	db2-devel db4.8-devel
 BuildRequires:	emacs-bin
