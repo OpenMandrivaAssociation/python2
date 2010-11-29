@@ -56,8 +56,6 @@ Patch16:	python-2.5.1-plural-fix.patch
 
 # patch to make sure that python compile with a newer autotool
 Patch22: python-2.7.1-fix_configure_creation.patch
-Patch23:	Python-2.7-CVE-2010-3493.diff
-Patch24:	Python-2.7-CVE-2010-3492.diff
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -203,8 +201,6 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 
 %patch22 -p0 
-#%patch23 -p0 -b .CVE-2010-3493
-#%patch24 -p1 -b .CVE-2010-3492
 
 autoconf
 
