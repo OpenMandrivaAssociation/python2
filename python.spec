@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver  2.7
+%define docver  2.7.1
 %define dirver  2.7
 
 %define lib_major	%{dirver}
@@ -21,8 +21,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.7
-Release:	%mkrel 8
+Version:	2.7.1
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -55,7 +55,7 @@ Patch15:	python-2.5.2-fix_UTF-8_name.patch
 Patch16:	python-2.5.1-plural-fix.patch
 
 # patch to make sure that python compile with a newer autotool
-Patch22: python-2.7-fix_configure_creation.patch
+Patch22: python-2.7.1-fix_configure_creation.patch
 Patch23:	Python-2.7-CVE-2010-3493.diff
 Patch24:	Python-2.7-CVE-2010-3492.diff
 
@@ -66,7 +66,7 @@ Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
 BuildRequires:	X11-devel
 BuildRequires:	blt
-BuildRequires:	db2-devel, db-devel
+BuildRequires:	db2-devel db4.8-devel
 BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
@@ -204,8 +204,8 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 
 %patch22 -p0 
-%patch23 -p0 -b .CVE-2010-3493
-%patch24 -p1 -b .CVE-2010-3492
+#%patch23 -p0 -b .CVE-2010-3493
+#%patch24 -p1 -b .CVE-2010-3492
 
 autoconf
 
