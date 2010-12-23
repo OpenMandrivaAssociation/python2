@@ -87,7 +87,6 @@ BuildRequires:	valgrind
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts: python-pyxml
 
-Provides:       python(abi) = %dirver
 Obsoletes:      python-ctypes
 Provides:       python-ctypes
 Obsoletes:      python-elementtree
