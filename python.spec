@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -56,6 +56,9 @@ Patch16:	python-2.5.1-plural-fix.patch
 
 # patch to make sure that python compile with a newer autotool
 Patch22: python-2.7.1-fix_configure_creation.patch
+
+# skip semaphore test, as it requires /dev/shm
+Patch23: python-2.7.1-skip-shm-test.patch
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -200,6 +203,7 @@ Various applications written using tkinter
 %patch16 -p1 -b .plural-fix
 
 %patch22 -p0 
+%patch23 -p1 
 
 autoconf
 
