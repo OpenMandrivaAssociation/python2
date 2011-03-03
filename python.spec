@@ -28,7 +28,6 @@ Group:		Development/Python
 
 Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
-Source4:	python-mode-1.0.tar.bz2
 Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
@@ -209,8 +208,6 @@ mkdir html
 bzcat %{SOURCE1} | tar x  -C html
 
 find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
-
-tar --strip-components=1 -xjf %{SOURCE4} -C Misc
 
 cat > README.mdk << EOF
 Python interpreter support readline completion by default.
