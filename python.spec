@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.1
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -67,7 +67,6 @@ Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
 BuildRequires:	blt
 BuildRequires:	db2-devel db4.8-devel
-BuildRequires:	emacs-bin
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
@@ -82,7 +81,6 @@ BuildRequires:	tix
 BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
-BuildRequires:	emacs
 %if %{with valgrind}
 BuildRequires:	valgrind
 %endif
@@ -283,17 +281,6 @@ mkdir -p $RPM_BUILD_ROOT%{_mandir}
 # the shared library could be found when -L/usr/lib/python*/config is specified
 (cd $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{lib_major}.so .)
 
-# emacs, I use it, I want it
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
-install -m 644 Misc/python-mode.el $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp
-emacs -batch -f batch-byte-compile $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/python-mode.el
-
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d
-cat <<EOF >$RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d/%{name}.el
-(setq auto-mode-alist (cons '("\\\\.py$" . python-mode) auto-mode-alist))
-(autoload 'python-mode "python-mode" "Mode for python files." t)
-EOF
-
 #"  this comment is just here because vim syntax higlighting is confused by the previous snippet of lisp
 
 # smtpd proxy
@@ -393,7 +380,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root, 755)
 %doc README.mdk
-%config(noreplace) %{_sysconfdir}/emacs/site-start.d/%{name}.el
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
 # "Makefile" and the config.h file are needed by
@@ -427,7 +413,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/pydoc
 %{_bindir}/python
 %{_bindir}/2to3
-%{_datadir}/emacs/site-lisp/*
 %{_mandir}/man*/*
 %if %{with valgrind}
 %{_libdir}/valgrind/valgrind-python.supp
