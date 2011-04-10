@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.1
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -59,13 +59,17 @@ Patch22: python-2.7.1-fix_configure_creation.patch
 # skip semaphore test, as it requires /dev/shm
 Patch23: python-2.7.1-skip-shm-test.patch
 
+# add support for berkeley db <= 5.1
+# sent upstream: http://bugs.python.org/issue11817
+Patch24:	Python-2.7.1-berkeley-db-5.1.patch
+
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
 BuildRequires:	blt
-BuildRequires:	db2-devel db4.8-devel
+BuildRequires:	db2-devel db5-devel
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
@@ -201,6 +205,7 @@ Various applications written using tkinter
 
 %patch22 -p0 
 %patch23 -p1 
+%patch24 -p1 -b .db5~
 
 autoconf
 
