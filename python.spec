@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.1
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -391,7 +391,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{dirver}/config/Makefile
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
-%multiarch %multiarch_includedir/python%{dirver}/pyconfig.h
+%multiarch_includedir/python%{dirver}/pyconfig.h
 
 %exclude %{_libdir}/python%{dirver}/config/Setup
 %exclude %{_libdir}/python%{dirver}/config/Setup.config
