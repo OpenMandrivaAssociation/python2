@@ -85,7 +85,7 @@ BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
 %if %{with valgrind}
-BuildRequires:	valgrind
+BuildRequires:	valgrind-devel
 %endif
 
 # (2010/03/21, misc: interfere with test__all )
