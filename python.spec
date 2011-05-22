@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.1
-Release:	%mkrel 7
+Release:	%mkrel 8
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -62,6 +62,10 @@ Patch23: python-2.7.1-skip-shm-test.patch
 # add support for berkeley db <= 5.1
 # sent upstream: http://bugs.python.org/issue11817
 Patch24:	Python-2.7.1-berkeley-db-5.1.patch
+
+# fix CVE-2011-1521
+# http://hg.python.org/cpython/rev/b2934d98dac1
+Patch25:	Python-2.7.1-CVE-2011-1521.diff
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -206,6 +210,7 @@ Various applications written using tkinter
 %patch22 -p0 
 %patch23 -p1 
 %patch24 -p1 -b .db5~
+%patch25 -p1 -b .CVE-2011-1521
 
 autoconf
 
