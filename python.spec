@@ -239,12 +239,14 @@ export OPT
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
-%configure2_5x	--with-threads \
-        --enable-unicode=ucs4 \
-		--enable-ipv6 \
-		--enable-shared \
+%configure2_5x \
+    --with-threads \
+    --with-system-expat \
+    --enable-unicode=ucs4 \
+    --enable-ipv6 \
+    --enable-shared \
 %if %{with valgrind}
-		--with-valgrind
+    --with-valgrind
 %endif
 
 # fix build
@@ -265,7 +267,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 29/10/2010) test_site fail due to one of our patch, will fix later
 #   test_distutils, fail because of lib64 patch ( like test_site ), and because it requires libpython2.7 to be installed
 #   test_io, blocks on my computer on 2nd run
-make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils "
+make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils"
 
 %install
 rm -rf $RPM_BUILD_ROOT
