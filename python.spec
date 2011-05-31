@@ -28,6 +28,7 @@ Group:		Development/Python
 
 Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
+Source2:	bdist_rpm5.py
 Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.3-no-local-incpath.patch
@@ -382,6 +383,8 @@ except:
 EOF
 
 %multiarch_includes $RPM_BUILD_ROOT/usr/include/python*/pyconfig.h
+
+install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
