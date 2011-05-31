@@ -26,7 +26,7 @@ Release:	%mkrel 8
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
-Source:		http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
+Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
