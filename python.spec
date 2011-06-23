@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver  2.7.1
+%define docver  2.7.2
 %define dirver  2.7
 
 %define lib_major	%{dirver}
@@ -21,17 +21,17 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.7.1
-Release:	%mkrel 8
+Version:	2.7.2
+Release:	%mkrel 1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
-Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
+Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
 Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
-Patch3:		Python-2.3-no-local-incpath.patch
+Patch3:		Python-2.7.2-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
 # similar patches reported upstream on http://bugs.python.org/issue1294959
@@ -46,16 +46,9 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
-# fixes UTF-8 name (fixes system-config-printer mdv bug #48158)
-# send upstream on http://bugs.python.org/issue1176504
-Patch15:	python-2.5.2-fix_UTF-8_name.patch
-
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
 # to send upstream
 Patch16:	python-2.5.1-plural-fix.patch
-
-# patch to make sure that python compile with a newer autotool
-Patch22: python-2.7.1-fix_configure_creation.patch
 
 # skip semaphore test, as it requires /dev/shm
 Patch23: python-2.7.1-skip-shm-test.patch
@@ -63,10 +56,6 @@ Patch23: python-2.7.1-skip-shm-test.patch
 # add support for berkeley db <= 5.1
 # sent upstream: http://bugs.python.org/issue11817
 Patch24:	Python-2.7.1-berkeley-db-5.1.patch
-
-# fix CVE-2011-1521
-# http://hg.python.org/cpython/rev/b2934d98dac1
-Patch25:	Python-2.7.1-CVE-2011-1521.diff
 
 URL:		http://www.python.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -196,7 +185,7 @@ Various applications written using tkinter
 # local include
 %patch3 -p0
 # lib64
-%patch4 -p0
+%patch4 -p0 -b .lib64
 
 # biarch header
 %patch5 -p0
@@ -205,13 +194,10 @@ Various applications written using tkinter
 %patch10 -p0
 
 
-%patch15 -p1 -b .fix_UTF-8_name
 %patch16 -p1 -b .plural-fix
 
-%patch22 -p0 
 %patch23 -p1 
 %patch24 -p1 -b .db5~
-%patch25 -p1 -b .CVE-2011-1521
 
 autoconf
 
