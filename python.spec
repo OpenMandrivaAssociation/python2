@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.2
-Release:	%mkrel 1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -46,6 +46,12 @@ Patch5:		Python-2.2.2-biarch-headers.patch
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
+# adds xz support to distutils targets: 'sdist', 'bdist' & 'bdist_rpm'
+# sent upstream : http://bugs.python.org/issue5411
+# DO NOT REMOVE, IT DOESN'T TOUCH *ANY* public interfaces and has been
+# accepted by upstream
+Patch14:	Python-2.7.2-distutils-xz-support.patch
+
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
 # to send upstream
 Patch16:	python-2.5.1-plural-fix.patch
@@ -61,7 +67,6 @@ Patch24:	Python-2.7.1-berkeley-db-5.1.patch
 Patch25:	python_arch.patch
 
 URL:		http://www.python.org/
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
@@ -88,14 +93,9 @@ BuildRequires:	valgrind-devel
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts: python-pyxml
 
-Obsoletes:      python-ctypes
-Provides:       python-ctypes
-Obsoletes:      python-elementtree
-Provides:       python-elementtree
-Obsoletes:      python-base < 2.6
-Provides:       python-base = %version
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-
+%rename		python-ctypes
+%rename		python-elementtree
+%rename		python-base
 
 %description
 Python is an interpreted, interactive, object-oriented programming
@@ -130,7 +130,7 @@ Requires:	%{name} = %version
 Requires:	%{lib_name} = %{version}
 Obsoletes:	%{name}-devel
 # (misc) needed to ease upgrade , see #47803
-Obsoletes:  %mklibname -d %{name} 2.5
+Obsoletes:	%mklibname -d %{name} 2.5
 Obsoletes:	%mklibname -d %{name} 2.6
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
 Provides:	%{name}-devel = %{version}-%{release}
@@ -177,7 +177,7 @@ user interface for Python programming.
 %package -n	tkinter-apps
 Summary:	Various applications written using tkinter
 Group:		Development/Python
-Requires:   tkinter
+Requires:	tkinter
 
 %description -n	tkinter-apps
 Various applications written using tkinter
@@ -195,7 +195,8 @@ Various applications written using tkinter
 
 # add mandriva to the list of supported distribution
 %patch10 -p0
-
+# must fix tararchive first..
+#%patch14 -p1 .xz~
 
 %patch16 -p1 -b .plural-fix
 
@@ -272,7 +273,6 @@ export TMP="/tmp" TMPDIR="/tmp"
 make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 %custom_test"
 
 %install
-rm -rf $RPM_BUILD_ROOT
 mkdir -p %buildroot%{_prefix}/lib/python%{dirver}
 
 # fix Makefile to get rid of reference to distcc
@@ -286,11 +286,11 @@ echo 'install_dir='"${RPM_BUILD_ROOT}/usr/bin" >>setup.cfg
 mkdir -p $RPM_BUILD_ROOT%{_mandir}
 %makeinstall_std
 
-(cd $RPM_BUILD_ROOT%{_libdir}; ln -sf libpython%{lib_major}.so.* libpython%{lib_major}.so)
+ln -sf libpython%{lib_major}.so.* %{buildroot}/%{_libdir}/libpython%{lib_major}.so
 
 # Provide a libpython%{dirver}.so symlink in /usr/lib/puthon*/config, so that
 # the shared library could be found when -L/usr/lib/python*/config is specified
-(cd $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{lib_major}.so .)
+ln -sf ../../libpython%{lib_major}.so %{buildroot}%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{lib_major}.so .
 
 #"  this comment is just here because vim syntax higlighting is confused by the previous snippet of lisp
 
@@ -387,11 +387,7 @@ EOF
 
 install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-, root, root, 755)
 %doc README.mdk
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
@@ -432,11 +428,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files -n %{lib_name}
-%defattr(-,root,root)
 %{_libdir}/libpython*.so.1*
 
 %files -n %{dev_name}
-%defattr(-, root, root, 755)
 %{_libdir}/libpython*.so
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/python%{dirver}
@@ -448,12 +442,10 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_includedir}/python%{dirver}/pyconfig.h
 
 %files docs
-%defattr(-,root,root,755)
 %doc html/*/*
 %{_datadir}/applications/mandriva-%{name}-docs.desktop
 
 %files -n tkinter
-%defattr(-, root, root, 755)
 %dir %{_libdir}/python%{dirver}/lib-tk
 %{_libdir}/python%{dirver}/lib-tk/*.py*
 %{_libdir}/python%{dirver}/lib-tk/test/
@@ -462,24 +454,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python%{dirver}/site-packages/pynche
 
 %files -n tkinter-apps
-%defattr(-, root, root, 755)
 %{_bindir}/idle
 %{_bindir}/pynche
 %{_datadir}/applications/mandriva-tkinter.desktop
-
-%if %mdkversion < 200900
-%post -n %{lib_name} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{lib_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n tkinter-apps
-%update_menus
-%endif
-
-%if %mdkversion < 200900
-%postun -n tkinter-apps
-%clean_menus
-%endif
