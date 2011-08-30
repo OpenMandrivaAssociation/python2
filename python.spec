@@ -50,7 +50,7 @@ Patch10:	python-2.5.1-detect-mandriva.patch
 # sent upstream : http://bugs.python.org/issue5411
 # DO NOT REMOVE, IT DOESN'T TOUCH *ANY* public interfaces and has been
 # accepted by upstream
-Patch14:	Python-2.7.2-distutils-xz-support.patch
+#Patch14:	Python-2.7.2-distutils-xz-support.patch
 
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
 # to send upstream
