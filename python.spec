@@ -22,7 +22,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.2
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 
@@ -65,6 +65,10 @@ Patch24:	Python-2.7.1-berkeley-db-5.1.patch
 
 # do not use uname -m to get the exact name on mips/arm
 Patch25:	python_arch.patch
+
+# always use "linux2" for sys.platform. Should be dropped
+# once python 2.7.3 is integrated.
+Patch26:	python-2.7.2-sys-platform-always-linux2.patch
 
 URL:		http://www.python.org/
 Conflicts:	tkinter < %{version}
@@ -203,6 +207,7 @@ Various applications written using tkinter
 %patch23 -p1 
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
+%patch26 -p1
 
 autoconf
 
