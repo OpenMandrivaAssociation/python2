@@ -200,7 +200,7 @@ Various applications written using tkinter
 # add mandriva to the list of supported distribution
 %patch10 -p0
 # must fix tararchive first..
-#%patch14 -p1 .xz~
+#patch14 -p1 .xz~
 
 %patch16 -p1 -b .plural-fix
 
