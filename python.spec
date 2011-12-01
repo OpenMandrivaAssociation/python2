@@ -233,6 +233,7 @@ EOF
 
 OPT="$RPM_OPT_FLAGS -g"
 export OPT
+export CCSHARED="-fPIC -fno-PIE"
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
