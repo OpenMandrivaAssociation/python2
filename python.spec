@@ -285,10 +285,10 @@ perl -pi -e "/^CC=/ and s/distcc/gcc/" Makefile
 
 # set the install path
 echo '[install_scripts]' >setup.cfg
-echo 'install_dir='"${RPM_BUILD_ROOT}/usr/bin" >>setup.cfg
+echo 'install_dir='"%{buildroot}/usr/bin" >>setup.cfg
 
 # python is not GNU and does not know fsstd
-mkdir -p $RPM_BUILD_ROOT%{_mandir}
+mkdir -p %{buildroot}%{_mandir}
 %makeinstall_std
 
 ln -sf libpython%{lib_major}.so.* %{buildroot}/%{_libdir}/libpython%{lib_major}.so
@@ -300,30 +300,30 @@ ln -sf ../../libpython%{lib_major}.so %{buildroot}%{_libdir}/python%{dirver}/con
 #"  this comment is just here because vim syntax higlighting is confused by the previous snippet of lisp
 
 # smtpd proxy
-mv -f $RPM_BUILD_ROOT%{_bindir}/smtpd.py $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/
+mv -f %{buildroot}%{_bindir}/smtpd.py %{buildroot}%{_libdir}/python%{dirver}/
 
 # idle
-cp Tools/scripts/idle $RPM_BUILD_ROOT%{_bindir}/idle
+cp Tools/scripts/idle %{buildroot}%{_bindir}/idle
 
 
 # pynche
-cat << EOF > $RPM_BUILD_ROOT%{_bindir}/pynche
+cat << EOF > %{buildroot}%{_bindir}/pynche
 #!/bin/bash
 exec %{_libdir}/python%{dirver}/site-packages/pynche/pynche
 EOF
 rm -f Tools/pynche/*.pyw
-cp -r Tools/pynche $RPM_BUILD_ROOT%{_libdir}/python%{dirver}/site-packages/
+cp -r Tools/pynche %{buildroot}%{_libdir}/python%{dirver}/site-packages/
 
-chmod 755 $RPM_BUILD_ROOT%{_bindir}/{idle,pynche}
+chmod 755 %{buildroot}%{_bindir}/{idle,pynche}
 
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
 %if %{with valgrind}
-install Misc/valgrind-python.supp -D $RPM_BUILD_ROOT%{_libdir}/valgrind/valgrind-python.supp
+install Misc/valgrind-python.supp -D %{buildroot}%{_libdir}/valgrind/valgrind-python.supp
 %endif
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-tkinter.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-tkinter.desktop << EOF
 [Desktop Entry]
 Name=IDLE
 Comment=IDE for Python
@@ -335,7 +335,7 @@ Categories=Development;IDE;
 EOF
 
 
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
 [Desktop Entry]
 Name=Python documentation
 Comment=Python complete reference
@@ -348,14 +348,14 @@ EOF
 
 
 # fix non real scripts
-chmod 644 $RPM_BUILD_ROOT%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
+chmod 644 %{buildroot}%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
 # fix python library not stripped
-chmod u+w $RPM_BUILD_ROOT%{_libdir}/libpython%{lib_major}.so.1.0
+chmod u+w %{buildroot}%{_libdir}/libpython%{lib_major}.so.1.0
 
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d/
 
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/30python.sh << 'EOF'
+cat > %{buildroot}%{_sysconfdir}/profile.d/30python.sh << 'EOF'
 if [ -f $HOME/.pythonrc.py ] ; then
 	export PYTHONSTARTUP=$HOME/.pythonrc.py
 else
@@ -365,7 +365,7 @@ fi
 export PYTHONDONTWRITEBYTECODE=1
 EOF
 
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
+cat > %{buildroot}/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
 if ( -f ${HOME}/.pythonrc.py ) then
 	setenv PYTHONSTARTUP ${HOME}/.pythonrc.py
 else
@@ -374,7 +374,7 @@ endif
 setenv PYTHONDONTWRITEBYTECODE 1
 EOF
 
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/pythonrc.py << EOF
+cat > %{buildroot}%{_sysconfdir}/pythonrc.py << EOF
 try:
     # this add completion to python interpreter
     import readline
@@ -388,7 +388,7 @@ except:
 # but then, this file will not be sourced
 EOF
 
-%multiarch_includes $RPM_BUILD_ROOT/usr/include/python*/pyconfig.h
+%multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
 
 install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
 
