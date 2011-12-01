@@ -231,8 +231,7 @@ cat > Modules/Setup.local << EOF
 linuxaudiodev linuxaudiodev.c
 EOF
 
-OPT="$RPM_OPT_FLAGS -g"
-export OPT
+export OPT="%{optflags}"
 export CCSHARED="-fPIC -fno-PIE"
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
