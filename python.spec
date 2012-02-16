@@ -401,7 +401,7 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 # "Makefile" and the config.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the libs
 # package, along with their parent directories (RH bug#531901):
-#dir %{_libdir}/python%{dirver}/config
+dir %{_libdir}/python%{dirver}/config
 %{_libdir}/python%{dirver}/config/Makefile
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
@@ -441,7 +441,7 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/libpython*.so
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/python%{dirver}
-%{_libdir}/python%{dirver}/config/
+%{_libdir}/python%{dirver}/config/*
 %{_libdir}/python%{dirver}/test/
 %{_bindir}/python%{dirver}-config
 %{_bindir}/python-config
