@@ -70,11 +70,13 @@ Patch25:	python_arch.patch
 # once python 2.7.3 is integrated.
 Patch26:	python-2.7.2-sys-platform-always-linux2.patch
 
-Conflicts:	tkinter < %{version}
-Conflicts:	python-devel < 2.7-6
-Requires:	%{lib_name} = %{version}
+# Cherrypick fix for dbm version detection to cope with gdbm-1.9's magic values
+# Taken from upstream http://bugs.python.org/issue13007
+Patch27:	00148-gdbm-1.9-magic-values.patch
+
 BuildRequires:	blt
-BuildRequires:	db2-devel db52-devel
+BuildRequires:	db2-devel
+BuildRequires:	db5-devel
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
@@ -84,18 +86,18 @@ BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:	tcl tcl-devel
 BuildRequires:	tk tk-devel
-BuildRequires:	tcl tk tix
 BuildRequires:	tix
-BuildRequires:	autoconf2.5
 BuildRequires:  bzip2-devel
 BuildRequires:  sqlite3-devel
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
-
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts: python-pyxml
 
+Requires:	%{lib_name} = %{version}
+Conflicts:	tkinter < %{version}
+Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
 %rename		python-elementtree
 %rename		python-base
@@ -207,6 +209,7 @@ Various applications written using tkinter
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1
+%patch27 -p1
 
 autoconf
 
