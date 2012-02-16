@@ -129,7 +129,7 @@ compared to Tcl, Perl, Scheme or Java.
 %package -n	%{devname}
 Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
-Requires:	%{name} = %version
+Requires:	%{name} = %{version}
 Requires:	%{libname} = %{version}
 Obsoletes:	%{name}-devel
 # (misc) needed to ease upgrade , see #47803
@@ -256,7 +256,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 export TMP="/tmp" TMPDIR="/tmp"
 
 # all tests must pass
-%ifarch %arm
+%ifarch %{arm}
 # don't know if it's a python issue or a toolchain issue :(
 # test test_float failed -- Traceback (most recent call last):
 #  File "/home/rtp/deb/python2.6-2.6.4/Lib/test/test_float.py", line 665, in test_from_hex
@@ -274,7 +274,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 29/10/2010) test_site fail due to one of our patch, will fix later
 #   test_distutils, fail because of lib64 patch ( like test_site ), and because it requires libpython2.7 to be installed
 #   test_io, blocks on my computer on 2nd run
-make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 %custom_test"
+make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 %{custom_test}"
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
@@ -338,7 +338,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
 [Desktop Entry]
 Name=Python documentation
 Comment=Python complete reference
-Exec=%{_bindir}/xdg-open %_defaultdocdir/%{name}-docs/index.html
+Exec=%{_bindir}/xdg-open %{_defaultdocdir}/%{name}-docs/index.html
 Icon=documentation_section
 Terminal=false
 Type=Application
