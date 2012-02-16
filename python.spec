@@ -397,35 +397,47 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %doc README.mdk
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
+%if %{_lib} != "lib"
+%dir %{_prefix}/lib/python%{dirver}
+%endif
+%dir %{_libdir}/python%{dirver}
+%{_libdir}/python%{dirver}/*.doc
+%{_libdir}/python%{dirver}/*.egg-info
+%{_libdir}/python%{dirver}/*.py*
+%{_libdir}/python%{dirver}/*.txt
+%{_libdir}/python%{dirver}/bsddb
+%{_libdir}/python%{dirver}/compiler
 # "Makefile" and the config.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the libs
 # package, along with their parent directories (RH bug#531901):
 %dir %{_libdir}/python%{dirver}/config
 %{_libdir}/python%{dirver}/config/Makefile
+%{_libdir}/python%{dirver}/ctypes
+%{_libdir}/python%{dirver}/curses
+%{_libdir}/python%{dirver}/distutils
+%{_libdir}/python%{dirver}/email
+%{_libdir}/python%{dirver}/encodings
+%{_libdir}/python%{dirver}/hotshot
+%{_libdir}/python%{dirver}/importlib
+%{_libdir}/python%{dirver}/json
+%{_libdir}/python%{dirver}/lib2to3
+%{_libdir}/python%{dirver}/lib-dynload
+%exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
+%{_libdir}/python%{dirver}/logging
+%{_libdir}/python%{dirver}/multiprocessing
+%{_libdir}/python%{dirver}/plat-linux2
+%{_libdir}/python%{dirver}/pydoc_data
+%dir %{_libdir}/python%{dirver}/site-packages
+%{_libdir}/python%{dirver}/site-packages/README
+%{_libdir}/python%{dirver}/sqlite3
+%{_libdir}/python%{dirver}/unittest
+%{_libdir}/python%{dirver}/wsgiref
+%{_libdir}/python%{dirver}/xml
+
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
 %multiarch_includedir/python%{dirver}/pyconfig.h
 
-%exclude %{_libdir}/python%{dirver}/config/Setup
-%exclude %{_libdir}/python%{dirver}/config/Setup.config
-%exclude %{_libdir}/python%{dirver}/config/Setup.local
-%exclude %{_libdir}/python%{dirver}/config/config.c
-%exclude %{_libdir}/python%{dirver}/config/config.c.in
-%exclude %{_libdir}/python%{dirver}/config/install-sh
-%exclude %{_libdir}/python%{dirver}/config/libpython2.7.a
-%exclude %{_libdir}/python%{dirver}/config/libpython2.7.so
-%exclude %{_libdir}/python%{dirver}/config/makesetup
-%exclude %{_libdir}/python%{dirver}/config/python.o
-%exclude %{_libdir}/python%{dirver}/test/
-%exclude %{_libdir}/python%{dirver}/idlelib
-%exclude %{_libdir}/python%{dirver}/lib-tk
-%exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
-%exclude %{_libdir}/python%{dirver}/site-packages/pynche
-
-%{_libdir}/python%{dirver}
-%if %{_lib} != "lib"
-%{_prefix}/lib/python%{dirver}
-%endif
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
