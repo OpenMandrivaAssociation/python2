@@ -423,7 +423,9 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %exclude %{_libdir}/python%{dirver}/site-packages/pynche
 
 %{_libdir}/python%{dirver}
+%if %{_lib} != "lib"
 %{_prefix}/lib/python%{dirver}
+%endif
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
