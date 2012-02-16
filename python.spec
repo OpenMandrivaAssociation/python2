@@ -6,12 +6,12 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver  2.7.2
-%define dirver  2.7
+%define	docver	2.7.2
+%define	dirver	2.7
 
-%define lib_major	%{dirver}
-%define lib_name	%mklibname %{name} %{lib_major}
-%define dev_name	%mklibname %{name} -d
+%define	major	%{dirver}
+%define	libname	%mklibname %{name} %{major}
+%define	devname	%mklibname %{name} -d
 
 %ifarch %{ix86} x86_64 ppc
 %bcond_without	valgrind
@@ -86,13 +86,13 @@ BuildRequires:	termcap-devel
 BuildRequires:	tcl tcl-devel
 BuildRequires:	tk tk-devel
 BuildRequires:	tix
-BuildRequires:  bzip2-devel
-BuildRequires:  sqlite3-devel
+BuildRequires:	bzip2-devel
+BuildRequires:	sqlite3-devel
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
 # (2010/03/21, misc: interfere with test__all )
-BuildConflicts: python-pyxml
+BuildConflicts:	python-pyxml
 
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
@@ -117,20 +117,20 @@ Tix widget set for Tk and RPM.
 Note that documentation for Python is provided in the python-docs
 package.
 
-%package -n	%{lib_name}
+%package -n	%{libname}
 Summary:	Shared libraries for Python %{version}
 Group:		System/Libraries
 
-%description -n	%{lib_name}
+%description -n	%{libname}
 This packages contains Python shared object library.  Python is an
 interpreted, interactive, object-oriented programming language often
 compared to Tcl, Perl, Scheme or Java.
 
-%package -n	%{dev_name}
+%package -n	%{devname}
 Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
 Requires:	%{name} = %version
-Requires:	%{lib_name} = %{version}
+Requires:	%{libname} = %{version}
 Obsoletes:	%{name}-devel
 # (misc) needed to ease upgrade , see #47803
 Obsoletes:	%mklibname -d %{name} 2.5
@@ -138,20 +138,20 @@ Obsoletes:	%mklibname -d %{name} 2.6
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{dev_name}
+%description -n	%{devname}
 The Python programming language's interpreter can be extended with
 dynamically loaded extensions and can be embedded in other programs.
 This package contains the header files and libraries needed to do
 these types of tasks.
 
-Install %{dev_name} if you want to develop Python extensions.  The
+Install %{devname} if you want to develop Python extensions.  The
 python package will also need to be installed.  You'll probably also
 want to install the python-docs package, which contains Python
 documentation.
 
 %package	docs
 Summary:	Documentation for the Python programming language
-Requires:	python = %version
+Requires:	python = %{version}
 Requires:	xdg-utils
 Group:		Development/Python
 
@@ -166,8 +166,8 @@ for the Python language.
 %package -n	tkinter
 Summary:	A graphical user interface for the Python scripting language
 Group:		Development/Python
-Requires:	python = %version
-Requires:       tcl tk
+Requires:	python = %{version}
+Requires:	tcl tk
 
 %description -n	tkinter
 The Tkinter (Tk interface) program is an graphical user interface for
@@ -290,11 +290,11 @@ echo 'install_dir='"%{buildroot}/usr/bin" >>setup.cfg
 mkdir -p %{buildroot}%{_mandir}
 %makeinstall_std
 
-ln -sf libpython%{lib_major}.so.* %{buildroot}/%{_libdir}/libpython%{lib_major}.so
+ln -sf libpython%{major}.so.* %{buildroot}/%{_libdir}/libpython%{major}.so
 
 # Provide a libpython%{dirver}.so symlink in /usr/lib/puthon*/config, so that
 # the shared library could be found when -L/usr/lib/python*/config is specified
-ln -sf ../../libpython%{lib_major}.so %{buildroot}%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{lib_major}.so .
+ln -sf ../../libpython%{major}.so %{buildroot}%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{major}.so .
 
 #"  this comment is just here because vim syntax higlighting is confused by the previous snippet of lisp
 
@@ -349,7 +349,7 @@ EOF
 # fix non real scripts
 chmod 644 %{buildroot}%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
 # fix python library not stripped
-chmod u+w %{buildroot}%{_libdir}/libpython%{lib_major}.so.1.0
+chmod u+w %{buildroot}%{_libdir}/libpython%{major}.so.1.0
 
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d/
@@ -448,10 +448,10 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/valgrind/valgrind-python.supp
 %endif
 
-%files -n %{lib_name}
+%files -n %{libname}
 %{_libdir}/libpython*.so.1*
 
-%files -n %{dev_name}
+%files -n %{devname}
 %{_libdir}/libpython*.so
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/python%{dirver}
