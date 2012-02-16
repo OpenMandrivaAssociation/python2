@@ -279,7 +279,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 %custom_test"
 
 %install
-mkdir -p %buildroot%{_prefix}/lib/python%{dirver}
+mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
 
 # fix Makefile to get rid of reference to distcc
 perl -pi -e "/^CC=/ and s/distcc/gcc/" Makefile
@@ -427,6 +427,9 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/python%{dirver}/multiprocessing
 %{_libdir}/python%{dirver}/plat-linux2
 %{_libdir}/python%{dirver}/pydoc_data
+%if %{_lib} != "lib"
+%dir %{_prefix}/lib/python%{dirver}/site-packages
+%endif
 %dir %{_libdir}/python%{dirver}/site-packages
 %{_libdir}/python%{dirver}/site-packages/README
 %{_libdir}/python%{dirver}/sqlite3
