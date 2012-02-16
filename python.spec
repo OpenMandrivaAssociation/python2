@@ -10,7 +10,6 @@
 %define dirver  2.7
 
 %define lib_major	%{dirver}
-%define lib_name_orig	libpython
 %define lib_name	%mklibname %{name} %{lib_major}
 %define dev_name	%mklibname %{name} -d
 
@@ -138,7 +137,6 @@ Obsoletes:	%mklibname -d %{name} 2.5
 Obsoletes:	%mklibname -d %{name} 2.6
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
 Provides:	%{name}-devel = %{version}-%{release}
-Provides:	%{lib_name_orig}-devel = %{version}-%{release}
 
 %description -n	%{dev_name}
 The Python programming language's interpreter can be extended with
