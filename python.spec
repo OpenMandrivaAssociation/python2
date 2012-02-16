@@ -74,7 +74,7 @@ Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
 BuildRequires:	blt
-BuildRequires:	db2-devel db5-devel
+BuildRequires:	db2-devel db52-devel
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
