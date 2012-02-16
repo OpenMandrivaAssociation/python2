@@ -92,6 +92,7 @@ BuildRequires:	sqlite3-devel
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
+BuildRequires:	chrpath
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts:	python-pyxml
 
@@ -391,6 +392,8 @@ EOF
 %multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
 
 install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
+
+chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 
 %files
 %doc README.mdk
