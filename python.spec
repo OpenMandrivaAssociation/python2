@@ -95,7 +95,6 @@ BuildRequires:	valgrind-devel
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts: python-pyxml
 
-Requires:	%{lib_name} = %{version}
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
@@ -401,7 +400,7 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 # "Makefile" and the config.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the libs
 # package, along with their parent directories (RH bug#531901):
-dir %{_libdir}/python%{dirver}/config
+%dir %{_libdir}/python%{dirver}/config
 %{_libdir}/python%{dirver}/config/Makefile
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
