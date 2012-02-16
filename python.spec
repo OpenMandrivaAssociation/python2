@@ -28,6 +28,7 @@ URL:		http://www.python.org/
 Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
+Source3:	%{name}.rpmlintrc
 Patch0:		python-2.7-module-linkage.patch
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.7.2-no-local-incpath.patch
