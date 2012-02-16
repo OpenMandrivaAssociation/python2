@@ -22,10 +22,10 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.2
-Release:	3
+Release:	4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
-
+URL:		http://www.python.org/
 Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
@@ -70,7 +70,6 @@ Patch25:	python_arch.patch
 # once python 2.7.3 is integrated.
 Patch26:	python-2.7.2-sys-platform-always-linux2.patch
 
-URL:		http://www.python.org/
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 Requires:	%{lib_name} = %{version}
