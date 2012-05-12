@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.3
-Release:	4
+Release:	5
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
@@ -61,7 +61,7 @@ Patch23: python-2.7.1-skip-shm-test.patch
 
 # add support for berkeley db <= 5.1
 # sent upstream: http://bugs.python.org/issue11817
-Patch24:	Python-2.7.1-berkeley-db-5.1.patch
+Patch24:	Python-2.7.1-berkeley-db-5.3.patch
 
 # do not use uname -m to get the exact name on mips/arm
 Patch25:	python_arch.patch
@@ -232,6 +232,7 @@ export CCSHARED="-fPIC -fno-PIE"
     --enable-unicode=ucs4 \
     --enable-ipv6 \
     --enable-shared \
+    --with-dbmliborder=gdbm:ndbm:bdb \
 %if %{with valgrind}
     --with-valgrind
 %endif
