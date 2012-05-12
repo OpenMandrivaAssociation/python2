@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define	docver	2.7.2
+%define	docver	2.7.3
 %define	dirver	2.7
 
 %define	major	%{dirver}
@@ -20,12 +20,12 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.7.2
+Version:	2.7.3
 Release:	4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
-Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
+Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
 Source3:	%{name}.rpmlintrc
@@ -75,7 +75,6 @@ Patch26:	python-2.7.2-sys-platform-always-linux2.patch
 Patch27:	00148-gdbm-1.9-magic-values.patch
 
 BuildRequires:	blt
-BuildRequires:	db2-devel
 BuildRequires:	db5-devel
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
