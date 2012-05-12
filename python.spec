@@ -435,6 +435,7 @@ chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc
 %{_bindir}/python
+%{_bindir}/python2
 %{_bindir}/2to3
 %{_mandir}/man*/*
 %if %{with valgrind}
@@ -451,6 +452,7 @@ chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 %{_libdir}/python%{dirver}/config/*
 %{_libdir}/python%{dirver}/test/
 %{_bindir}/python%{dirver}-config
+%{_bindir}/python2-config
 %{_bindir}/python-config
 %exclude %{_libdir}/python%{dirver}/config/Makefile
 %exclude %{_includedir}/python%{dirver}/pyconfig.h
