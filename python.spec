@@ -66,10 +66,6 @@ Patch24:	Python-2.7.1-berkeley-db-5.1.patch
 # do not use uname -m to get the exact name on mips/arm
 Patch25:	python_arch.patch
 
-# Cherrypick fix for dbm version detection to cope with gdbm-1.9's magic values
-# Taken from upstream http://bugs.python.org/issue13007
-Patch27:	00148-gdbm-1.9-magic-values.patch
-
 BuildRequires:	blt
 BuildRequires:	db5-devel
 BuildRequires:	expat-devel
@@ -202,7 +198,6 @@ Various applications written using tkinter
 %patch23 -p1 
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
-%patch27 -p1
 
 autoconf
 
