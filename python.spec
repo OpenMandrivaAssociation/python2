@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.3
-Release:	5
+Release:	6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
