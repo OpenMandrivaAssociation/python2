@@ -66,6 +66,8 @@ Patch24:	Python-2.7.1-berkeley-db-5.3.patch
 # do not use uname -m to get the exact name on mips/arm
 Patch25:	python_arch.patch
 
+Patch26:	Python-2.7.1-berkeley-db-5.3-2.patch
+
 BuildRequires:	blt
 BuildRequires:	db5-devel
 BuildRequires:	expat-devel
@@ -198,6 +200,7 @@ Various applications written using tkinter
 %patch23 -p1 
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
+%patch26 -p1 -b .db5-2
 
 autoconf
 
