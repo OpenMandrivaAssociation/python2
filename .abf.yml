@@ -1,0 +1,5 @@
+sources:
+  "bdist_rpm5.py:"	84790c0e8560bedd148d2387115129978327c319
+  "python-2.7.3-docs-html.tar.bz2:"	d743fa2f80f73d9bcc4359ebce73f99727326514
+  "Python-2.7.3.tar.bz2:"	842c4e2aff3f016feea3c6e992c7fa96e49c9aa0
+  "python.rpmlintrc:"	3fd816a5c3a553c2cf5c5fdb7fca2ec4bfe20633

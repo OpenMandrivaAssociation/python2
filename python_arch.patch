@@ -1,0 +1,16 @@
+Index: Python-2.7.1/configure.in
+===================================================================
+--- Python-2.7.1.orig/configure.in
++++ Python-2.7.1/configure.in
+@@ -639,8 +639,11 @@ esac
+ AC_SUBST(ARCH)
+ AC_MSG_CHECKING(ARCH)
+ ARCH=`uname -m`
++le=`perl -e '$le   = unpack("h*", pack("s", 1)) =~ /^1/; print $le;'`
+ case $ARCH in
+ i?86) ARCH=i386;;
++mips*) [[ $le -eq 1 ]] && ARCH="$ARCH"el;;
++arm*) ARCH=arm;;
+ esac
+ AC_MSG_RESULT($ARCH)
+ 

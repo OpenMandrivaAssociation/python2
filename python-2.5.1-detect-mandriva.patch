@@ -1,0 +1,15 @@
+Index: Lib/platform.py
+===================================================================
+--- Lib/platform.py
++++ Lib/platform.py	2008-10-10 21:21:07.000000000 +0200
+@@ -241,8 +241,8 @@
+ # and http://www.die.net/doc/linux/man/man1/lsb_release.1.html
+ 
+ _supported_dists = (
+-    'SuSE', 'debian', 'fedora', 'redhat', 'centos',
+-    'mandrake', 'mandriva', 'rocks', 'slackware', 'yellowdog', 'gentoo',
++    'SuSE', 'debian', 'fedora' ,'mandriva', 'mandrake', 'redhat',
++    'centos', 'rocks', 'slackware', 'yellowdog', 'gentoo',
+     'UnitedLinux', 'turbolinux')
+ 
+ def _parse_release_file(firstline):
