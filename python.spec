@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.3
-Release:	6
+Release:	7
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
@@ -73,15 +73,15 @@ BuildRequires:	db5-devel
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
-BuildRequires:	ncursesw-devel
-BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:	tcl tcl-devel
 BuildRequires:	tk tk-devel
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
-BuildRequires:	sqlite3-devel
+BuildRequires:	pkgconfig(sqlite3)
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
