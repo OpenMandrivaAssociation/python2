@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.3
-Release:	7
+Release:	8
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
@@ -268,7 +268,11 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 29/10/2010) test_site fail due to one of our patch, will fix later
 #   test_distutils, fail because of lib64 patch ( like test_site ), and because it requires libpython2.7 to be installed
 #   test_io, blocks on my computer on 2nd run
-make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 %{custom_test}"
+# (misc, 17/01/2013) test_cmath fails when run as part of the full test suite,
+#   but succeeds when run by itself. Needs further investigation, for now, let's
+#   just make it an extra step. Same goes for test_math, test_float, test_strtod
+make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc %{custom_test}"
+make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod test_pydoc"
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
