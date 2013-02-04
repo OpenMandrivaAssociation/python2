@@ -271,8 +271,10 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 17/01/2013) test_cmath fails when run as part of the full test suite,
 #   but succeeds when run by itself. Needs further investigation, for now, let's
 #   just make it an extra step. Same goes for test_math, test_float, test_strtod
-make test TESTOPTS="-w -l -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc %{custom_test}"
-make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod test_pydoc"
+# (arisel, 04/02/2013) trying the same with file2k. This might be a problem with 
+#   --enable-shared as modules already installed on the system are used.
+make test TESTOPTS="-w -l -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc %{custom_test}"
+make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod test_pydoc test_file2k"
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
