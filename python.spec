@@ -88,6 +88,9 @@ BuildRequires:	chrpath
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts:	python-pyxml
 
+# backwards compatibility for unfixed packages
+Provides:	python(abi) = %{major}
+
 Conflicts:	tkinter < %{version}
 Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
