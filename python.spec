@@ -273,8 +273,8 @@ export TMP="/tmp" TMPDIR="/tmp"
 #   just make it an extra step. Same goes for test_math, test_float, test_strtod
 # (arisel, 04/02/2013) trying the same with file2k. This might be a problem with 
 #   --enable-shared as modules already installed on the system are used.
-make test TESTOPTS="-w -l -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc %{custom_test}"
-make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod test_pydoc test_file2k"
+make test TESTOPTS="-w -l -x test_file -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc %{custom_test}"
+make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod test_pydoc test_file2k test_file"
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
