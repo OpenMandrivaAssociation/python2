@@ -1,0 +1,13 @@
+diff --git a/configure.in b/configure.in
+index 9ada3e7..7d9a78f 100644
+--- a/configure.in
++++ b/configure.in
+@@ -3177,7 +3177,7 @@ fi
+ 
+ AC_MSG_RESULT($ac_cv_buggy_getaddrinfo)
+ 
+-if test $have_getaddrinfo = no -o "$ac_cv_buggy_getaddrinfo" = yes
++if test $have_getaddrinfo = no || test "$cross_compiling" != "yes" -a "$ac_cv_buggy_getaddrinfo" = yes
+ then
+ 	if test $ipv6 = yes
+ 	then

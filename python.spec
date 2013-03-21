@@ -43,6 +43,8 @@ Patch4:		python-lib64.patch
 # to send upstream after cleaning
 Patch5:		Python-2.2.2-biarch-headers.patch
 
+Patch6:		python-2.7-016-cross-compile-getaddrinfo.patch
+
 # add mandriva to the list of supported distribution, applied upstream
 Patch10:	python-2.5.1-detect-mandriva.patch
 
@@ -191,6 +193,9 @@ Various applications written using tkinter
 
 # biarch header
 %patch5 -p0
+
+#disable buggy getaddr check
+%patch6 -p1
 
 # add mandriva to the list of supported distribution
 %patch10 -p0
