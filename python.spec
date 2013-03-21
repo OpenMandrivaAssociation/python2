@@ -233,6 +233,7 @@ EOF
 
 export OPT="%{optflags}"
 export CCSHARED="-fPIC -fno-PIE"
+export ac_cv_have_long_long_format=yes
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
