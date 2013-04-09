@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define	docver	2.7.3
+%define	docver	2.7.4
 %define	dirver	2.7
 
 %define	major	%{dirver}
@@ -20,8 +20,8 @@
 %endif
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.7.3
-Release:	9
+Version:	2.7.4
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 URL:		http://www.python.org/
@@ -29,13 +29,13 @@ Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
 Source3:	%{name}.rpmlintrc
-Patch0:		python-2.7-module-linkage.patch
+Patch0:		python-2.7.4-module-linkage.patch
 # Don't include /usr/local/* in search path
 Patch3:		Python-2.7.2-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
 # similar patches reported upstream on http://bugs.python.org/issue1294959
-Patch4:		python-lib64.patch
+Patch4:		python-2.7.4-lib64.patch
 
 # Do handle <asm-XXX/*.h> headers in h2py.py
 # FIXME: incomplete for proper bi-arch support as #if/#else/#endif
@@ -63,12 +63,12 @@ Patch23: python-2.7.1-skip-shm-test.patch
 
 # add support for berkeley db <= 5.1
 # sent upstream: http://bugs.python.org/issue11817
-Patch24:	Python-2.7.1-berkeley-db-5.3.patch
+Patch24:	Python-2.7.4-berkeley-db-5.3.patch
 
 # do not use uname -m to get the exact name on mips/arm
-Patch25:	python_arch.patch
+Patch25:	python-2.7.4-arch.patch
 
-Patch26:	Python-2.7.1-berkeley-db-5.3-2.patch
+Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 
 BuildRequires:	blt
 BuildRequires:	db5-devel
@@ -400,7 +400,7 @@ EOF
 
 install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
 
-chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
+#chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 
 %files
 %doc README.mdk

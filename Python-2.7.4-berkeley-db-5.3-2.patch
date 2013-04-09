@@ -1,14 +1,5 @@
---- Python-2.7.3/Modules/_bsddb.c.orig	2012-05-12 21:36:33.122111084 +0100
-+++ Python-2.7.3/Modules/_bsddb.c	2012-05-13 08:28:26.583406391 +0100
-@@ -696,8 +696,6 @@
-         case DB_RUNRECOVERY:        errObj = DBRunRecoveryError;    break;
-         case DB_VERIFY_BAD:         errObj = DBVerifyBadError;      break;
-         case DB_NOSERVER:           errObj = DBNoServerError;       break;
--        case DB_NOSERVER_HOME:      errObj = DBNoServerHomeError;   break;
--        case DB_NOSERVER_ID:        errObj = DBNoServerIDError;     break;
-         case DB_PAGE_NOTFOUND:      errObj = DBPageNotFoundError;   break;
-         case DB_SECONDARY_BAD:      errObj = DBSecondaryBadError;   break;
-         case DB_BUFFER_SMALL:       errObj = DBNoMemoryError;       break;
+--- Python-2.7.4/Modules/_bsddb.c.orig	2012-05-12 21:36:33.122111084 +0100
++++ Python-2.7.4/Modules/_bsddb.c	2012-05-13 08:28:26.583406391 +0100
 @@ -7616,6 +7614,7 @@
      char *host;
      int port;
@@ -47,12 +38,3 @@
      MYDB_END_ALLOW_THREADS;
      RETURN_IF_ERR();
      return NUMBER_FromLong(eidp);
-@@ -9651,8 +9655,6 @@
-     ADD_INT(d, DB_LOCK_DEADLOCK);
-     ADD_INT(d, DB_LOCK_NOTGRANTED);
-     ADD_INT(d, DB_NOSERVER);
--    ADD_INT(d, DB_NOSERVER_HOME);
--    ADD_INT(d, DB_NOSERVER_ID);
-     ADD_INT(d, DB_NOTFOUND);
-     ADD_INT(d, DB_OLD_VERSION);
-     ADD_INT(d, DB_RUNRECOVERY);

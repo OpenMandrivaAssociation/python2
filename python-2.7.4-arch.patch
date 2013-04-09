@@ -1,7 +1,7 @@
 Index: Python-2.7.1/configure.in
 ===================================================================
---- Python-2.7.1.orig/configure.in
-+++ Python-2.7.1/configure.in
+--- Python-2.7.1.orig/configure.ac
++++ Python-2.7.1/configure.ac
 @@ -639,8 +639,11 @@ esac
  AC_SUBST(ARCH)
  AC_MSG_CHECKING(ARCH)

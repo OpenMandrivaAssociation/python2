@@ -1,6 +1,6 @@
 diff -Naur -x '*~' Python-2.7.1/configure.in Python-2.7.1-skip-shm-test/configure.in
---- Python-2.7.1/configure.in	2010-11-01 02:47:19.000000000 +0100
-+++ Python-2.7.1-skip-shm-test/configure.in	2011-02-02 22:28:42.000000000 +0100
+--- Python-2.7.1/configure.ac	2010-11-01 02:47:19.000000000 +0100
++++ Python-2.7.1-skip-shm-test/configure.ac	2011-02-02 22:28:42.000000000 +0100
 @@ -3609,7 +3609,7 @@
  }
  ]])],

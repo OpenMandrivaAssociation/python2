@@ -1,6 +1,6 @@
---- setup.py.link	2010-06-27 14:36:16.000000000 +0200
-+++ setup.py	2010-10-31 16:50:12.000000000 +0100
-@@ -578,7 +578,7 @@
+--- setup.py.orig	2013-04-08 16:19:07.630643642 +0400
++++ setup.py	2013-04-08 16:18:53.265642396 +0400
+@@ -688,7 +688,7 @@
          # Operations on audio samples
          # According to #993173, this one should actually work fine on
          # 64-bit platforms.
@@ -9,16 +9,16 @@
  
          # Disabled on 64-bit platforms
          if sys.maxint != 9223372036854775807L:
-@@ -1376,7 +1376,7 @@
+@@ -1518,7 +1518,7 @@
              # This requires sizeof(int) == sizeof(long) == sizeof(char*)
              dl_inc = find_file('dlfcn.h', [], inc_dirs)
-             if (dl_inc is not None) and (platform not in ['atheos']):
+             if (dl_inc is not None) and (host_platform not in ['atheos']):
 -                exts.append( Extension('dl', ['dlmodule.c']) )
 +                exts.append( Extension('dl', ['dlmodule.c'], libraries = ['dl'] ) )
              else:
                  missing.append('dl')
          else:
-@@ -1894,10 +1894,11 @@
+@@ -2038,10 +2038,11 @@
                          include_dirs=include_dirs,
                          extra_compile_args=extra_compile_args,
                          extra_link_args=extra_link_args,
