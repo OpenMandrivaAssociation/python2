@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.4
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -93,7 +93,7 @@ BuildConflicts:	python-pyxml
 # backwards compatibility for unfixed packages
 Provides:	python(abi) = %{major}
 
-Conflicts:	tkinter < %{version}
+Conflicts:	tkinter < %EVRD
 Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
 %rename		python-elementtree
@@ -128,14 +128,14 @@ compared to Tcl, Perl, Scheme or Java.
 %package -n	%{devname}
 Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
-Requires:	%{name} = %{version}
-Requires:	%{libname} = %{version}
-Obsoletes:	%{name}-devel < %{version}-%{release}
+Requires:	%{name} = %EVRD
+Requires:	%{libname} = %EVRD
+Obsoletes:	%{name}-devel < %EVRD
 # (misc) needed to ease upgrade , see #47803
 Obsoletes:	%{mklibname -d %{name} 2.5} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.6} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
-Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %EVRD
 
 %description -n	%{devname}
 The Python programming language's interpreter can be extended with
@@ -150,7 +150,7 @@ documentation.
 
 %package	docs
 Summary:	Documentation for the Python programming language
-Requires:	python = %{version}
+Requires:	python = %EVRD
 Requires:	xdg-utils
 Group:		Development/Python
 
@@ -165,7 +165,7 @@ for the Python language.
 %package -n	tkinter
 Summary:	A graphical user interface for the Python scripting language
 Group:		Development/Python
-Requires:	python = %{version}
+Requires:	python = %EVRD
 Requires:	tcl tk
 
 %description -n	tkinter
