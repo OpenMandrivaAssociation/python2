@@ -1,6 +1,8 @@
 removed_sources:
   Python-2.7.3.tar.bz2: 842c4e2aff3f016feea3c6e992c7fa96e49c9aa0
-sources:
   Python-2.7.4.tar.bz2: deb8609d8e356b3388f33b6a4d6526911994e5b1
+sources:
+  Python-2.7.5.tar.bz2: 6cfada1a739544a6fa7f2601b500fba02229656b
   python-2.7.3-docs-html.tar.bz2: d743fa2f80f73d9bcc4359ebce73f99727326514
   python-2.7.4-docs-html.tar.bz2: d20bcfc2bb688a6cbdbf7e428cc65a61e6205755
+  python-2.7.5-docs-html.tar.bz2: fa1fa40ddd61053b98eb43935c9d0cca219af025

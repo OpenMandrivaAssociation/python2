@@ -9,6 +9,18 @@
  
          # Disabled on 64-bit platforms
          if sys.maxint != 9223372036854775807L:
+@@ -1340,9 +1340,9 @@ class PyBuildExt(build_ext):
+             if (host_platform not in ['cygwin', 'atheos', 'qnx6'] and
+                 find_file('rpcsvc/yp_prot.h', inc_dirs, []) is not None):
+                 if (self.compiler.find_library_file(lib_dirs, 'nsl')):
+-                    libs = ['nsl']
++                    libs = ['nsl', 'tirpc']
+                 else:
+-                    libs = []
++                    libs = ['tirpc']
+                 exts.append( Extension('nis', ['nismodule.c'],
+                                        libraries = libs) )
+             else:
 @@ -1518,7 +1518,7 @@
              # This requires sizeof(int) == sizeof(long) == sizeof(char*)
              dl_inc = find_file('dlfcn.h', [], inc_dirs)
