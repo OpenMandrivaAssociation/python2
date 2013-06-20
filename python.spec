@@ -285,7 +285,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (bero, 19/06/2013) disabling test_pydoc, fails with 'NoneType' object has no attribute 'get_source'
 # (bero, 19/06/2013) Network related tests fail in ABF - probably new security features not allowing package
 # builds to access the net?
-make test TESTOPTS="-w -l -x test_file -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc -x test_ftplib -x test_httplib -x test_poplib -x test_telnetlib -x test_smtplib -x test_asyncchat -x test_asyncore -x test_socket %{custom_test}"
+make test TESTOPTS="-w -l -x test_file -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc -x test_ftplib -x test_httplib -x test_poplib -x test_telnetlib -x test_smtplib -x test_asynchat -x test_asyncore -x test_socket %{custom_test}"
 make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod"
 #make test TESTOPTS="-w -l test_pydoc"
 
