@@ -21,7 +21,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.5
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -69,6 +69,12 @@ Patch24:	Python-2.7.4-berkeley-db-5.3.patch
 Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
+
+# http://bugs.python.org/issue17998
+# Should only be required until next release (after 2.7.5) and may
+# be required on all 32 bit platforms (e.g. arm), being added due
+# to broken scons in i586
+Patch27:	re_unsigned_ptrdiff.patch
 
 BuildRequires:	blt
 BuildRequires:	db5-devel
@@ -208,6 +214,10 @@ Various applications written using tkinter
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
+
+%ifarch %{ix86}
+%patch27 -p1
+%endif
 
 autoconf
 
