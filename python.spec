@@ -79,6 +79,7 @@ Patch27:	re_unsigned_ptrdiff.patch
 BuildRequires:	blt
 BuildRequires:	db5-devel
 BuildRequires:	pkgconfig(expat)
+BuildRequires:	pkgconfig(libffi)
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(ncursesw)
@@ -250,6 +251,7 @@ export ac_cv_have_long_long_format=yes
 %configure2_5x \
     --with-threads \
     --with-system-expat \
+    --with-system-ffi \
     --enable-unicode=ucs4 \
     --enable-ipv6 \
     --enable-shared \
