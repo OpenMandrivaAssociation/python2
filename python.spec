@@ -6,22 +6,23 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define	docver	2.7.5
-%define	dirver	2.7
+%define docver 2.7.5
+%define dirver 2.7
 
-%define	major	%{dirver}
-%define	libname	%mklibname %{name} %{major}
-%define	devname	%mklibname %{name} -d
+%define major %{dirver}
+%define libname %mklibname %{name} %{major}
+%define devname %mklibname %{name} -d
 
 %ifarch %{ix86} x86_64 ppc
-%bcond_without	valgrind
+%bcond_without valgrind
 %else
-%bcond_with	valgrind
+%bcond_with valgrind
 %endif
+
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.5
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -59,7 +60,7 @@ Patch10:	python-2.5.1-detect-mandriva.patch
 Patch16:	python-2.5.1-plural-fix.patch
 
 # skip semaphore test, as it requires /dev/shm
-Patch23: python-2.7.1-skip-shm-test.patch
+Patch23:	python-2.7.1-skip-shm-test.patch
 
 # add support for berkeley db <= 5.1
 # sent upstream: http://bugs.python.org/issue11817
@@ -155,7 +156,7 @@ python package will also need to be installed.  You'll probably also
 want to install the python-docs package, which contains Python
 documentation.
 
-%package	docs
+%package docs
 Summary:	Documentation for the Python programming language
 Requires:	python = %EVRD
 Requires:	xdg-utils
@@ -173,7 +174,8 @@ for the Python language.
 Summary:	A graphical user interface for the Python scripting language
 Group:		Development/Python
 Requires:	python = %EVRD
-Requires:	tcl tk
+Requires:	tcl
+Requires:	tk
 
 %description -n	tkinter
 The Tkinter (Tk interface) program is an graphical user interface for
@@ -188,7 +190,7 @@ Group:		Development/Python
 Requires:	tkinter
 
 %description -n	tkinter-apps
-Various applications written using tkinter
+Various applications written using tkinter.
 
 %prep
 %setup -q -n Python-%{version}
@@ -227,7 +229,7 @@ bzcat %{SOURCE1} | tar x  -C html
 
 find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
 
-cat > README.mdk << EOF
+cat > README.omv << EOF
 Python interpreter support readline completion by default.
 This is only used with the interpreter. In order to remove it,
 you can :
@@ -419,7 +421,7 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 #chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 
 %files
-%doc README.mdk
+%doc README.omv
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
 %if %{_lib} != "lib"
