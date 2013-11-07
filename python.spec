@@ -9,8 +9,9 @@
 %define docver 2.7.5
 %define dirver 2.7
 
-%define major %{dirver}
-%define libname %mklibname %{name} %{major}
+%define api %{dirver}
+%define major 1
+%define libname %mklibname %{name} %{api} %{major}
 %define devname %mklibname %{name} -d
 
 %ifarch %{ix86} x86_64 ppc
@@ -22,7 +23,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.5
-Release:	3
+Release:	4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -78,30 +79,28 @@ Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 Patch27:	re_unsigned_ptrdiff.patch
 
 BuildRequires:	blt
-BuildRequires:	db5-devel
-BuildRequires:	pkgconfig(expat)
-BuildRequires:	pkgconfig(libffi)
-BuildRequires:	gdbm-devel
-BuildRequires:	gmp-devel
-BuildRequires:	pkgconfig(ncursesw)
-BuildRequires:	pkgconfig(openssl)
-BuildRequires:	readline-devel
-BuildRequires:	pkgconfig(tcl)
-BuildRequires:	pkgconfig(tk)
+BuildRequires:	chrpath
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
+BuildRequires:	db5-devel
+BuildRequires:	gdbm-devel
+BuildRequires:	gmp-devel
+BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(expat)
+BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(tcl)
+BuildRequires:	pkgconfig(tk)
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
-BuildRequires:	chrpath
 # (2010/03/21, misc: interfere with test__all )
 BuildConflicts:	python-pyxml
-
 # backwards compatibility for unfixed packages
-Provides:	python(abi) = %{major}
-
-Conflicts:	tkinter < %EVRD
+Provides:	python(abi) = %{api}
+Conflicts:	tkinter < %{EVRD}
 Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
 %rename		python-elementtree
@@ -127,6 +126,7 @@ package.
 %package -n	%{libname}
 Summary:	Shared libraries for Python %{version}
 Group:		System/Libraries
+Obsoletes:	%{_lib}python2.7 < 2.7.5-4
 
 %description -n	%{libname}
 This packages contains Python shared object library.  Python is an
@@ -136,14 +136,14 @@ compared to Tcl, Perl, Scheme or Java.
 %package -n	%{devname}
 Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
-Requires:	%{name} = %EVRD
-Requires:	%{libname} = %EVRD
-Obsoletes:	%{name}-devel < %EVRD
+Requires:	%{name} = %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Obsoletes:	%{name}-devel < %{EVRD}
 # (misc) needed to ease upgrade , see #47803
 Obsoletes:	%{mklibname -d %{name} 2.5} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.6} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
-Provides:	%{name}-devel = %EVRD
+Provides:	%{name}-devel = %{EVRD}
 
 %description -n	%{devname}
 The Python programming language's interpreter can be extended with
@@ -158,7 +158,7 @@ documentation.
 
 %package docs
 Summary:	Documentation for the Python programming language
-Requires:	python = %EVRD
+Requires:	python = %{EVRD}
 Requires:	xdg-utils
 Group:		Development/Python
 
@@ -173,7 +173,7 @@ for the Python language.
 %package -n	tkinter
 Summary:	A graphical user interface for the Python scripting language
 Group:		Development/Python
-Requires:	python = %EVRD
+Requires:	python = %{EVRD}
 Requires:	tcl
 Requires:	tk
 
@@ -193,7 +193,7 @@ Requires:	tkinter
 Various applications written using tkinter.
 
 %prep
-%setup -q -n Python-%{version}
+%setup -qn Python-%{version}
 %patch0 -p0
 # local include
 %patch3 -p1
@@ -251,15 +251,15 @@ export ac_cv_have_long_long_format=yes
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
 %configure2_5x \
-    --with-threads \
-    --with-system-expat \
-    --with-system-ffi \
-    --enable-unicode=ucs4 \
-    --enable-ipv6 \
-    --enable-shared \
-    --with-dbmliborder=gdbm:ndbm:bdb \
+	--with-threads \
+	--with-system-expat \
+	--with-system-ffi \
+	--enable-unicode=ucs4 \
+	--enable-ipv6 \
+	--enable-shared \
+	--with-dbmliborder=gdbm:ndbm:bdb \
 %if %{with valgrind}
-    --with-valgrind
+	--with-valgrind
 %endif
 
 # fix build
@@ -317,11 +317,11 @@ echo 'install_dir='"%{buildroot}/usr/bin" >>setup.cfg
 mkdir -p %{buildroot}%{_mandir}
 %makeinstall_std
 
-ln -sf libpython%{major}.so.* %{buildroot}/%{_libdir}/libpython%{major}.so
+ln -sf libpython%{api}.so.* %{buildroot}/%{_libdir}/libpython%{api}.so
 
 # Provide a libpython%{dirver}.so symlink in /usr/lib/puthon*/config, so that
 # the shared library could be found when -L/usr/lib/python*/config is specified
-ln -sf ../../libpython%{major}.so %{buildroot}%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{major}.so .
+ln -sf ../../libpython%{api}.so %{buildroot}%{_libdir}/python%{dirver}/config; ln -sf ../../libpython%{api}.so .
 
 #"  this comment is just here because vim syntax higlighting is confused by the previous snippet of lisp
 
@@ -376,7 +376,7 @@ EOF
 # fix non real scripts
 chmod 644 %{buildroot}%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
 # fix python library not stripped
-chmod u+w %{buildroot}%{_libdir}/libpython%{major}.so.1.0
+chmod u+w %{buildroot}%{_libdir}/libpython%{api}.so.1.0
 
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d/
@@ -479,7 +479,7 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %endif
 
 %files -n %{libname}
-%{_libdir}/libpython*.so.1*
+%{_libdir}/libpython%{api}.so.%{major}*
 
 %files -n %{devname}
 %{_libdir}/libpython*.so
