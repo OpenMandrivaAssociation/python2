@@ -23,7 +23,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.5
-Release:	4
+Release:	5
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -245,7 +245,7 @@ linuxaudiodev linuxaudiodev.c
 EOF
 
 export OPT="%{optflags}"
-export CCSHARED="-fPIC -fno-PIE"
+export CCSHARED="-fno-PIE -fPIC"
 export ac_cv_have_long_long_format=yes
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
