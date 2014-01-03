@@ -70,12 +70,6 @@ Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 
-# http://bugs.python.org/issue17998
-# Should only be required until next release (after 2.7.5) and may
-# be required on all 32 bit platforms (e.g. arm), being added due
-# to broken scons in i586
-Patch27:	re_unsigned_ptrdiff.patch
-
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
@@ -213,10 +207,6 @@ Various applications written using tkinter.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-
-%ifarch %{ix86}
-%patch27 -p1
-%endif
 
 autoconf
 
