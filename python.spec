@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
 
-%define docver 2.7.5
+%define docver 2.7.6
 %define dirver 2.7
 
 %define api %{dirver}
@@ -22,18 +22,16 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
-Version:	2.7.5
-Release:	9
+Version:	2.7.6
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
-Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.bz2
+Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
 Source3:	%{name}.rpmlintrc
 Patch0:		python-2.7.4-module-linkage.patch
-# Don't include /usr/local/* in search path
-Patch3:		Python-2.7.2-no-local-incpath.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
 # similar patches reported upstream on http://bugs.python.org/issue1294959
@@ -195,8 +193,6 @@ Various applications written using tkinter.
 %prep
 %setup -qn Python-%{version}
 %patch0 -p0
-# local include
-%patch3 -p1
 # lib64
 %patch4 -p0 -b .lib64
 
