@@ -23,7 +23,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.6
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -118,7 +118,7 @@ package.
 %package -n	%{libname}
 Summary:	Shared libraries for Python %{version}
 Group:		System/Libraries
-Obsoletes:	%{_lib}python2.7 < 2.7.5-4
+Obsoletes:	%{_lib}python2.7 < 2.7.5-5
 
 %description -n	%{libname}
 This packages contains Python shared object library.  Python is an
