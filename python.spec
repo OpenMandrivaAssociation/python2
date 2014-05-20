@@ -223,8 +223,6 @@ bzcat %{SOURCE1} | tar x  -C html
 find html -type d |xargs chmod 755
 find html -type f |xargs chmod 644
 
-find . -type f -print0 | xargs -0 sed -i 's@/usr/bin/python@/usr/bin/python@g'
-
 cat > README.omv << EOF
 Python interpreter support readline completion by default.
 This is only used with the interpreter. In order to remove it,
@@ -238,6 +236,8 @@ EOF
 rm -fr Modules/expat
 rm -fr Modules/_ctypes/libffi*
 rm -fr Modules/zlib
+
+find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
 
 autoconf
 autoheader
