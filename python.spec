@@ -218,18 +218,12 @@ Various applications written using tkinter.
 %patch31 -p1
 %patch32 -p1
 
-# Ensure that internal copies of expat, libffi and zlib are not used.
-rm -fr Modules/expat
-rm -fr Modules/_ctypes/libffi*
-rm -fr Modules/zlib
-
-autoconf
-autoheader
-
 mkdir html
 bzcat %{SOURCE1} | tar x  -C html
+find html -type d |xargs chmod 755
+find html -type f |xargs chmod 644
 
-find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
+find . -type f -print0 | xargs -0 sed -i 's@/usr/bin/python@/usr/bin/python@g'
 
 cat > README.omv << EOF
 Python interpreter support readline completion by default.
@@ -239,6 +233,14 @@ you can :
 2) create a empty file \$HOME/.pythonrc.py
 3) change %{_sysconfdir}/pythonrc.py
 EOF
+
+# Ensure that internal copies of expat, libffi and zlib are not used.
+rm -fr Modules/expat
+rm -fr Modules/_ctypes/libffi*
+rm -fr Modules/zlib
+
+autoconf
+autoheader
 
 %build
 rm -f Modules/Setup.local
