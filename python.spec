@@ -72,6 +72,10 @@ Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 # http://bugs.python.org/issue20374
 Patch27:	python-2.7.x-new-readline.patch
 
+Patch30:	00184-ctypes-should-build-with-libffi-multilib-wrapper.patch
+Patch31:	00168-distutils-cflags.patch
+Patch32:	python-2.5-cflags.patch
+
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
@@ -210,8 +214,17 @@ Various applications written using tkinter.
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
 %patch27 -p1 -b .readline
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+
+# Ensure that internal copies of expat, libffi and zlib are not used.
+rm -fr Modules/expat
+rm -fr Modules/_ctypes/libffi*
+rm -fr Modules/zlib
 
 autoconf
+autoheader
 
 mkdir html
 bzcat %{SOURCE1} | tar x  -C html
@@ -235,6 +248,8 @@ EOF
 
 export OPT="%{optflags}"
 export CCSHARED="-fno-PIE -fPIC"
+export LINKCC="gcc"
+export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
