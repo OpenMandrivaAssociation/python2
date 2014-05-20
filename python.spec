@@ -69,6 +69,8 @@ Patch24:	Python-2.7.4-berkeley-db-5.3.patch
 Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
+# http://bugs.python.org/issue20374
+Patch27:	python-2.7.x-new-readline.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
