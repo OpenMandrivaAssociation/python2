@@ -209,6 +209,7 @@ Various applications written using tkinter.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
+%patch27 -p1 -b .readline
 
 autoconf
 
