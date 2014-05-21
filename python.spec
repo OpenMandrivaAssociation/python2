@@ -379,8 +379,6 @@ Categories=Documentation;
 EOF
 
 
-# fix non real scripts
-chmod 644 %{buildroot}%{_libdir}/python*/test/test_{binascii,grp,htmlparser}.py*
 # fix python library not stripped
 chmod u+w %{buildroot}%{_libdir}/libpython%{api}.so.1.0
 
