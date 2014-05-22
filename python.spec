@@ -75,6 +75,7 @@ Patch27:	python-2.7.x-new-readline.patch
 Patch30:	00184-ctypes-should-build-with-libffi-multilib-wrapper.patch
 Patch31:	00168-distutils-cflags.patch
 Patch32:	python-2.5-cflags.patch
+Patch33:	00194-fix-tests-with-sqlite-3.8.4.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -217,6 +218,7 @@ Various applications written using tkinter.
 %patch30 -p1
 %patch31 -p1
 %patch32 -p1
+%patch33 -p1
 
 mkdir html
 bzcat %{SOURCE1} | tar x  -C html
