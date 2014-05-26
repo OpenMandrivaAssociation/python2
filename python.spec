@@ -5,6 +5,7 @@
 #     change any interface
 # - all patchs should be commented ( unless for security, 
 #     as they are usually easy to spot )
+%bcond_with tests
 
 %define docver 2.7.6
 %define dirver 2.7
@@ -276,6 +277,7 @@ export ac_cv_have_long_long_format=yes
 export TMP="/tmp" TMPDIR="/tmp"
 %make
 
+%if %{with tests}
 %check
 # (misc) if the home is nfs mounted, rmdir fails
 export TMP="/tmp" TMPDIR="/tmp"
@@ -311,6 +313,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 make test TESTOPTS="-w -l -x test_file -x test_file2k -x test_gdb -x test_site -x test_io -x test_distutils -x test_urllib2 -x test_cmath -x test_math -x test_float -x test_strtod -x test_pydoc -x test_ftplib -x test_httplib -x test_poplib -x test_telnetlib -x test_smtplib -x test_asynchat -x test_asyncore -x test_socket -x test_sqlite -x test_hash %{custom_test}"
 #make test TESTOPTS="-w -l test_cmath test_math test_float test_strtod"
 #make test TESTOPTS="-w -l test_pydoc"
+%endif
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/python%{dirver}/site-packages
