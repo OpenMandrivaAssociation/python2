@@ -7,13 +7,13 @@
 #     as they are usually easy to spot )
 %bcond_with tests
 
-%define docver 2.7.6
+%define docver 2.7.7
 %define dirver 2.7
 
 %define api %{dirver}
 %define major 1
-%define libname %mklibname %{name} %{api} %{major}
-%define devname %mklibname %{name} -d
+%define libname %mklibname python %{api} %{major}
+%define devname %mklibname python2 -d
 
 %ifarch %{ix86} x86_64 ppc
 %bcond_without valgrind
@@ -22,8 +22,8 @@
 %endif
 
 Summary:	An interpreted, interactive object-oriented programming language
-Name:		python
-Version:	2.7.6
+Name:		python2
+Version:	2.7.7
 Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
@@ -31,7 +31,8 @@ Url:		http://www.python.org/
 Source0:	http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-html.tar.bz2
 Source2:	bdist_rpm5.py
-Source3:	%{name}.rpmlintrc
+Source3:	python2.macros
+Source100:	%{name}.rpmlintrc
 Patch0:		python-2.7.4-module-linkage.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
@@ -70,13 +71,10 @@ Patch24:	Python-2.7.4-berkeley-db-5.3.patch
 Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
-# http://bugs.python.org/issue20374
-Patch27:	python-2.7.x-new-readline.patch
 
 Patch30:	00184-ctypes-should-build-with-libffi-multilib-wrapper.patch
 Patch31:	00168-distutils-cflags.patch
 Patch32:	python-2.5-cflags.patch
-Patch33:	00194-fix-tests-with-sqlite-3.8.4.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -100,6 +98,8 @@ BuildRequires:	valgrind-devel
 BuildConflicts:	python-pyxml
 # backwards compatibility for unfixed packages
 Provides:	python(abi) = %{api}
+Obsoletes:	python < %{EVRD}
+Provides:	python = %{EVRD}
 Conflicts:	tkinter < %{EVRD}
 Conflicts:	python-devel < 2.7-6
 %rename		python-ctypes
@@ -144,6 +144,7 @@ Obsoletes:	%{mklibname -d %{name} 2.5} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.6} < 2.7
 Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
 Provides:	%{name}-devel = %{EVRD}
+Provides:	python-devel = %{EVRD}
 
 %description -n	%{devname}
 The Python programming language's interpreter can be extended with
@@ -158,7 +159,7 @@ documentation.
 
 %package docs
 Summary:	Documentation for the Python programming language
-Requires:	python = %{EVRD}
+Requires:	%{name} = %{EVRD}
 Requires:	xdg-utils
 Group:		Development/Python
 
@@ -173,7 +174,7 @@ for the Python language.
 %package -n	tkinter
 Summary:	A graphical user interface for the Python scripting language
 Group:		Development/Python
-Requires:	python = %{EVRD}
+Requires:	%{name} = %{EVRD}
 Requires:	tcl
 Requires:	tk
 
@@ -215,14 +216,12 @@ Various applications written using tkinter.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-%patch27 -p1 -b .readline
 %patch30 -p1
 %patch31 -p1
 %patch32 -p1
-%patch33 -p1
 
 mkdir html
-bzcat %{SOURCE1} | tar x  -C html
+tar xf %{SOURCE1} -C html
 find html -type d |xargs chmod 755
 find html -type f |xargs chmod 644
 
@@ -240,10 +239,12 @@ rm -fr Modules/expat
 rm -fr Modules/_ctypes/libffi*
 rm -fr Modules/zlib
 
-find . -type f -print0 | xargs -0 perl -p -i -e 's@/usr/local/bin/python@/usr/bin/python@'
+find . -type f -print0 | xargs -0 sed -i -e 's@/usr/local/bin/python@/usr/bin/python2@'
 
-autoconf
-autoheader
+# Scripts used internally must be run with python 2.x
+sed -i -e 's,env python,python2,g' Parser/asdl_c.py
+
+autoreconf -fi
 
 %build
 rm -f Modules/Setup.local
@@ -253,13 +254,13 @@ EOF
 
 export OPT="%{optflags}"
 export CCSHARED="-fno-PIE -fPIC"
-export LINKCC="gcc"
+export LINKCC=%{__cc}
 export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
-%configure2_5x \
+%configure \
 	--with-threads \
 	--with-system-expat \
 	--with-system-ffi \
@@ -340,19 +341,15 @@ ln -sf ../../libpython%{api}.so %{buildroot}%{_libdir}/python%{dirver}/config; l
 # smtpd proxy
 mv -f %{buildroot}%{_bindir}/smtpd.py %{buildroot}%{_libdir}/python%{dirver}/
 
-# idle
-cp Tools/scripts/idle %{buildroot}%{_bindir}/idle
-
-
 # pynche
-cat << EOF > %{buildroot}%{_bindir}/pynche
+cat << EOF > %{buildroot}%{_bindir}/pynche2
 #!/bin/bash
 exec %{_libdir}/python%{dirver}/site-packages/pynche/pynche
 EOF
 rm -f Tools/pynche/*.pyw
 cp -r Tools/pynche %{buildroot}%{_libdir}/python%{dirver}/site-packages/
 
-chmod 755 %{buildroot}%{_bindir}/{idle,pynche}
+chmod 755 %{buildroot}%{_bindir}/pynche2
 
 ln -f Tools/pynche/README Tools/pynche/README.pynche
 
@@ -365,7 +362,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-tkinter.desktop << EOF
 [Desktop Entry]
 Name=IDLE
 Comment=IDE for Python
-Exec=%{_bindir}/idle
+Exec=%{_bindir}/idle2
 Icon=development_environment_section
 Terminal=false
 Type=Application
@@ -426,12 +423,29 @@ EOF
 
 %multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
 
+mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d
+install -m644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/rpm/macros.d/
+
 install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/command/bdist_rpm5.py
 
 #chrpath -d %{buildroot}%{_libdir}/python%{dirver}/lib-dynload/_sqlite3.so
 
+# Don't conflict with bits now provided by Python 3.x
+# We don't strictly have to remove lib2to3, but I don't think it's
+# used anywhere outside the 2to3 tool (which is provided by
+# python 3.x)
+rm -rf \
+	%{buildroot}%{_bindir}/python \
+	%{buildroot}%{_bindir}/python-config \
+	%{buildroot}%{_bindir}/2to3 \
+	%{buildroot}%{_libdir}/python%{dirver}/lib2to3
+
+mv %{buildroot}%{_bindir}/pydoc %{buildroot}%{_bindir}/pydoc2
+mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
+
 %files
 %doc README.omv
+%{_sysconfdir}/rpm/macros.d/*.macros
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
 %if %{_lib} != "lib"
@@ -457,7 +471,6 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/python%{dirver}/hotshot
 %{_libdir}/python%{dirver}/importlib
 %{_libdir}/python%{dirver}/json
-%{_libdir}/python%{dirver}/lib2to3
 %{_libdir}/python%{dirver}/lib-dynload
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
 %{_libdir}/python%{dirver}/logging
@@ -479,10 +492,8 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %multiarch_includedir/python%{dirver}/pyconfig.h
 
 %{_bindir}/python%{dirver}
-%{_bindir}/pydoc
-%{_bindir}/python
+%{_bindir}/pydoc2
 %{_bindir}/python2
-%{_bindir}/2to3
 %{_mandir}/man*/*
 %if %{with valgrind}
 %{_libdir}/valgrind/valgrind-python.supp
@@ -499,7 +510,6 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/python%{dirver}/test/
 %{_bindir}/python%{dirver}-config
 %{_bindir}/python2-config
-%{_bindir}/python-config
 %exclude %{_libdir}/python%{dirver}/config/Makefile
 %exclude %{_includedir}/python%{dirver}/pyconfig.h
 
@@ -516,6 +526,6 @@ install -m644 %{SOURCE2} -D %{buildroot}%{_libdir}/python%{dirver}/distutils/com
 %{_libdir}/python%{dirver}/site-packages/pynche
 
 %files -n tkinter-apps
-%{_bindir}/idle
-%{_bindir}/pynche
+%{_bindir}/idle2
+%{_bindir}/pynche2
 %{_datadir}/applications/mandriva-tkinter.desktop
