@@ -24,7 +24,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.7
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -361,7 +361,9 @@ mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-tkinter.desktop << EOF
 [Desktop Entry]
 Name=IDLE
+Name[ru]=IDLE
 Comment=IDE for Python
+Comment[ru]=IDE для Python
 Exec=%{_bindir}/idle2
 Icon=development_environment_section
 Terminal=false
@@ -373,7 +375,9 @@ EOF
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
 [Desktop Entry]
 Name=Python documentation
+Name[ru]=Документация Python
 Comment=Python complete reference
+Comment[ru]=Полная документация Python
 Exec=%{_bindir}/xdg-open %{_defaultdocdir}/%{name}-docs/index.html
 Icon=documentation_section
 Terminal=false
