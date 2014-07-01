@@ -24,7 +24,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.7
-Release:	3
+Release:	4
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -257,13 +257,6 @@ export CCSHARED="-fno-PIE -fPIC"
 export LINKCC=%{__cc}
 export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
-%ifarch aarch64
-# FIXME This is a workaround for a weird linker bug present
-# in binutils 2.24.51.0.3, causing PyType_Type to be seen as
-# undefined at runtime even though it shows up fine in objdump.
-# Seems to be a hash collision.
-export LDFLAGS="-Wl,--hash-style=both"
-%endif
 
 # see https://qa.mandriva.com/show_bug.cgi?id=48570 
 # for wide unicode support
