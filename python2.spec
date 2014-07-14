@@ -7,8 +7,8 @@
 #     as they are usually easy to spot )
 %bcond_with tests
 
-%define docver 2.7.7
-%define dirver 2.7
+%define docver %{version}
+%define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
 %define major 1
@@ -23,8 +23,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
-Version:	2.7.7
-Release:	5
+Version:	2.7.8
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -80,7 +80,7 @@ BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
-BuildRequires:	db5-devel
+BuildRequires:	db60-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
 BuildRequires:	readline-devel
