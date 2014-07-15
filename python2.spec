@@ -24,7 +24,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.8
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -171,27 +171,27 @@ in ASCII text files and in LaTeX source files.
 Install the python-docs package if you'd like to use the documentation
 for the Python language.
 
-%package -n	tkinter
-Summary:	A graphical user interface for the Python scripting language
+%package -n	tkinter2
+Summary:	A graphical user interface for the Python 2.x scripting language
 Group:		Development/Python
 Requires:	%{name} = %{EVRD}
 Requires:	tcl
 Requires:	tk
 
-%description -n	tkinter
+%description -n	tkinter2
 The Tkinter (Tk interface) program is an graphical user interface for
-the Python scripting language.
+the Python 2.x scripting language.
 
-You should install the tkinter package if you'd like to use a graphical
-user interface for Python programming.
+You should install the tkinter2 package if you'd like to use a graphical
+user interface for Python 2.x programming.
 
-%package -n	tkinter-apps
-Summary:	Various applications written using tkinter
+%package -n	tkinter2-apps
+Summary:	Various applications written using tkinter 2.x
 Group:		Development/Python
-Requires:	tkinter
+Requires:	tkinter2 = %{EVRD}
 
-%description -n	tkinter-apps
-Various applications written using tkinter.
+%description -n	tkinter2-apps
+Various applications written using tkinter 2.x.
 
 %prep
 %setup -qn Python-%{version}
@@ -358,7 +358,7 @@ install Misc/valgrind-python.supp -D %{buildroot}%{_libdir}/valgrind/valgrind-py
 %endif
 
 mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-tkinter.desktop << EOF
+cat > %{buildroot}%{_datadir}/applications/openmandriva-tkinter2.desktop << EOF
 [Desktop Entry]
 Name=IDLE
 Name[ru]=IDLE
@@ -372,7 +372,7 @@ Categories=Development;IDE;
 EOF
 
 
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}-docs.desktop << EOF
+cat > %{buildroot}%{_datadir}/applications/openmandriva-%{name}-docs.desktop << EOF
 [Desktop Entry]
 Name=Python documentation
 Name[ru]=Документация Python
@@ -519,9 +519,9 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 
 %files docs
 %doc html/*/*
-%{_datadir}/applications/mandriva-%{name}-docs.desktop
+%{_datadir}/applications/openmandriva-%{name}-docs.desktop
 
-%files -n tkinter
+%files -n tkinter2
 %dir %{_libdir}/python%{dirver}/lib-tk
 %{_libdir}/python%{dirver}/lib-tk/*.py*
 %{_libdir}/python%{dirver}/lib-tk/test/
@@ -529,7 +529,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/idlelib
 %{_libdir}/python%{dirver}/site-packages/pynche
 
-%files -n tkinter-apps
+%files -n tkinter2-apps
 %{_bindir}/idle2
 %{_bindir}/pynche2
-%{_datadir}/applications/mandriva-tkinter.desktop
+%{_datadir}/applications/openmandriva-tkinter2.desktop
