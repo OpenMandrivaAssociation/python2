@@ -452,7 +452,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_sysconfdir}/rpm/macros.d/*.macros
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/pythonrc.py
-%if %{_lib} != "lib"
+%if "%{_lib}" != "lib"
 %dir %{_prefix}/lib/python%{dirver}
 %endif
 %dir %{_libdir}/python%{dirver}
@@ -481,7 +481,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/multiprocessing
 %{_libdir}/python%{dirver}/plat-linux2
 %{_libdir}/python%{dirver}/pydoc_data
-%if %{_lib} != "lib"
+%if "%{_lib}" != "lib"
 %dir %{_prefix}/lib/python%{dirver}/site-packages
 %endif
 %dir %{_libdir}/python%{dirver}/site-packages
