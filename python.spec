@@ -23,7 +23,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python
 Version:	2.7.6
-Release:	2
+Release:	2.1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -94,6 +94,7 @@ BuildConflicts:	python-pyxml
 Provides:	python(abi) = %{api}
 Conflicts:	tkinter < %{EVRD}
 Conflicts:	python-devel < 2.7-6
+%rename		python-pyxml
 %rename		python-ctypes
 %rename		python-elementtree
 %rename		python-base
