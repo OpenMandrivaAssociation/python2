@@ -94,6 +94,7 @@ BuildConflicts:	python-pyxml
 Provides:	python(abi) = %{api}
 Conflicts:	tkinter < %{EVRD}
 Conflicts:	python-devel < 2.7-6
+Conflicts:	python-pyxml <= 0.8.4-30
 %rename		python-pyxml
 %rename		python-ctypes
 %rename		python-elementtree
