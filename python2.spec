@@ -473,6 +473,8 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/distutils
 %{_libdir}/python%{dirver}/email
 %{_libdir}/python%{dirver}/encodings
+# FIXME why does this get built only in abf???
+%optional %{_libdir}/python%{dirver}/ensurepip
 %{_libdir}/python%{dirver}/hotshot
 %{_libdir}/python%{dirver}/importlib
 %{_libdir}/python%{dirver}/json
