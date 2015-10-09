@@ -33,17 +33,11 @@ Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-ht
 Source2:	bdist_rpm5.py
 Source3:	python2.macros
 Source100:	%{name}.rpmlintrc
-Patch0:		python-2.7.4-module-linkage.patch
+Patch0:		python-2.7.10-module-linkage.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
 # similar patches reported upstream on http://bugs.python.org/issue1294959
 Patch4:		python-2.7.4-lib64.patch
-
-# Do handle <asm-XXX/*.h> headers in h2py.py
-# FIXME: incomplete for proper bi-arch support as #if/#else/#endif
-# clauses generally should have been handled
-# to send upstream after cleaning
-Patch5:		Python-2.2.2-biarch-headers.patch
 
 Patch6:		python-2.7-016-cross-compile-getaddrinfo.patch
 
@@ -58,7 +52,7 @@ Patch10:	python-2.5.1-detect-mandriva.patch
 
 # from Fedora, fixes gettext.py parsing of Plural-Forms: header (fixes mdv bugs #49475, #44088)
 # to send upstream
-Patch16:	python-2.5.1-plural-fix.patch
+Patch16:	python-2.7.10-plural-fix.patch
 
 # skip semaphore test, as it requires /dev/shm
 Patch23:	python-2.7.1-skip-shm-test.patch
@@ -199,9 +193,6 @@ Various applications written using tkinter 2.x.
 %patch0 -p0
 # lib64
 %patch4 -p0 -b .lib64
-
-# biarch header
-%patch5 -p0
 
 #disable buggy getaddr check
 %patch6 -p1

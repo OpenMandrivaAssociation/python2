@@ -8,7 +8,7 @@
 +        exts.append( Extension('audioop', ['audioop.c'], libraries=math_libs) )
  
          # Disabled on 64-bit platforms
-         if sys.maxint != 9223372036854775807L:
+         if sys.maxsize != 9223372036854775807L:
 @@ -1340,9 +1340,9 @@ class PyBuildExt(build_ext):
              if (host_platform not in ['cygwin', 'atheos', 'qnx6'] and
                  find_file('rpcsvc/yp_prot.h', inc_dirs, []) is not None):
