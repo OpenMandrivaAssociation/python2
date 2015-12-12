@@ -7,7 +7,7 @@
 #     as they are usually easy to spot )
 %bcond_with tests
 
-%define docver %{version}
+%define docver 2.7.10
 %define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
@@ -23,7 +23,7 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
-Version:	2.7.10
+Version:	2.7.11
 Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
