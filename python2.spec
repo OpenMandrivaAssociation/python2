@@ -72,6 +72,9 @@ Patch32:	python-2.5-cflags.patch
 
 # configure erroneously adds invalid -OPT:Olimit=0 to cflags when using clang
 Patch33:	python-2.7.11-clang_olimit.patch
+# distutils erroneously uses -R when compiling with gcc if clang was used to build
+# it should use the correct option for the building compiler not the compiler python was built with
+Patch34:	python-2.7.11-rpath_opt.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -215,6 +218,7 @@ Various applications written using tkinter 2.x.
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1
+%patch34 -p1
 
 mkdir html
 tar xf %{SOURCE1} -C html
