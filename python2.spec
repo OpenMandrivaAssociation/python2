@@ -24,7 +24,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.11
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -69,6 +69,9 @@ Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 Patch30:	00184-ctypes-should-build-with-libffi-multilib-wrapper.patch
 Patch31:	00168-distutils-cflags.patch
 Patch32:	python-2.5-cflags.patch
+
+# configure erroneously adds invalid -OPT:Olimit=0 to cflags when using clang
+Patch33:	python-2.7.11-clang_olimit.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -211,6 +214,7 @@ Various applications written using tkinter 2.x.
 %patch30 -p1
 %patch31 -p1
 %patch32 -p1
+%patch33 -p1
 
 mkdir html
 tar xf %{SOURCE1} -C html

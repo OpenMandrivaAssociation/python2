@@ -1,0 +1,15 @@
+--- Python-2.7.11/configure.ac.orig	2016-01-04 10:10:09.994669610 +0000
++++ Python-2.7.11/configure.ac	2016-01-04 10:24:54.824427871 +0000
+@@ -1283,6 +1283,12 @@
+   ac_cv_opt_olimit_ok=no
+ fi
+ 
++# disable check for clang as it slips through if another -O is used
++case $CC in
++  *clang*) ac_cv_opt_olimit_ok=no
++  ;;
++esac
++
+ AC_MSG_CHECKING(whether $CC accepts -OPT:Olimit=0)
+ AC_CACHE_VAL(ac_cv_opt_olimit_ok,
+ [ac_save_cc="$CC"
