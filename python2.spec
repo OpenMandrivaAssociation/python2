@@ -253,13 +253,14 @@ cat > Modules/Setup.local << EOF
 linuxaudiodev linuxaudiodev.c
 EOF
 
-export OPT="%{optflags}"
+export OPT="%{optflags} -D_GNU_SOURCE -fPIC -fwrapv"
 export CCSHARED="-fno-PIE -fPIC"
+export CPPFLAGS="$(pkg-config --cflags-only-I libffi)"
 export LINKCC=%{__cc}
 export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
 
-# see https://qa.mandriva.com/show_bug.cgi?id=48570 
+# see https://qa.mandriva.com/show_bug.cgi?id=48570
 # for wide unicode support
 %configure \
 	--with-threads \
@@ -268,6 +269,10 @@ export ac_cv_have_long_long_format=yes
 	--enable-unicode=ucs4 \
 	--enable-ipv6 \
 	--enable-shared \
+	--enable-optimizations \
+%ifnarch %{ix86}
+	--with-lto \
+%endif
 	--with-dbmliborder=gdbm:ndbm:bdb \
 %if %{with valgrind}
 	--with-valgrind
