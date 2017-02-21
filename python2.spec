@@ -1,13 +1,13 @@
 # Patching guideline for python :
-# - no big patch with invasive change not 
+# - no big patch with invasive change not
 #     approved by upstream ( ie not coming from upstream svn )
-# - small bugfix must be sent to upstream and approved if they 
+# - small bugfix must be sent to upstream and approved if they
 #     change any interface
-# - all patchs should be commented ( unless for security, 
+# - all patchs should be commented ( unless for security,
 #     as they are usually easy to spot )
 %bcond_with tests
 
-%define docver 2.7.10
+%define docver 2.7.13
 %define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
@@ -75,6 +75,7 @@ Patch33:	python-2.7.11-clang_olimit.patch
 # distutils erroneously uses -R when compiling with gcc if clang was used to build
 # it should use the correct option for the building compiler not the compiler python was built with
 Patch34:	python-2.7.11-rpath_opt.patch
+Patch35:	python-2.7.10-system-libffi.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -219,6 +220,7 @@ Various applications written using tkinter 2.x.
 %patch32 -p1
 %patch33 -p1
 %patch34 -p1
+%patch35 -p1
 
 mkdir html
 tar xf %{SOURCE1} -C html
@@ -234,10 +236,18 @@ you can :
 3) change %{_sysconfdir}/pythonrc.py
 EOF
 
-# Ensure that internal copies of expat, libffi and zlib are not used.
-rm -fr Modules/expat
-rm -fr Modules/_ctypes/libffi*
-rm -fr Modules/zlib
+# Ensure that we're using the system copy of various libraries, rather than
+# copies shipped by upstream in the tarball:
+#   Remove embedded copy of expat:
+rm -r Modules/expat || exit 1
+
+#   Remove embedded copy of libffi:
+for SUBDIR in darwin libffi libffi_arm_wince libffi_msvc libffi_osx ; do
+  rm -r Modules/_ctypes/$SUBDIR || exit 1 ;
+done
+
+#   Remove embedded copy of zlib:
+rm -r Modules/zlib || exit 1
 
 find . -type f -print0 | xargs -0 sed -i -e 's@/usr/local/bin/python@/usr/bin/python2@'
 
@@ -310,7 +320,7 @@ export TMP="/tmp" TMPDIR="/tmp"
 # (misc, 17/01/2013) test_cmath fails when run as part of the full test suite,
 #   but succeeds when run by itself. Needs further investigation, for now, let's
 #   just make it an extra step. Same goes for test_math, test_float, test_strtod
-# (arisel, 04/02/2013) disabling test_file and test_file2k. This might be a problem with 
+# (arisel, 04/02/2013) disabling test_file and test_file2k. This might be a problem with
 #   --enable-shared as modules already installed on the system are used.
 # (bero, 19/06/2013) disabling test_pydoc, fails with 'NoneType' object has no attribute 'get_source'
 # (bero, 19/06/2013) Network related tests fail in ABF - probably new security features not allowing package

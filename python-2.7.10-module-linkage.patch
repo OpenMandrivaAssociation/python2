@@ -6,7 +6,7 @@
          # 64-bit platforms.
 -        exts.append( Extension('audioop', ['audioop.c']) )
 +        exts.append( Extension('audioop', ['audioop.c'], libraries=math_libs) )
- 
+
          # Disabled on 64-bit platforms
          if sys.maxsize != 9223372036854775807L:
 @@ -1340,9 +1340,9 @@ class PyBuildExt(build_ext):
@@ -42,4 +42,4 @@
 +			     libraries=['m'],
                               sources=['_ctypes/_ctypes_test.c'])
          self.extensions.extend([ext, ext_test])
- 
+
