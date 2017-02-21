@@ -254,7 +254,7 @@ EOF
 
 export OPT="%{optflags} -D_GNU_SOURCE -fPIC -fwrapv"
 export CCSHARED="-fno-PIE -fPIC"
-export CPPFLAGS="$(pkg-config --cflags-only-I libffi)"
+export CPPFLAGS="$(pkg-config --cflags-only-I libffi) -lgdbm -lgdbm_compat"
 export LINKCC=%{__cc}
 export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
