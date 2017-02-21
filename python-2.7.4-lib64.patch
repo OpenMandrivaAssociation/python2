@@ -1,52 +1,8 @@
-diff -Naur configure.ac configure.ac
---- configure.ac	2013-04-08 16:23:42.288675321 +0400
-+++ configure.ac	2013-04-08 16:22:27.464668107 +0400
-@@ -732,6 +732,41 @@
-     ;;
- esac
- 
-+AC_SUBST(ARCH)
-+AC_MSG_CHECKING(ARCH)
-+ARCH=`uname -m`
-+case $ARCH in
-+i?86) ARCH=i386;;
-+esac
-+AC_MSG_RESULT($ARCH)
-+
-+AC_SUBST(LIB)
-+AC_MSG_CHECKING(LIB)
-+case $ac_sys_system in
-+Linux*)
-+  # Test if the compiler is 64bit
-+  echo 'int main() { int i; }' > conftest.$ac_ext
-+  python_cv_cc_64bit_output=no
-+  if AC_TRY_EVAL(ac_link); then
-+    case `/usr/bin/file conftest$ac_exeext` in
-+    *"ELF 64"*)
-+      python_cv_cc_64bit_output=yes
-+      ;;
-+    esac
-+  fi
-+  rm -rf conftest*
-+  ;;
-+esac
-+
-+case $ARCH:$python_cv_cc_64bit_output in
-+aarch64:yes | ppc64:yes | ppc64le:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
-+  LIB="lib64"
-+  ;;
-+*:*)
-+  LIB="lib"
-+  ;;
-+esac
-+AC_MSG_RESULT($LIB)
- 
- AC_SUBST(LIBRARY)
- AC_MSG_CHECKING(LIBRARY)
-diff -Naur Include/pythonrun.h Include/pythonrun.h
---- Include/pythonrun.h	2013-04-08 16:23:42.569675547 +0400
-+++ Include/pythonrun.h	2013-04-08 16:22:27.472667956 +0400
-@@ -108,6 +108,8 @@
+diff --git a/Include/pythonrun.h b/Include/pythonrun.h
+index cfb02b0..20aaa3b 100644
+--- a/Include/pythonrun.h
++++ b/Include/pythonrun.h
+@@ -108,6 +108,8 @@ PyAPI_FUNC(char *) Py_GetPath(void);
  /* In their own files */
  PyAPI_FUNC(const char *) Py_GetVersion(void);
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
@@ -55,19 +11,19 @@ diff -Naur Include/pythonrun.h Include/pythonrun.h
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
  PyAPI_FUNC(const char *) Py_GetCompiler(void);
  PyAPI_FUNC(const char *) Py_GetBuildInfo(void);
-diff -Naur Lib/distutils/command/install.py Lib/distutils/command/install.py
---- Lib/distutils/command/install.py	2013-04-08 16:23:42.314675347 +0400
-+++ Lib/distutils/command/install.py	2013-04-08 16:22:27.470667978 +0400
-@@ -22,6 +22,8 @@
+diff --git a/Lib/distutils/command/install.py b/Lib/distutils/command/install.py
+index b9f1c6c..0462776 100644
+--- a/Lib/distutils/command/install.py
++++ b/Lib/distutils/command/install.py
+@@ -21,6 +21,7 @@ from distutils.errors import DistutilsOptionError
+ from site import USER_BASE
  from site import USER_SITE
  
- 
 +libname = sys.lib
-+
+ 
  if sys.version < "2.2":
      WINDOWS_SCHEME = {
-         'purelib': '$base',
-@@ -42,14 +44,14 @@
+@@ -42,14 +43,14 @@ else:
  INSTALL_SCHEMES = {
      'unix_prefix': {
          'purelib': '$base/lib/python$py_version_short/site-packages',
@@ -84,24 +40,25 @@ diff -Naur Lib/distutils/command/install.py Lib/distutils/command/install.py
          'headers': '$base/include/python/$dist_name',
          'scripts': '$base/bin',
          'data'   : '$base',
-diff -Naur Lib/distutils/sysconfig.py Lib/distutils/sysconfig.py
---- Lib/distutils/sysconfig.py	2013-04-08 16:23:42.312675345 +0400
-+++ Lib/distutils/sysconfig.py	2013-04-08 16:22:27.469667992 +0400
-@@ -119,8 +119,12 @@
+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+index de7da1d..0a8b93e 100644
+--- a/Lib/distutils/sysconfig.py
++++ b/Lib/distutils/sysconfig.py
+@@ -119,8 +119,12 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
          prefix = plat_specific and EXEC_PREFIX or PREFIX
  
      if os.name == "posix":
 +        if plat_specific:
 +            lib = sys.lib
 +        else:
-+            lib = 'lib'
++            lib = 'lib'    
          libpython = os.path.join(prefix,
 -                                 "lib", "python" + get_python_version())
 +                                 lib, "python" + get_python_version())
          if standard_lib:
              return libpython
          else:
-@@ -223,7 +227,8 @@
+@@ -230,7 +234,8 @@ def get_config_h_filename():
          else:
              inc_dir = project_base
      else:
@@ -111,10 +68,11 @@ diff -Naur Lib/distutils/sysconfig.py Lib/distutils/sysconfig.py
      if get_python_version() < '2.2':
          config_h = 'config.h'
      else:
-diff -Naur Lib/distutils/tests/test_install.py Lib/distutils/tests/test_install.py
---- Lib/distutils/tests/test_install.py	2013-04-08 16:23:42.310675343 +0400
-+++ Lib/distutils/tests/test_install.py	2013-04-08 16:22:27.470667978 +0400
-@@ -57,8 +57,9 @@
+diff --git a/Lib/distutils/tests/test_install.py b/Lib/distutils/tests/test_install.py
+index c3492b8..b25979f 100644
+--- a/Lib/distutils/tests/test_install.py
++++ b/Lib/distutils/tests/test_install.py
+@@ -57,8 +57,9 @@ class InstallTestCase(support.TempdirManager,
              self.assertEqual(got, expected)
  
          libdir = os.path.join(destination, "lib", "python")
@@ -125,10 +83,11 @@ diff -Naur Lib/distutils/tests/test_install.py Lib/distutils/tests/test_install.
          check_path(cmd.install_purelib, libdir)
          check_path(cmd.install_headers,
                     os.path.join(destination, "include", "python", "foopkg"))
-diff -Naur Lib/site.py Lib/site.py
---- Lib/site.py	2013-04-08 16:23:42.302675335 +0400
-+++ Lib/site.py	2013-04-08 16:22:27.468668010 +0400
-@@ -300,13 +300,19 @@
+diff --git a/Lib/site.py b/Lib/site.py
+index 3b51e81..4074a21 100644
+--- a/Lib/site.py
++++ b/Lib/site.py
+@@ -288,13 +288,18 @@ def getsitepackages():
          if sys.platform in ('os2emx', 'riscos'):
              sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
          elif os.sep == '/':
@@ -139,22 +98,22 @@ diff -Naur Lib/site.py Lib/site.py
 -            sitepackages.append(os.path.join(prefix, "lib", "site-python"))
 +            sitepackages.append(os.path.join(prefix, sys.lib, "site-python"))
 +            if sys.lib != 'lib':
-+                    sitepackages.append(os.path.join(prefix, 'lib',
-+                                                     "python" + sys.version[:3],
-+                                                     "site-packages"))
-+                    sitepackages.append(os.path.join(prefix, 'lib', "site-python"))
-+
++                sitepackages.append(os.path.join(prefix, 'lib',
++                                                 "python" + sys.version[:3],
++                                                 "site-packages"))
++                sitepackages.append(os.path.join(prefix, 'lib', "site-python"))
          else:
              sitepackages.append(prefix)
 -            sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
 +            sitepackages.append(os.path.join(prefix, sys.lib, "site-packages"))
-         if sys.platform == "darwin":
-             # for framework builds *only* we add the standard Apple
-             # locations.
-diff -Naur Lib/sysconfig.py Lib/sysconfig.py
---- Lib/sysconfig.py	2013-04-08 16:23:42.515675515 +0400
-+++ Lib/sysconfig.py	2013-04-08 16:22:27.473667942 +0400
-@@ -7,20 +7,20 @@
+     return sitepackages
+ 
+ def addsitepackages(known_paths):
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index 2a1da5a..13347fb 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -7,20 +7,20 @@ from os.path import pardir, realpath
  
  _INSTALL_SCHEMES = {
      'posix_prefix': {
@@ -181,7 +140,7 @@ diff -Naur Lib/sysconfig.py Lib/sysconfig.py
          'include': '{base}/include/python',
          'platinclude': '{base}/include/python',
          'scripts': '{base}/bin',
-@@ -65,10 +65,10 @@
+@@ -65,10 +65,10 @@ _INSTALL_SCHEMES = {
          'data'   : '{userbase}',
          },
      'posix_user': {
@@ -195,10 +154,11 @@ diff -Naur Lib/sysconfig.py Lib/sysconfig.py
          'include': '{userbase}/include/python{py_version_short}',
          'scripts': '{userbase}/bin',
          'data'   : '{userbase}',
-diff -Naur Makefile.pre.in Makefile.pre.in
---- Makefile.pre.in	2013-04-08 16:23:42.579675555 +0400
-+++ Makefile.pre.in	2013-04-08 16:22:27.462668148 +0400
-@@ -87,6 +87,8 @@
+diff --git a/Makefile.pre.in b/Makefile.pre.in
+index e288964..9af9d75 100644
+--- a/Makefile.pre.in
++++ b/Makefile.pre.in
+@@ -92,6 +92,8 @@ PY_CFLAGS=	$(CFLAGS) $(CPPFLAGS) $(CFLAGSFORSHARED) -DPy_BUILD_CORE
  
  # Machine-dependent subdirectories
  MACHDEP=	@MACHDEP@
@@ -207,7 +167,7 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  # Multiarch directory (may be empty)
  MULTIARCH=	@MULTIARCH@
-@@ -106,7 +108,7 @@
+@@ -111,7 +113,7 @@ LIBDIR=		@libdir@
  MANDIR=		@mandir@
  INCLUDEDIR=	@includedir@
  CONFINCLUDEDIR=	$(exec_prefix)/include
@@ -216,7 +176,7 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  # Detailed destination directories
  BINLIBDEST=	$(LIBDIR)/python$(VERSION)
-@@ -616,7 +618,7 @@
+@@ -708,7 +710,7 @@ $(AST_C): $(AST_ASDL) $(ASDLGEN_FILES)
  Python/compile.o Python/symtable.o Python/ast.o: $(GRAMMAR_H) $(AST_H)
  
  Python/getplatform.o: $(srcdir)/Python/getplatform.c
@@ -225,30 +185,31 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  Python/importdl.o: $(srcdir)/Python/importdl.c
  		$(CC) -c $(PY_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
-diff -Naur Modules/getpath.c Modules/getpath.c
---- Modules/getpath.c	2013-04-08 16:23:42.193675226 +0400
-+++ Modules/getpath.c	2013-04-08 16:22:27.472667956 +0400
-@@ -116,9 +116,17 @@
- #define EXEC_PREFIX PREFIX
+diff --git a/Modules/getpath.c b/Modules/getpath.c
+index c42ce31..1325050 100644
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -100,6 +100,19 @@
+ #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
  #endif
  
 +#ifndef LIB_PYTHON
-+#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__)
++#if defined(__x86_64__) || defined(__powerpc64__)
 +#define LIB_PYTHON "lib64/python" VERSION
 +#else
 +#define LIB_PYTHON "lib/python" VERSION
 +#endif
 +#endif
 +
- #ifndef PYTHONPATH
--#define PYTHONPATH PREFIX "/lib/python" VERSION ":" \
--              EXEC_PREFIX "/lib/python" VERSION "/lib-dynload"
++#ifndef PYTHONPATH
 +#define PYTHONPATH PREFIX "/" LIB_PYTHON ":" \
 +              EXEC_PREFIX "/" LIB_PYTHON "/lib-dynload"
- #endif
- 
++#endif
++
  #ifndef LANDMARK
-@@ -129,7 +137,7 @@
+ #define LANDMARK "os.py"
+ #endif
+@@ -108,7 +121,7 @@ static char prefix[MAXPATHLEN+1];
  static char exec_prefix[MAXPATHLEN+1];
  static char progpath[MAXPATHLEN+1];
  static char *module_search_path = NULL;
@@ -257,10 +218,11 @@ diff -Naur Modules/getpath.c Modules/getpath.c
  
  static void
  reduce(char *dir)
-diff -Naur Python/getplatform.c Python/getplatform.c
---- Python/getplatform.c	2013-04-08 16:23:42.187675219 +0400
-+++ Python/getplatform.c	2013-04-08 16:22:27.471667965 +0400
-@@ -10,3 +10,23 @@
+diff --git a/Python/getplatform.c b/Python/getplatform.c
+index 6899140..66a49c6 100644
+--- a/Python/getplatform.c
++++ b/Python/getplatform.c
+@@ -10,3 +10,23 @@ Py_GetPlatform(void)
  {
  	return PLATFORM;
  }
@@ -284,10 +246,11 @@ diff -Naur Python/getplatform.c Python/getplatform.c
 +{
 +	return LIB;
 +}
-diff -Naur Python/sysmodule.c Python/sysmodule.c
---- Python/sysmodule.c	2013-04-08 16:23:42.187675219 +0400
-+++ Python/sysmodule.c	2013-04-08 16:22:27.472667956 +0400
-@@ -1421,6 +1421,10 @@
+diff --git a/Python/sysmodule.c b/Python/sysmodule.c
+index aeff38a..8ab5111 100644
+--- a/Python/sysmodule.c
++++ b/Python/sysmodule.c
+@@ -1439,6 +1439,10 @@ _PySys_Init(void)
                          PyString_FromString(Py_GetPlatform()));
      SET_SYS_FROM_STRING("executable",
                          PyString_FromString(Py_GetProgramFullPath()));
@@ -298,26 +261,75 @@ diff -Naur Python/sysmodule.c Python/sysmodule.c
      SET_SYS_FROM_STRING("prefix",
                          PyString_FromString(Py_GetPrefix()));
      SET_SYS_FROM_STRING("exec_prefix",
-diff -Naur setup.py setup.py
---- setup.py	2013-04-08 16:23:54.633675703 +0400
-+++ setup.py	2013-04-08 16:23:08.800672057 +0400
-@@ -488,6 +488,7 @@
+diff --git a/configure.ac b/configure.ac
+index 1273465..a60533a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -759,6 +759,41 @@ SunOS*)
+     ;;
+ esac
+ 
++AC_SUBST(ARCH)
++AC_MSG_CHECKING(ARCH)
++ARCH=`uname -m`
++case $ARCH in
++i?86) ARCH=i386;;
++esac
++AC_MSG_RESULT($ARCH)
++
++AC_SUBST(LIB)
++AC_MSG_CHECKING(LIB)
++case $ac_sys_system in
++Linux*)
++  # Test if the compiler is 64bit
++  echo 'int i;' > conftest.$ac_ext
++  python_cv_cc_64bit_output=no
++  if AC_TRY_EVAL(ac_compile); then
++    case `/usr/bin/file conftest.$ac_objext` in
++    *"ELF 64"*)
++      python_cv_cc_64bit_output=yes
++      ;;
++    esac
++  fi
++  rm -rf conftest*
++  ;;
++esac
++
++case $ARCH:$python_cv_cc_64bit_output in
++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
++  LIB="lib64"
++  ;;
++*:*)
++  LIB="lib"
++  ;;
++esac
++AC_MSG_RESULT($LIB)
+ 
+ AC_SUBST(LIBRARY)
+ AC_MSG_CHECKING(LIBRARY)
+diff --git a/setup.py b/setup.py
+index 54054c2..0fb4b7f 100644
+--- a/setup.py
++++ b/setup.py
+@@ -512,6 +512,7 @@ class PyBuildExt(build_ext):
          except NameError:
              have_unicode = 0
  
-+	libname = sys.lib
++        libname = sys.lib
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
          # be assumed that no additional -I,-L directives are needed.
-@@ -501,6 +502,7 @@
+@@ -523,8 +524,7 @@ class PyBuildExt(build_ext):
+                 ):
+                 add_dir_to_list(inc_dirs, d)
              for d in (
-                 '/lib64', '/usr/lib64',
-                 '/lib', '/usr/lib',
+-                '/lib64', '/usr/lib64',
+-                '/lib', '/usr/lib',
 +                libname, '/usr/'+libname
                  ):
                  add_dir_to_list(lib_dirs, d)
          exts = []
-@@ -752,11 +754,11 @@
+@@ -782,11 +782,11 @@ class PyBuildExt(build_ext):
              elif curses_library:
                  readline_libs.append(curses_library)
              elif self.compiler.find_library_file(lib_dirs +
@@ -331,7 +343,7 @@ diff -Naur setup.py setup.py
                                     extra_link_args=readline_extra_link_args,
                                     libraries=readline_libs) )
          else:
-@@ -1860,8 +1862,8 @@
+@@ -1941,8 +1941,8 @@ class PyBuildExt(build_ext):
              added_lib_dirs.append('/usr/openwin/lib')
          elif os.path.exists('/usr/X11R6/include'):
              include_dirs.append('/usr/X11R6/include')
