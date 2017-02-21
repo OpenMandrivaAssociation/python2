@@ -198,7 +198,7 @@ Various applications written using tkinter 2.x.
 %setup -qn Python-%{version}
 %patch0 -p0
 # lib64
-%patch4 -p0 -b .lib64
+%patch4 -p1 -b .lib64
 
 #disable buggy getaddr check
 %patch6 -p1
