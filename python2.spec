@@ -210,11 +210,12 @@ Various applications written using tkinter 2.x.
 
 %patch16 -p1 -b .plural-fix
 
-%patch23 -p1 
+%patch23 -p1
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-%patch30 -p1
+# (tpg) disable for now
+#patch30 -p1
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1

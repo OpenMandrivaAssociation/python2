@@ -8,7 +8,7 @@ Index: Lib/platform.py
  _supported_dists = (
 -    'SuSE', 'debian', 'fedora', 'redhat', 'centos',
 -    'mandrake', 'mandriva', 'rocks', 'slackware', 'yellowdog', 'gentoo',
-+    'SuSE', 'debian', 'fedora' ,'mandriva', 'mandrake', 'redhat',
++    'SuSE', 'debian', 'fedora', 'openmandriva', 'mandriva', 'mandrake', 'redhat',
 +    'centos', 'rocks', 'slackware', 'yellowdog', 'gentoo',
      'UnitedLinux', 'turbolinux')
  
