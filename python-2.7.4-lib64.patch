@@ -1,51 +1,6 @@
-diff -Naur configure.ac configure.ac
---- configure.ac	2013-04-08 16:23:42.288675321 +0400
-+++ configure.ac	2013-04-08 16:22:27.464668107 +0400
-@@ -732,6 +732,41 @@
-     ;;
- esac
- 
-+AC_SUBST(ARCH)
-+AC_MSG_CHECKING(ARCH)
-+ARCH=`uname -m`
-+case $ARCH in
-+i?86) ARCH=i386;;
-+esac
-+AC_MSG_RESULT($ARCH)
-+
-+AC_SUBST(LIB)
-+AC_MSG_CHECKING(LIB)
-+case $ac_sys_system in
-+Linux*)
-+  # Test if the compiler is 64bit
-+  echo 'int main() { int i; }' > conftest.$ac_ext
-+  python_cv_cc_64bit_output=no
-+  if AC_TRY_EVAL(ac_link); then
-+    case `/usr/bin/file conftest$ac_exeext` in
-+    *"ELF 64"*)
-+      python_cv_cc_64bit_output=yes
-+      ;;
-+    esac
-+  fi
-+  rm -rf conftest*
-+  ;;
-+esac
-+
-+case $ARCH:$python_cv_cc_64bit_output in
-+aarch64:yes | ppc64:yes | ppc64le:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
-+  LIB="lib64"
-+  ;;
-+*:*)
-+  LIB="lib"
-+  ;;
-+esac
-+AC_MSG_RESULT($LIB)
- 
- AC_SUBST(LIBRARY)
- AC_MSG_CHECKING(LIBRARY)
-diff -Naur Include/pythonrun.h Include/pythonrun.h
---- Include/pythonrun.h	2013-04-08 16:23:42.569675547 +0400
-+++ Include/pythonrun.h	2013-04-08 16:22:27.472667956 +0400
+diff -Naur Python-2.7.13/Include/pythonrun.h Python-2.7.13.tpg/Include/pythonrun.h
+--- Python-2.7.13/Include/pythonrun.h	2016-12-17 20:05:05.000000000 +0000
++++ Python-2.7.13.tpg/Include/pythonrun.h	2017-02-21 22:40:46.206007104 +0000
 @@ -108,6 +108,8 @@
  /* In their own files */
  PyAPI_FUNC(const char *) Py_GetVersion(void);
@@ -55,19 +10,18 @@ diff -Naur Include/pythonrun.h Include/pythonrun.h
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
  PyAPI_FUNC(const char *) Py_GetCompiler(void);
  PyAPI_FUNC(const char *) Py_GetBuildInfo(void);
-diff -Naur Lib/distutils/command/install.py Lib/distutils/command/install.py
---- Lib/distutils/command/install.py	2013-04-08 16:23:42.314675347 +0400
-+++ Lib/distutils/command/install.py	2013-04-08 16:22:27.470667978 +0400
-@@ -22,6 +22,8 @@
+diff -Naur Python-2.7.13/Lib/distutils/command/install.py Python-2.7.13.tpg/Lib/distutils/command/install.py
+--- Python-2.7.13/Lib/distutils/command/install.py	2016-12-17 20:05:05.000000000 +0000
++++ Python-2.7.13.tpg/Lib/distutils/command/install.py	2017-02-21 22:40:46.207007111 +0000
+@@ -21,6 +21,7 @@
+ from site import USER_BASE
  from site import USER_SITE
  
- 
 +libname = sys.lib
-+
+ 
  if sys.version < "2.2":
      WINDOWS_SCHEME = {
-         'purelib': '$base',
-@@ -42,14 +44,14 @@
+@@ -42,14 +43,14 @@
  INSTALL_SCHEMES = {
      'unix_prefix': {
          'purelib': '$base/lib/python$py_version_short/site-packages',
@@ -84,9 +38,9 @@ diff -Naur Lib/distutils/command/install.py Lib/distutils/command/install.py
          'headers': '$base/include/python/$dist_name',
          'scripts': '$base/bin',
          'data'   : '$base',
-diff -Naur Lib/distutils/sysconfig.py Lib/distutils/sysconfig.py
---- Lib/distutils/sysconfig.py	2013-04-08 16:23:42.312675345 +0400
-+++ Lib/distutils/sysconfig.py	2013-04-08 16:22:27.469667992 +0400
+diff -Naur Python-2.7.13/Lib/distutils/sysconfig.py Python-2.7.13.tpg/Lib/distutils/sysconfig.py
+--- Python-2.7.13/Lib/distutils/sysconfig.py	2016-12-17 20:05:05.000000000 +0000
++++ Python-2.7.13.tpg/Lib/distutils/sysconfig.py	2017-02-21 22:40:46.208007118 +0000
 @@ -119,8 +119,12 @@
          prefix = plat_specific and EXEC_PREFIX or PREFIX
  
@@ -94,14 +48,14 @@ diff -Naur Lib/distutils/sysconfig.py Lib/distutils/sysconfig.py
 +        if plat_specific:
 +            lib = sys.lib
 +        else:
-+            lib = 'lib'
++            lib = 'lib'    
          libpython = os.path.join(prefix,
 -                                 "lib", "python" + get_python_version())
 +                                 lib, "python" + get_python_version())
          if standard_lib:
              return libpython
          else:
-@@ -223,7 +227,8 @@
+@@ -230,7 +234,8 @@
          else:
              inc_dir = project_base
      else:
@@ -111,9 +65,9 @@ diff -Naur Lib/distutils/sysconfig.py Lib/distutils/sysconfig.py
      if get_python_version() < '2.2':
          config_h = 'config.h'
      else:
-diff -Naur Lib/distutils/tests/test_install.py Lib/distutils/tests/test_install.py
---- Lib/distutils/tests/test_install.py	2013-04-08 16:23:42.310675343 +0400
-+++ Lib/distutils/tests/test_install.py	2013-04-08 16:22:27.470667978 +0400
+diff -Naur Python-2.7.13/Lib/distutils/tests/test_install.py Python-2.7.13.tpg/Lib/distutils/tests/test_install.py
+--- Python-2.7.13/Lib/distutils/tests/test_install.py	2016-12-17 20:05:06.000000000 +0000
++++ Python-2.7.13.tpg/Lib/distutils/tests/test_install.py	2017-02-21 22:40:46.208007118 +0000
 @@ -57,8 +57,9 @@
              self.assertEqual(got, expected)
  
@@ -125,10 +79,10 @@ diff -Naur Lib/distutils/tests/test_install.py Lib/distutils/tests/test_install.
          check_path(cmd.install_purelib, libdir)
          check_path(cmd.install_headers,
                     os.path.join(destination, "include", "python", "foopkg"))
-diff -Naur Lib/site.py Lib/site.py
---- Lib/site.py	2013-04-08 16:23:42.302675335 +0400
-+++ Lib/site.py	2013-04-08 16:22:27.468668010 +0400
-@@ -300,13 +300,19 @@
+diff -Naur Python-2.7.13/Lib/site.py Python-2.7.13.tpg/Lib/site.py
+--- Python-2.7.13/Lib/site.py	2016-12-17 20:05:06.000000000 +0000
++++ Python-2.7.13.tpg/Lib/site.py	2017-02-21 22:40:46.208007118 +0000
+@@ -288,13 +288,18 @@
          if sys.platform in ('os2emx', 'riscos'):
              sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
          elif os.sep == '/':
@@ -139,21 +93,20 @@ diff -Naur Lib/site.py Lib/site.py
 -            sitepackages.append(os.path.join(prefix, "lib", "site-python"))
 +            sitepackages.append(os.path.join(prefix, sys.lib, "site-python"))
 +            if sys.lib != 'lib':
-+                    sitepackages.append(os.path.join(prefix, 'lib',
-+                                                     "python" + sys.version[:3],
-+                                                     "site-packages"))
-+                    sitepackages.append(os.path.join(prefix, 'lib', "site-python"))
-+
++                sitepackages.append(os.path.join(prefix, 'lib',
++                                                 "python" + sys.version[:3],
++                                                 "site-packages"))
++                sitepackages.append(os.path.join(prefix, 'lib', "site-python"))
          else:
              sitepackages.append(prefix)
 -            sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
 +            sitepackages.append(os.path.join(prefix, sys.lib, "site-packages"))
-         if sys.platform == "darwin":
-             # for framework builds *only* we add the standard Apple
-             # locations.
-diff -Naur Lib/sysconfig.py Lib/sysconfig.py
---- Lib/sysconfig.py	2013-04-08 16:23:42.515675515 +0400
-+++ Lib/sysconfig.py	2013-04-08 16:22:27.473667942 +0400
+     return sitepackages
+ 
+ def addsitepackages(known_paths):
+diff -Naur Python-2.7.13/Lib/sysconfig.py Python-2.7.13.tpg/Lib/sysconfig.py
+--- Python-2.7.13/Lib/sysconfig.py	2016-12-17 20:05:06.000000000 +0000
++++ Python-2.7.13.tpg/Lib/sysconfig.py	2017-02-21 22:40:46.209007125 +0000
 @@ -7,20 +7,20 @@
  
  _INSTALL_SCHEMES = {
@@ -195,10 +148,10 @@ diff -Naur Lib/sysconfig.py Lib/sysconfig.py
          'include': '{userbase}/include/python{py_version_short}',
          'scripts': '{userbase}/bin',
          'data'   : '{userbase}',
-diff -Naur Makefile.pre.in Makefile.pre.in
---- Makefile.pre.in	2013-04-08 16:23:42.579675555 +0400
-+++ Makefile.pre.in	2013-04-08 16:22:27.462668148 +0400
-@@ -87,6 +87,8 @@
+diff -Naur Python-2.7.13/Makefile.pre.in Python-2.7.13.tpg/Makefile.pre.in
+--- Python-2.7.13/Makefile.pre.in	2016-12-17 20:05:06.000000000 +0000
++++ Python-2.7.13.tpg/Makefile.pre.in	2017-02-21 22:40:46.210007132 +0000
+@@ -92,6 +92,8 @@
  
  # Machine-dependent subdirectories
  MACHDEP=	@MACHDEP@
@@ -207,7 +160,7 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  # Multiarch directory (may be empty)
  MULTIARCH=	@MULTIARCH@
-@@ -106,7 +108,7 @@
+@@ -111,7 +113,7 @@
  MANDIR=		@mandir@
  INCLUDEDIR=	@includedir@
  CONFINCLUDEDIR=	$(exec_prefix)/include
@@ -216,7 +169,7 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  # Detailed destination directories
  BINLIBDEST=	$(LIBDIR)/python$(VERSION)
-@@ -616,7 +618,7 @@
+@@ -708,7 +710,7 @@
  Python/compile.o Python/symtable.o Python/ast.o: $(GRAMMAR_H) $(AST_H)
  
  Python/getplatform.o: $(srcdir)/Python/getplatform.c
@@ -225,30 +178,30 @@ diff -Naur Makefile.pre.in Makefile.pre.in
  
  Python/importdl.o: $(srcdir)/Python/importdl.c
  		$(CC) -c $(PY_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
-diff -Naur Modules/getpath.c Modules/getpath.c
---- Modules/getpath.c	2013-04-08 16:23:42.193675226 +0400
-+++ Modules/getpath.c	2013-04-08 16:22:27.472667956 +0400
-@@ -116,9 +116,17 @@
- #define EXEC_PREFIX PREFIX
+diff -Naur Python-2.7.13/Modules/getpath.c Python-2.7.13.tpg/Modules/getpath.c
+--- Python-2.7.13/Modules/getpath.c	2016-12-17 20:05:07.000000000 +0000
++++ Python-2.7.13.tpg/Modules/getpath.c	2017-02-21 22:40:46.210007132 +0000
+@@ -100,6 +100,19 @@
+ #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
  #endif
  
 +#ifndef LIB_PYTHON
-+#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__)
++#if defined(__x86_64__) || defined(__powerpc64__)
 +#define LIB_PYTHON "lib64/python" VERSION
 +#else
 +#define LIB_PYTHON "lib/python" VERSION
 +#endif
 +#endif
 +
- #ifndef PYTHONPATH
--#define PYTHONPATH PREFIX "/lib/python" VERSION ":" \
--              EXEC_PREFIX "/lib/python" VERSION "/lib-dynload"
++#ifndef PYTHONPATH
 +#define PYTHONPATH PREFIX "/" LIB_PYTHON ":" \
 +              EXEC_PREFIX "/" LIB_PYTHON "/lib-dynload"
- #endif
- 
++#endif
++
  #ifndef LANDMARK
-@@ -129,7 +137,7 @@
+ #define LANDMARK "os.py"
+ #endif
+@@ -108,7 +121,7 @@
  static char exec_prefix[MAXPATHLEN+1];
  static char progpath[MAXPATHLEN+1];
  static char *module_search_path = NULL;
@@ -257,9 +210,9 @@ diff -Naur Modules/getpath.c Modules/getpath.c
  
  static void
  reduce(char *dir)
-diff -Naur Python/getplatform.c Python/getplatform.c
---- Python/getplatform.c	2013-04-08 16:23:42.187675219 +0400
-+++ Python/getplatform.c	2013-04-08 16:22:27.471667965 +0400
+diff -Naur Python-2.7.13/Python/getplatform.c Python-2.7.13.tpg/Python/getplatform.c
+--- Python-2.7.13/Python/getplatform.c	2016-12-17 20:05:07.000000000 +0000
++++ Python-2.7.13.tpg/Python/getplatform.c	2017-02-21 22:40:46.211007139 +0000
 @@ -10,3 +10,23 @@
  {
  	return PLATFORM;
@@ -284,10 +237,10 @@ diff -Naur Python/getplatform.c Python/getplatform.c
 +{
 +	return LIB;
 +}
-diff -Naur Python/sysmodule.c Python/sysmodule.c
---- Python/sysmodule.c	2013-04-08 16:23:42.187675219 +0400
-+++ Python/sysmodule.c	2013-04-08 16:22:27.472667956 +0400
-@@ -1421,6 +1421,10 @@
+diff -Naur Python-2.7.13/Python/sysmodule.c Python-2.7.13.tpg/Python/sysmodule.c
+--- Python-2.7.13/Python/sysmodule.c	2016-12-17 20:05:07.000000000 +0000
++++ Python-2.7.13.tpg/Python/sysmodule.c	2017-02-21 22:40:46.211007139 +0000
+@@ -1439,6 +1439,10 @@
                          PyString_FromString(Py_GetPlatform()));
      SET_SYS_FROM_STRING("executable",
                          PyString_FromString(Py_GetProgramFullPath()));
@@ -298,26 +251,73 @@ diff -Naur Python/sysmodule.c Python/sysmodule.c
      SET_SYS_FROM_STRING("prefix",
                          PyString_FromString(Py_GetPrefix()));
      SET_SYS_FROM_STRING("exec_prefix",
-diff -Naur setup.py setup.py
---- setup.py	2013-04-08 16:23:54.633675703 +0400
-+++ setup.py	2013-04-08 16:23:08.800672057 +0400
-@@ -488,6 +488,7 @@
+diff -Naur Python-2.7.13/configure.ac Python-2.7.13.tpg/configure.ac
+--- Python-2.7.13/configure.ac	2016-12-17 20:05:07.000000000 +0000
++++ Python-2.7.13.tpg/configure.ac	2017-02-21 22:42:27.320174719 +0000
+@@ -759,6 +759,41 @@
+     ;;
+ esac
+ 
++AC_SUBST(ARCH)
++AC_MSG_CHECKING(ARCH)
++ARCH=`uname -m`
++case $ARCH in
++i?86) ARCH=i386;;
++esac
++AC_MSG_RESULT($ARCH)
++
++AC_SUBST(LIB)
++AC_MSG_CHECKING(LIB)
++case $ac_sys_system in
++Linux*)
++  # Test if the compiler is 64bit
++  echo 'int main() { int i; }' > conftest.$ac_ext
++  python_cv_cc_64bit_output=no
++  if AC_TRY_EVAL(ac_link); then
++    case `/usr/bin/file conftest$ac_exeext` in
++    *"ELF 64"*)
++      python_cv_cc_64bit_output=yes
++      ;;
++    esac
++  fi
++  rm -rf conftest*
++  ;;
++esac
++
++case $ARCH:$python_cv_cc_64bit_output in
++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
++  LIB="lib64"
++  ;;
++*:*)
++  LIB="lib"
++  ;;
++esac
++AC_MSG_RESULT($LIB)
+ 
+ AC_SUBST(LIBRARY)
+ AC_MSG_CHECKING(LIBRARY)
+diff -Naur Python-2.7.13/setup.py Python-2.7.13.tpg/setup.py
+--- Python-2.7.13/setup.py	2017-02-21 22:39:34.000000000 +0000
++++ Python-2.7.13.tpg/setup.py	2017-02-21 22:40:46.213007153 +0000
+@@ -512,6 +512,7 @@
          except NameError:
              have_unicode = 0
  
-+	libname = sys.lib
++        libname = sys.lib
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
          # be assumed that no additional -I,-L directives are needed.
-@@ -501,6 +502,7 @@
+@@ -523,8 +524,7 @@
+                 ):
+                 add_dir_to_list(inc_dirs, d)
              for d in (
-                 '/lib64', '/usr/lib64',
-                 '/lib', '/usr/lib',
+-                '/lib64', '/usr/lib64',
+-                '/lib', '/usr/lib',
 +                libname, '/usr/'+libname
                  ):
                  add_dir_to_list(lib_dirs, d)
          exts = []
-@@ -752,11 +754,11 @@
+@@ -782,11 +782,11 @@
              elif curses_library:
                  readline_libs.append(curses_library)
              elif self.compiler.find_library_file(lib_dirs +
@@ -331,7 +331,7 @@ diff -Naur setup.py setup.py
                                     extra_link_args=readline_extra_link_args,
                                     libraries=readline_libs) )
          else:
-@@ -1860,8 +1862,8 @@
+@@ -1941,8 +1941,8 @@
              added_lib_dirs.append('/usr/openwin/lib')
          elif os.path.exists('/usr/X11R6/include'):
              include_dirs.append('/usr/X11R6/include')
