@@ -214,8 +214,7 @@ Various applications written using tkinter 2.x.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-# (tpg) disable for now
-#patch30 -p1
+%patch30 -p1
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1
