@@ -6,7 +6,7 @@
 # - all patchs should be commented ( unless for security,
 #     as they are usually easy to spot )
 
-%ifarch %{i586}
+%ifarch %{ix86}
 %define _disable_lto 1
 %endif
 
