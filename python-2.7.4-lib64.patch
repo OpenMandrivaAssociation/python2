@@ -186,7 +186,7 @@ diff -Naur Python-2.7.13/Modules/getpath.c Python-2.7.13.tpg/Modules/getpath.c
  #endif
  
 +#ifndef LIB_PYTHON
-+#if defined(__x86_64__) || defined(__powerpc64__)
++#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__) || defined(__arm__)
 +#define LIB_PYTHON "lib64/python" VERSION
 +#else
 +#define LIB_PYTHON "lib/python" VERSION
@@ -285,7 +285,7 @@ diff -Naur Python-2.7.13/configure.ac Python-2.7.13.tpg/configure.ac
 +esac
 +
 +case $ARCH:$python_cv_cc_64bit_output in
-+ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes | aarch64:yes | arm:yes)
 +  LIB="lib64"
 +  ;;
 +*:*)
