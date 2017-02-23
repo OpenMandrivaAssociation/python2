@@ -269,7 +269,7 @@ EOF
 
 export OPT="%{optflags} -D_GNU_SOURCE -fPIC -fwrapv"
 export CCSHARED="-fno-PIE -fPIC"
-export CPPFLAGS=" -I/usr/include/ -lffi -I/usr/include/gdbm -lgdbm -lgdbm_compat"
+export CPPFLAGS="$(pkg-config --cflags-only-I libffi)"
 export LINKCC=%{__cc}
 export CC=%{__cc}
 export ac_cv_have_long_long_format=yes
@@ -283,9 +283,9 @@ export ac_cv_have_long_long_format=yes
 	--enable-unicode=ucs4 \
 	--enable-ipv6 \
 	--enable-shared \
-	--enable-optimizations \
 %ifnarch %{ix86}
 	--with-lto \
+	--enable-optimizations \
 %endif
 	--with-dbmliborder=gdbm:ndbm:bdb \
 %if %{with valgrind}
