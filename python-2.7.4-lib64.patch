@@ -16,9 +16,9 @@ diff -Naur Python-2.7.13/Lib/distutils/command/install.py Python-2.7.13.tpg/Lib/
 @@ -21,6 +21,7 @@
  from site import USER_BASE
  from site import USER_SITE
- 
+
 +libname = sys.lib
- 
+
  if sys.version < "2.2":
      WINDOWS_SCHEME = {
 @@ -42,14 +43,14 @@
@@ -43,12 +43,12 @@ diff -Naur Python-2.7.13/Lib/distutils/sysconfig.py Python-2.7.13.tpg/Lib/distut
 +++ Python-2.7.13.tpg/Lib/distutils/sysconfig.py	2017-02-21 22:40:46.208007118 +0000
 @@ -119,8 +119,12 @@
          prefix = plat_specific and EXEC_PREFIX or PREFIX
- 
+
      if os.name == "posix":
 +        if plat_specific:
 +            lib = sys.lib
 +        else:
-+            lib = 'lib'    
++            lib = 'lib'
          libpython = os.path.join(prefix,
 -                                 "lib", "python" + get_python_version())
 +                                 lib, "python" + get_python_version())
@@ -70,7 +70,7 @@ diff -Naur Python-2.7.13/Lib/distutils/tests/test_install.py Python-2.7.13.tpg/L
 +++ Python-2.7.13.tpg/Lib/distutils/tests/test_install.py	2017-02-21 22:40:46.208007118 +0000
 @@ -57,8 +57,9 @@
              self.assertEqual(got, expected)
- 
+
          libdir = os.path.join(destination, "lib", "python")
 +        platlibdir =  os.path.join(destination, sys.lib, "python")
          check_path(cmd.install_lib, libdir)
@@ -102,13 +102,13 @@ diff -Naur Python-2.7.13/Lib/site.py Python-2.7.13.tpg/Lib/site.py
 -            sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
 +            sitepackages.append(os.path.join(prefix, sys.lib, "site-packages"))
      return sitepackages
- 
+
  def addsitepackages(known_paths):
 diff -Naur Python-2.7.13/Lib/sysconfig.py Python-2.7.13.tpg/Lib/sysconfig.py
 --- Python-2.7.13/Lib/sysconfig.py	2016-12-17 20:05:06.000000000 +0000
 +++ Python-2.7.13.tpg/Lib/sysconfig.py	2017-02-21 22:40:46.209007125 +0000
 @@ -7,20 +7,20 @@
- 
+
  _INSTALL_SCHEMES = {
      'posix_prefix': {
 -        'stdlib': '{base}/lib/python{py_version_short}',
@@ -152,12 +152,12 @@ diff -Naur Python-2.7.13/Makefile.pre.in Python-2.7.13.tpg/Makefile.pre.in
 --- Python-2.7.13/Makefile.pre.in	2016-12-17 20:05:06.000000000 +0000
 +++ Python-2.7.13.tpg/Makefile.pre.in	2017-02-21 22:40:46.210007132 +0000
 @@ -92,6 +92,8 @@
- 
+
  # Machine-dependent subdirectories
  MACHDEP=	@MACHDEP@
 +LIB=		@LIB@
 +ARCH=		@ARCH@
- 
+
  # Multiarch directory (may be empty)
  MULTIARCH=	@MULTIARCH@
 @@ -111,7 +113,7 @@
@@ -166,16 +166,16 @@ diff -Naur Python-2.7.13/Makefile.pre.in Python-2.7.13.tpg/Makefile.pre.in
  CONFINCLUDEDIR=	$(exec_prefix)/include
 -SCRIPTDIR=	$(prefix)/lib
 +SCRIPTDIR=	$(prefix)/$(LIB)
- 
+
  # Detailed destination directories
  BINLIBDEST=	$(LIBDIR)/python$(VERSION)
 @@ -708,7 +710,7 @@
  Python/compile.o Python/symtable.o Python/ast.o: $(GRAMMAR_H) $(AST_H)
- 
+
  Python/getplatform.o: $(srcdir)/Python/getplatform.c
 -		$(CC) -c $(PY_CFLAGS) -DPLATFORM='"$(MACHDEP)"' -o $@ $(srcdir)/Python/getplatform.c
 +		$(CC) -c $(PY_CFLAGS) -DPLATFORM='"$(MACHDEP)"' -DARCH='"$(ARCH)"' -DLIB='"$(LIB)"' -o $@ $(srcdir)/Python/getplatform.c
- 
+
  Python/importdl.o: $(srcdir)/Python/importdl.c
  		$(CC) -c $(PY_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
 diff -Naur Python-2.7.13/Modules/getpath.c Python-2.7.13.tpg/Modules/getpath.c
@@ -184,9 +184,9 @@ diff -Naur Python-2.7.13/Modules/getpath.c Python-2.7.13.tpg/Modules/getpath.c
 @@ -100,6 +100,19 @@
  #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
  #endif
- 
+
 +#ifndef LIB_PYTHON
-+#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__) || defined(__arm__)
++#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__)
 +#define LIB_PYTHON "lib64/python" VERSION
 +#else
 +#define LIB_PYTHON "lib/python" VERSION
@@ -207,7 +207,7 @@ diff -Naur Python-2.7.13/Modules/getpath.c Python-2.7.13.tpg/Modules/getpath.c
  static char *module_search_path = NULL;
 -static char lib_python[] = "lib/python" VERSION;
 +static char lib_python[] = LIB_PYTHON;
- 
+
  static void
  reduce(char *dir)
 diff -Naur Python-2.7.13/Python/getplatform.c Python-2.7.13.tpg/Python/getplatform.c
@@ -257,7 +257,7 @@ diff -Naur Python-2.7.13/configure.ac Python-2.7.13.tpg/configure.ac
 @@ -759,6 +759,41 @@
      ;;
  esac
- 
+
 +AC_SUBST(ARCH)
 +AC_MSG_CHECKING(ARCH)
 +ARCH=`uname -m`
@@ -285,7 +285,7 @@ diff -Naur Python-2.7.13/configure.ac Python-2.7.13.tpg/configure.ac
 +esac
 +
 +case $ARCH:$python_cv_cc_64bit_output in
-+ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes | aarch64:yes | arm:yes)
++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes | aarch64:yes)
 +  LIB="lib64"
 +  ;;
 +*:*)
@@ -293,7 +293,7 @@ diff -Naur Python-2.7.13/configure.ac Python-2.7.13.tpg/configure.ac
 +  ;;
 +esac
 +AC_MSG_RESULT($LIB)
- 
+
  AC_SUBST(LIBRARY)
  AC_MSG_CHECKING(LIBRARY)
 diff -Naur Python-2.7.13/setup.py Python-2.7.13.tpg/setup.py
@@ -302,7 +302,7 @@ diff -Naur Python-2.7.13/setup.py Python-2.7.13.tpg/setup.py
 @@ -512,6 +512,7 @@
          except NameError:
              have_unicode = 0
- 
+
 +        libname = sys.lib
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
