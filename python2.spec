@@ -29,7 +29,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.13
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -232,15 +232,6 @@ tar xf %{SOURCE1} -C html
 find html -type d |xargs chmod 755
 find html -type f |xargs chmod 644
 
-cat > README.omv << EOF
-Python interpreter support readline completion by default.
-This is only used with the interpreter. In order to remove it,
-you can :
-1) unset PYTHONSTARTUP when you login
-2) create a empty file \$HOME/.pythonrc.py
-3) change %{_sysconfdir}/pythonrc.py
-EOF
-
 # Ensure that we're using the system copy of various libraries, rather than
 # copies shipped by upstream in the tarball:
 #   Remove embedded copy of expat:
@@ -410,41 +401,6 @@ EOF
 chmod u+w %{buildroot}%{_libdir}/libpython%{api}.so.1.0
 
 
-mkdir -p %{buildroot}%{_sysconfdir}/profile.d/
-
-cat > %{buildroot}%{_sysconfdir}/profile.d/30python.sh << 'EOF'
-if [ -f $HOME/.pythonrc.py ] ; then
-	export PYTHONSTARTUP=$HOME/.pythonrc.py
-else
-	export PYTHONSTARTUP=/etc/pythonrc.py
-fi
-
-export PYTHONDONTWRITEBYTECODE=1
-EOF
-
-cat > %{buildroot}/%{_sysconfdir}/profile.d/30python.csh << 'EOF'
-if ( -f ${HOME}/.pythonrc.py ) then
-	setenv PYTHONSTARTUP ${HOME}/.pythonrc.py
-else
-	setenv PYTHONSTARTUP /etc/pythonrc.py
-endif
-setenv PYTHONDONTWRITEBYTECODE 1
-EOF
-
-cat > %{buildroot}%{_sysconfdir}/pythonrc.py << EOF
-try:
-    # this add completion to python interpreter
-    import readline
-    import rlcompleter
-    # see readline man page for this
-    readline.parse_and_bind("set show-all-if-ambiguous on")
-    readline.parse_and_bind("tab: complete")
-except:
-    pass
-# you can place a file .pythonrc.py in your home to overrides this one
-# but then, this file will not be sourced
-EOF
-
 %multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
 
 mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d
@@ -468,10 +424,7 @@ mv %{buildroot}%{_bindir}/pydoc %{buildroot}%{_bindir}/pydoc2
 mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 
 %files
-%doc README.omv
 %{_sysconfdir}/rpm/macros.d/*.macros
-%{_sysconfdir}/profile.d/*
-%config(noreplace) %{_sysconfdir}/pythonrc.py
 %if "%{_lib}" != "lib"
 %dir %{_prefix}/lib/python%{dirver}
 %endif
