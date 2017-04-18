@@ -29,7 +29,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.13
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -81,7 +81,9 @@ Patch33:	python-2.7.11-clang_olimit.patch
 # it should use the correct option for the building compiler not the compiler python was built with
 Patch34:	python-2.7.11-rpath_opt.patch
 Patch35:	python-2.7.10-system-libffi.patch
-
+#(tpg) fix bug with Fatal Python error: getentropy() failed
+# https://bugzilla.redhat.com/show_bug.cgi?id=1410175
+Patch36:	00250-getentropy.patch
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
@@ -226,6 +228,7 @@ Various applications written using tkinter 2.x.
 %patch33 -p1
 %patch34 -p1
 %patch35 -p1
+%patch36 -p1
 
 mkdir html
 tar xf %{SOURCE1} -C html
