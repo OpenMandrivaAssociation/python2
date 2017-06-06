@@ -71,7 +71,6 @@ Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 
-Patch30:	00184-ctypes-should-build-with-libffi-multilib-wrapper.patch
 Patch31:	00168-distutils-cflags.patch
 Patch32:	python-2.5-cflags.patch
 
@@ -223,7 +222,6 @@ Various applications written using tkinter 2.x.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-%patch30 -p1
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1
@@ -404,9 +402,6 @@ EOF
 # fix python library not stripped
 chmod u+w %{buildroot}%{_libdir}/libpython%{api}.so.1.0
 
-
-%multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
-
 mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d
 install -m644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/rpm/macros.d/
 
@@ -472,7 +467,6 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
-%multiarch_includedir/python%{dirver}/pyconfig.h
 
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc2
