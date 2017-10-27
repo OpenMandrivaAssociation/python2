@@ -101,6 +101,7 @@ BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	python2-six
+BuildRequires:	termcap-devel
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
 %endif
