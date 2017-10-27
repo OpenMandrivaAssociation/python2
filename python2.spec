@@ -12,7 +12,7 @@
 
 %bcond_with tests
 
-%define docver 2.7.13
+%define docver 2.7.14
 %define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
@@ -80,9 +80,9 @@ Patch33:	python-2.7.11-clang_olimit.patch
 # it should use the correct option for the building compiler not the compiler python was built with
 Patch34:	python-2.7.11-rpath_opt.patch
 Patch35:	python-2.7.10-system-libffi.patch
-#(tpg) fix bug with Fatal Python error: getentropy() failed
-# https://bugzilla.redhat.com/show_bug.cgi?id=1410175
-Patch36:	00250-getentropy.patch
+# (tpg) Squashed patch from ClearLinux
+Patch36:	python-2.7.14-clearlinux-opt.patch
+
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
@@ -132,17 +132,17 @@ Tix widget set for Tk and RPM.
 Note that documentation for Python is provided in the python-docs
 package.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Shared libraries for Python %{version}
 Group:		System/Libraries
 Obsoletes:	%{_lib}python2.7 < 2.7.5-4
 
-%description -n	%{libname}
+%description -n %{libname}
 This packages contains Python shared object library.  Python is an
 interpreted, interactive, object-oriented programming language often
 compared to Tcl, Perl, Scheme or Java.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
 Requires:	%{name} = %{EVRD}
@@ -155,7 +155,7 @@ Obsoletes:	%{mklibname -d %{name} 2.7} < 2.7-4
 Provides:	%{name}-devel = %{EVRD}
 Provides:	python-devel = %{EVRD}
 
-%description -n	%{devname}
+%description -n %{devname}
 The Python programming language's interpreter can be extended with
 dynamically loaded extensions and can be embedded in other programs.
 This package contains the header files and libraries needed to do
@@ -172,7 +172,7 @@ Requires:	%{name} = %{EVRD}
 Requires:	xdg-utils
 Group:		Development/Python
 
-%description	docs
+%description docs
 The python-docs package contains documentation on the Python
 programming language and interpreter.  The documentation is provided
 in ASCII text files and in LaTeX source files.
@@ -180,14 +180,14 @@ in ASCII text files and in LaTeX source files.
 Install the python-docs package if you'd like to use the documentation
 for the Python language.
 
-%package -n	tkinter2
+%package -n tkinter2
 Summary:	A graphical user interface for the Python 2.x scripting language
 Group:		Development/Python
 Requires:	%{name} = %{EVRD}
 Requires:	tcl
 Requires:	tk
 
-%description -n	tkinter2
+%description -n tkinter2
 The Tkinter (Tk interface) program is an graphical user interface for
 the Python 2.x scripting language.
 
@@ -199,12 +199,13 @@ Summary:	Various applications written using tkinter 2.x
 Group:		Development/Python
 Requires:	tkinter2 = %{EVRD}
 
-%description -n	tkinter2-apps
+%description -n tkinter2-apps
 Various applications written using tkinter 2.x.
 
 %prep
 %setup -qn Python-%{version}
 %patch0 -p0
+
 # lib64
 %patch4 -p1 -b .lib64
 
@@ -276,6 +277,10 @@ export ac_cv_have_long_long_format=yes
 	--enable-unicode=ucs4 \
 	--enable-ipv6 \
 	--enable-shared \
+	--with-pymalloc \
+	--without-cxx-main \
+	--with-signal-module \
+	--with-computed-gotos \
 %ifnarch %{ix86}
 	--with-lto \
 	--enable-optimizations \

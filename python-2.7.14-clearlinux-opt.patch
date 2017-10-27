@@ -1,0 +1,38 @@
+diff -Naur Python-2.7.14/Makefile.pre.in Python-2.7.14.tpg/Makefile.pre.in
+--- Python-2.7.14/Makefile.pre.in	2017-10-27 09:15:58.962415000 +0000
++++ Python-2.7.14.tpg/Makefile.pre.in	2017-10-27 09:19:38.084429768 +0000
+@@ -480,9 +480,9 @@
+ 
+ # Build the interpreter
+ $(BUILDPYTHON):	Modules/python.o $(LIBRARY) $(LDLIBRARY)
+-		$(LINKCC) $(CFLAGS) $(LDFLAGS) $(LINKFORSHARED) -o $@ \
++		$(LINKCC) $(CFLAGS) $(PY_LDFLAGS) $(LDFLAGS) $(PY_CFLAGS) $(LINKFORSHARED) -o $@ \
+ 			Modules/python.o \
+-			$(BLDLIBRARY) $(LIBS) $(MODLIBS) $(SYSLIBS) $(LDLAST)
++			-Wl,--whole-archive $(BLDLIBRARY) -Wl,--no-whole-archive $(LIBS) $(MODLIBS) $(SYSLIBS) $(LDLAST)
+ 
+ platform: $(BUILDPYTHON) pybuilddir.txt
+ 	$(RUNSHARED) $(PYTHON_FOR_BUILD) -c 'import sys ; from sysconfig import get_platform ; print get_platform()+"-"+sys.version[0:3]' >platform
+diff -Naur Python-2.7.14/configure.ac Python-2.7.14.tpg/configure.ac
+--- Python-2.7.14/configure.ac	2017-10-27 09:15:58.964415000 +0000
++++ Python-2.7.14.tpg/configure.ac	2017-10-27 09:17:38.261422076 +0000
+@@ -2252,8 +2252,8 @@
+ 		fi
+ 		;;
+ 	Linux*|GNU*|QNX*)
+-		LDSHARED='$(CC) -shared'
+-		LDCXXSHARED='$(CXX) -shared';;
++		LDSHARED='$(CC) -shared -Wl,-O1 -Wl,-Bsymbolic-functions'
++		LDCXXSHARED='$(CXX) -shared -Wl,-O1 -Wl,-Bsymbolic-functions';;
+ 	BSD/OS*/4*)
+ 		LDSHARED="gcc -shared"
+ 		LDCXXSHARED="g++ -shared";;
+@@ -2355,7 +2355,7 @@
+ 	    LINKFORSHARED="-Wl,-E -Wl,+s";;
+ #	    LINKFORSHARED="-Wl,-E -Wl,+s -Wl,+b\$(BINLIBDEST)/lib-dynload";;
+ 	BSD/OS/4*) LINKFORSHARED="-Xlinker -export-dynamic";;
+-	Linux*|GNU*) LINKFORSHARED="-Xlinker -export-dynamic";;
++	Linux*|GNU*) LINKFORSHARED="-Xlinker -export-dynamic -Wl,-O1 -Wl,-Bsymbolic-functions";;
+ 	# -u libsys_s pulls in all symbols in libsys
+ 	Darwin/*) 
+ 		# -u _PyMac_Error is needed to pull in the mac toolbox glue,
