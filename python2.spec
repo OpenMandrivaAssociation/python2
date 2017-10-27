@@ -259,6 +259,7 @@ sed -i -e 's,env python,python2,g' Parser/asdl_c.py
 autoreconf -fi
 
 %build
+%define _disable_ld_no_undefined 1
 rm -f Modules/Setup.local
 cat > Modules/Setup.local << EOF
 linuxaudiodev linuxaudiodev.c
