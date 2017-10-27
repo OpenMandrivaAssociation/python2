@@ -99,6 +99,7 @@ BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
+BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	python2-six
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
