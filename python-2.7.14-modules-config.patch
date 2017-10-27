@@ -1,6 +1,6 @@
 diff -Naur Python-2.7.14/Modules/Setup.dist Python-2.7.14.tpg/Modules/Setup.dist
 --- Python-2.7.14/Modules/Setup.dist	2017-09-16 17:38:35.000000000 +0000
-+++ Python-2.7.14.tpg/Modules/Setup.dist	2017-10-27 10:14:51.292922017 +0000
++++ Python-2.7.14.tpg/Modules/Setup.dist	2017-10-27 16:51:31.413732550 +0000
 @@ -153,7 +153,7 @@
  # modules are to be built as shared libraries (see above for more
  # detail; also note that *static* reverses this effect):
@@ -179,7 +179,7 @@ diff -Naur Python-2.7.14/Modules/Setup.dist Python-2.7.14.tpg/Modules/Setup.dist
  
  
  # Sleepycat Berkeley DB interface.
-@@ -434,14 +434,14 @@
+@@ -434,10 +434,10 @@
  
  
  # Helper module for various ascii-encoders
@@ -191,13 +191,7 @@ diff -Naur Python-2.7.14/Modules/Setup.dist Python-2.7.14.tpg/Modules/Setup.dist
 +parser parsermodule.c
  
  # cStringIO and cPickle
--#cStringIO cStringIO.c
--#cPickle cPickle.c
-+cStringIO cStringIO.c
-+cPickle cPickle.c
- 
- 
- # Lee Busby's SIGFPE modules.
+ #cStringIO cStringIO.c
 @@ -464,7 +464,7 @@
  # Andrew Kuchling's zlib module.
  # This require zlib 1.1.3 (or later).
