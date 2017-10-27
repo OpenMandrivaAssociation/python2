@@ -1,9 +1,7 @@
-make sure we respect the system libffi setting in our build config.
-the compiler probing is fragile and can break in some situations.
-
---- a/setup.py
-+++ b/setup.py
-@@ -2069,7 +2069,7 @@ class PyBuildExt(build_ext):
+diff -Naur Python-2.7.14/setup.py Python-2.7.14.tpg/setup.py
+--- Python-2.7.14/setup.py	2017-10-27 09:57:40.780559000 +0000
++++ Python-2.7.14.tpg/setup.py	2017-10-27 10:04:34.016759458 +0000
+@@ -2095,7 +2095,7 @@
          return True
  
      def detect_ctypes(self, inc_dirs, lib_dirs):
@@ -12,7 +10,7 @@ the compiler probing is fragile and can break in some situations.
          include_dirs = []
          extra_compile_args = []
          extra_link_args = []
-@@ -2113,7 +2113,7 @@ class PyBuildExt(build_ext):
+@@ -2140,7 +2140,7 @@
                               sources=['_ctypes/_ctypes_test.c'])
          self.extensions.extend([ext, ext_test])
  
@@ -21,7 +19,13 @@ the compiler probing is fragile and can break in some situations.
              return
  
          if host_platform == 'darwin':
-@@ -2141,10 +2141,10 @@ class PyBuildExt(build_ext):
+@@ -2165,15 +2165,15 @@
+                           'ffi_wrapper_h'.format(ffi_h))
+         ffi_lib = None
+         if ffi_inc is not None:
+-            for lib_name in ('ffi_convenience', 'ffi_pic', 'ffi'):
++            for lib_name in ('ffi', 'ffi_convenience', 'ffi_pic', 'ffi'):
+                 if (self.compiler.find_library_file(lib_dirs, lib_name)):
                      ffi_lib = lib_name
                      break
  

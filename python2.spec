@@ -82,6 +82,7 @@ Patch34:	python-2.7.11-rpath_opt.patch
 Patch35:	python-2.7.10-system-libffi.patch
 # (tpg) Squashed patch from ClearLinux
 Patch36:	python-2.7.14-clearlinux-opt.patch
+Patch37:	python-2.7.14-modules-config.patch
 
 BuildRequires:	blt
 BuildRequires:	chrpath
@@ -229,6 +230,7 @@ Various applications written using tkinter 2.x.
 %patch34 -p1
 %patch35 -p1
 %patch36 -p1
+%patch37 -p1
 
 mkdir html
 tar xf %{SOURCE1} -C html
