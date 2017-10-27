@@ -285,9 +285,9 @@ export ac_cv_have_long_long_format=yes
 	--without-cxx-main \
 	--with-signal-module \
 	--with-computed-gotos \
+	--disable-optimizations \
 %ifnarch %{ix86}
 	--with-lto \
-	--enable-optimizations \
 %endif
 	--with-dbmliborder=gdbm:ndbm:bdb \
 %if %{with valgrind}
