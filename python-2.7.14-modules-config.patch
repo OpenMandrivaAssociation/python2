@@ -15,7 +15,7 @@ diff -Naur Python-2.7.14/Modules/Setup.dist Python-2.7.14.tpg/Modules/Setup.dist
  # It's okay for this to be a shared library, too.
  
 -#readline readline.c -lreadline -ltermcap
-+readline readline.c -lreadline -ltermcap
++readline readline.c -lreadline -lncursesw
  
  
  # Modules that should always be present (non UNIX dependent):
