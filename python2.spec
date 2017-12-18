@@ -81,7 +81,7 @@ Patch33:	python-2.7.11-clang_olimit.patch
 Patch34:	python-2.7.11-rpath_opt.patch
 Patch35:	python-2.7.10-system-libffi.patch
 # (tpg) Squashed patch from ClearLinux
-#Patch36:	python-2.7.14-clearlinux-opt.patch
+Patch36:	python-2.7.14-clearlinux-opt.patch
 Patch37:	python-2.7.14-modules-config.patch
 
 BuildRequires:	blt
