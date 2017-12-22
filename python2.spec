@@ -39,6 +39,7 @@ Source2:	bdist_rpm5.py
 Source3:	python2.macros
 Source100:	%{name}.rpmlintrc
 Patch0:		python-2.7.10-module-linkage.patch
+Patch1:		python-makeinstall.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
 # similar patches reported upstream on http://bugs.python.org/issue1294959
@@ -88,7 +89,7 @@ BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
-BuildRequires:	db60-devel
+BuildRequires:	db61-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
 BuildRequires:	readline-devel
@@ -207,6 +208,7 @@ Various applications written using tkinter 2.x.
 %prep
 %setup -qn Python-%{version}
 %patch0 -p0
+%patch1 -p1
 
 # lib64
 %patch4 -p1 -b .lib64
@@ -232,6 +234,10 @@ Various applications written using tkinter 2.x.
 %patch35 -p1
 %patch36 -p1
 %patch37 -p1
+
+%if "%_lib" != "lib"
+sed -i -e 's,^LIB=.*,LIB=%_lib,' Makefile.pre.in
+%endif
 
 mkdir html
 tar xf %{SOURCE1} -C html

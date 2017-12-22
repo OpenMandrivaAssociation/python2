@@ -1,0 +1,17 @@
+--- Python-2.7.14/Makefile.pre.in.omv~	2017-12-22 19:34:29.801562801 +0100
++++ Python-2.7.14/Makefile.pre.in	2017-12-22 19:35:02.407690849 +0100
+@@ -1116,12 +1116,12 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
+ 		$(INSTALL_DATA) $(srcdir)/Modules/xxmodule.c \
+ 			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
+ 	fi
+-	PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
++	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+ 		$(PYTHON_FOR_BUILD) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST) -f \
+ 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+ 		$(DESTDIR)$(LIBDEST)
+-	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
++	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+ 		$(PYTHON_FOR_BUILD) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST) -f \
+ 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
