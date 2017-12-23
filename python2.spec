@@ -29,7 +29,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.14
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -357,6 +357,17 @@ echo 'install_dir='"%{buildroot}/usr/bin" >>setup.cfg
 # python is not GNU and does not know fsstd
 mkdir -p %{buildroot}%{_mandir}
 %makeinstall_std
+
+# Currently, _multiprocessing and future_builtins get renamed to *_failed.so
+# because of what seems to be a false negative running a test ("No module named
+# itertools" when doing a test import -- but itertools exists after make install)
+# Let's just "fix" it the quick and dirty way...
+cd %{buildroot}%{_libdir}/python%{dirver}/lib-dynload
+for i in *_failed.so; do
+	[ -e "$i" ] || continue
+	mv ${i} ${i/_failed/}
+done
+cd -
 
 ln -sf libpython%{api}.so.* %{buildroot}/%{_libdir}/libpython%{api}.so
 
