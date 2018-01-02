@@ -428,6 +428,10 @@ EOF
 # fix python library not stripped
 chmod u+w %{buildroot}%{_libdir}/libpython%{api}.so.1.0
 
+%if %{mdvver} <= 3000000
+%multiarch_includes %{buildroot}/usr/include/python*/pyconfig.h
+%endif
+
 mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d
 install -m644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/rpm/macros.d/
 
@@ -493,6 +497,9 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 
 %dir %{_includedir}/python%{dirver}
 %{_includedir}/python%{dirver}/pyconfig.h
+%if %{mdvver} <= 3000000
+%multiarch_includedir/python%{dirver}/pyconfig.h
+%endif
 
 %{_bindir}/python%{dirver}
 %{_bindir}/pydoc2
