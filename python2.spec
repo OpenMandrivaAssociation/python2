@@ -103,6 +103,7 @@ BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(libtirpc)
+BuildRequires:	pkgconfig(libnsl)
 BuildRequires:	python2-six
 %if %{with valgrind}
 BuildRequires:	valgrind-devel
