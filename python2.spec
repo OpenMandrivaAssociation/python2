@@ -6,6 +6,9 @@
 # - all patchs should be commented ( unless for security,
 #     as they are usually easy to spot )
 
+# This is for python >= 3.0 only
+%define _python_bytecompile_build 0
+
 %ifarch %{ix86}
 %define _disable_lto 1
 %endif
@@ -88,7 +91,7 @@ BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
-BuildRequires:	db61-devel
+BuildRequires:	db62-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
 BuildRequires:	readline-devel
