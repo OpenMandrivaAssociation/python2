@@ -29,10 +29,13 @@
 %bcond_with valgrind
 %endif
 
+# (tpg) pkgconfig(python) is only provided by python3
+%global __provides_exclude ^pkgconfig\\(python\\)
+
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.15
-Release:	2
+Release:	3
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
