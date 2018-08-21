@@ -35,7 +35,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.15
-Release:	4
+Release:	5
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -156,6 +156,7 @@ Summary:	The libraries and header files needed for Python development
 Group:		Development/Python
 Requires:	%{name} = %{EVRD}
 Requires:	%{libname} = %{EVRD}
+Requires:	python2-pkg-resources
 Obsoletes:	%{name}-devel < %{EVRD}
 # (misc) needed to ease upgrade , see #47803
 Obsoletes:	%{mklibname -d %{name} 2.5} < 2.7
