@@ -478,7 +478,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/*.py*
 %{_libdir}/python%{dirver}/*.txt
 %{_libdir}/python%{dirver}/bsddb
-%exclude %{_libdir}/python%{dirver}/bsddb/tests
+%exclude %{_libdir}/python%{dirver}/bsddb/test
 %{_libdir}/python%{dirver}/compiler
 # "Makefile" and the config.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the libs
@@ -489,16 +489,16 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %exclude %{_libdir}/python%{dirver}/ctypes/test
 %{_libdir}/python%{dirver}/curses
 %{_libdir}/python%{dirver}/distutils
-%exclude %{_libdir}/python%{dirver}/distutils/tests
+%exclude %{_libdir}/python%{dirver}/distutils/test
 %{_libdir}/python%{dirver}/email
-%exclude %{_libdir}/python%{dirver}/email/tests
+%exclude %{_libdir}/python%{dirver}/email/test
 %{_libdir}/python%{dirver}/encodings
 # FIXME why does this get built only in abf???
 %optional %{_libdir}/python%{dirver}/ensurepip
 %{_libdir}/python%{dirver}/hotshot
 %{_libdir}/python%{dirver}/importlib
 %{_libdir}/python%{dirver}/json
-%exclude %{_libdir}/python%{dirver}/json/tests
+%exclude %{_libdir}/python%{dirver}/json/test
 %{_libdir}/python%{dirver}/lib-dynload
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_ctypes_test.so
@@ -513,9 +513,9 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %dir %{_libdir}/python%{dirver}/site-packages
 %{_libdir}/python%{dirver}/site-packages/README
 %{_libdir}/python%{dirver}/sqlite3
-%exclude %{_libdir}/python%{dirver}/sqlite3/tests
+%exclude %{_libdir}/python%{dirver}/sqlite3/test
 %{_libdir}/python%{dirver}/unittest
-%exclude %{_libdir}/python%{dirver}/unittest/tests
+%exclude %{_libdir}/python%{dirver}/unittest/test
 %{_libdir}/python%{dirver}/wsgiref
 %{_libdir}/python%{dirver}/xml
 
@@ -563,13 +563,13 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_datadir}/applications/openmandriva-tkinter2.desktop
 
 %files test
-%{_libdir}/python%{dirver}/bsddb/tests
+%{_libdir}/python%{dirver}/bsddb/test
 %{_libdir}/python%{dirver}/ctypes/test
-%{_libdir}/python%{dirver}/distutils/tests
-%{_libdir}/python%{dirver}/email/tests
-%{_libdir}/python%{dirver}/json/tests
-%{_libdir}/python%{dirver}/sqlite3/tests
-%{_libdir}/python%{dirver}/unittest/tests
+%{_libdir}/python%{dirver}/distutils/test
+%{_libdir}/python%{dirver}/email/test
+%{_libdir}/python%{dirver}/json/test
+%{_libdir}/python%{dirver}/sqlite3/test
+%{_libdir}/python%{dirver}/unittest/test
 %{_libdir}/python%{dirver}/test/
 %{_libdir}/python%{dirver}/lib-tk/test/
 %{_libdir}/python%{dirver}/lib-dynload/_ctypes_test.so
