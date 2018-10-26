@@ -35,7 +35,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.15
-Release:	5
+Release:	6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -211,6 +211,15 @@ Requires:	tkinter2 = %{EVRD}
 
 %description -n tkinter2-apps
 Various applications written using tkinter 2.x.
+
+%package test
+Summary:	The self-test suite for the main python2 package
+Group:		Development/Python
+Requires:	%{name} = %{EVRD}
+
+%description test
+The self-test suite for the Python interpreter.
+This is only useful to test Python itself.
 
 %prep
 %setup -qn Python-%{version}
@@ -469,6 +478,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/*.py*
 %{_libdir}/python%{dirver}/*.txt
 %{_libdir}/python%{dirver}/bsddb
+%exclude %{_libdir}/python%{dirver}/bsddb/tests
 %{_libdir}/python%{dirver}/compiler
 # "Makefile" and the config.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the libs
@@ -476,17 +486,23 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %dir %{_libdir}/python%{dirver}/config
 %{_libdir}/python%{dirver}/config/Makefile
 %{_libdir}/python%{dirver}/ctypes
+%exclude %{_libdir}/python%{dirver}/ctypes/test
 %{_libdir}/python%{dirver}/curses
 %{_libdir}/python%{dirver}/distutils
+%exclude %{_libdir}/python%{dirver}/distutils/tests
 %{_libdir}/python%{dirver}/email
+%exclude %{_libdir}/python%{dirver}/email/tests
 %{_libdir}/python%{dirver}/encodings
 # FIXME why does this get built only in abf???
 %optional %{_libdir}/python%{dirver}/ensurepip
 %{_libdir}/python%{dirver}/hotshot
 %{_libdir}/python%{dirver}/importlib
 %{_libdir}/python%{dirver}/json
+%exclude %{_libdir}/python%{dirver}/json/tests
 %{_libdir}/python%{dirver}/lib-dynload
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
+%exclude %{_libdir}/python%{dirver}/lib-dynload/_ctypes_test.so
+%exclude %{_libdir}/python%{dirver}/lib-dynload/_testcapi.so
 %{_libdir}/python%{dirver}/logging
 %{_libdir}/python%{dirver}/multiprocessing
 %{_libdir}/python%{dirver}/plat-linux2
@@ -497,7 +513,9 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %dir %{_libdir}/python%{dirver}/site-packages
 %{_libdir}/python%{dirver}/site-packages/README
 %{_libdir}/python%{dirver}/sqlite3
+%exclude %{_libdir}/python%{dirver}/sqlite3/tests
 %{_libdir}/python%{dirver}/unittest
+%exclude %{_libdir}/python%{dirver}/unittest/tests
 %{_libdir}/python%{dirver}/wsgiref
 %{_libdir}/python%{dirver}/xml
 
@@ -523,7 +541,6 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/python%{dirver}
 %{_libdir}/python%{dirver}/config/*
-%{_libdir}/python%{dirver}/test/
 %{_bindir}/python%{dirver}-config
 %{_bindir}/python2-config
 %exclude %{_libdir}/python%{dirver}/config/Makefile
@@ -536,7 +553,6 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %files -n tkinter2
 %dir %{_libdir}/python%{dirver}/lib-tk
 %{_libdir}/python%{dirver}/lib-tk/*.py*
-%{_libdir}/python%{dirver}/lib-tk/test/
 %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
 %{_libdir}/python%{dirver}/idlelib
 %{_libdir}/python%{dirver}/site-packages/pynche
@@ -545,3 +561,16 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_bindir}/idle2
 %{_bindir}/pynche2
 %{_datadir}/applications/openmandriva-tkinter2.desktop
+
+%files test
+%{_libdir}/python%{dirver}/bsddb/tests
+%{_libdir}/python%{dirver}/ctypes/test
+%{_libdir}/python%{dirver}/distutils/tests
+%{_libdir}/python%{dirver}/email/tests
+%{_libdir}/python%{dirver}/json/tests
+%{_libdir}/python%{dirver}/sqlite3/tests
+%{_libdir}/python%{dirver}/unittest/tests
+%{_libdir}/python%{dirver}/test/
+%{_libdir}/python%{dirver}/lib-tk/test/
+%{_libdir}/python%{dirver}/lib-dynload/_ctypes_test.so
+%{_libdir}/python%{dirver}/lib-dynload/_testcapimodule.so
