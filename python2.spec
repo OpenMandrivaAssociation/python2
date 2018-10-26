@@ -489,7 +489,7 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %exclude %{_libdir}/python%{dirver}/ctypes/test
 %{_libdir}/python%{dirver}/curses
 %{_libdir}/python%{dirver}/distutils
-%exclude %{_libdir}/python%{dirver}/distutils/test
+%exclude %{_libdir}/python%{dirver}/distutils/tests
 %{_libdir}/python%{dirver}/email
 %exclude %{_libdir}/python%{dirver}/email/test
 %{_libdir}/python%{dirver}/encodings
@@ -498,11 +498,11 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %{_libdir}/python%{dirver}/hotshot
 %{_libdir}/python%{dirver}/importlib
 %{_libdir}/python%{dirver}/json
-%exclude %{_libdir}/python%{dirver}/json/test
+%exclude %{_libdir}/python%{dirver}/json/tests
 %{_libdir}/python%{dirver}/lib-dynload
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_tkinter.so
 %exclude %{_libdir}/python%{dirver}/lib-dynload/_ctypes_test.so
-%exclude %{_libdir}/python%{dirver}/lib-dynload/_testcapi.so
+%exclude %{_libdir}/python%{dirver}/lib-dynload/_testcapimodule.so
 %{_libdir}/python%{dirver}/logging
 %{_libdir}/python%{dirver}/multiprocessing
 %{_libdir}/python%{dirver}/plat-linux2
@@ -565,9 +565,9 @@ mv %{buildroot}%{_bindir}/idle %{buildroot}%{_bindir}/idle2
 %files test
 %{_libdir}/python%{dirver}/bsddb/test
 %{_libdir}/python%{dirver}/ctypes/test
-%{_libdir}/python%{dirver}/distutils/test
+%{_libdir}/python%{dirver}/distutils/tests
 %{_libdir}/python%{dirver}/email/test
-%{_libdir}/python%{dirver}/json/test
+%{_libdir}/python%{dirver}/json/tests
 %{_libdir}/python%{dirver}/sqlite3/test
 %{_libdir}/python%{dirver}/unittest/test
 %{_libdir}/python%{dirver}/test/
