@@ -12,7 +12,7 @@
 
 %bcond_with tests
 
-%define docver 2.7.14
+%define docver 2.7.15
 %define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
@@ -28,8 +28,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
-Version:	2.7.14
-Release:	2
+Version:	2.7.15
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -38,7 +38,7 @@ Source1:	http://www.python.org/ftp/python/doc/%{docver}/python-%{docver}-docs-ht
 Source2:	bdist_rpm5.py
 Source3:	python2.macros
 Source100:	%{name}.rpmlintrc
-Patch0:		python-2.7.10-module-linkage.patch
+Patch0:		python-2.7.14-module-linkage.patch
 Patch1:		python-makeinstall.patch
 
 # Support */lib64 convention on x86_64, sparc64, etc.
@@ -80,7 +80,6 @@ Patch33:	python-2.7.11-clang_olimit.patch
 # distutils erroneously uses -R when compiling with gcc if clang was used to build
 # it should use the correct option for the building compiler not the compiler python was built with
 Patch34:	python-2.7.11-rpath_opt.patch
-Patch35:	python-2.7.10-system-libffi.patch
 # (tpg) Squashed patch from ClearLinux
 Patch36:	python-2.7.14-clearlinux-opt.patch
 Patch37:	python-2.7.14-modules-config.patch
@@ -207,7 +206,7 @@ Various applications written using tkinter 2.x.
 
 %prep
 %setup -qn Python-%{version}
-%patch0 -p0
+%patch0 -p1
 %patch1 -p1
 
 # lib64
@@ -231,7 +230,6 @@ Various applications written using tkinter 2.x.
 %patch32 -p1
 %patch33 -p1
 %patch34 -p1
-%patch35 -p1
 %patch36 -p1
 %patch37 -p1
 

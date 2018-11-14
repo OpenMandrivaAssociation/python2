@@ -1,36 +1,32 @@
---- setup.py.orig	2013-04-08 16:19:07.630643642 +0400
-+++ setup.py	2013-04-08 16:18:53.265642396 +0400
-@@ -688,7 +688,7 @@
+commit 85f1fd67cb09cf1eeb8cda4686337b2b7da39eed
+Author: philippem <philippem@mageia.org>
+Date:   Mon Jul 4 10:43:30 2016 +0200
+
+    module-linkage
+
+diff --git a/setup.py b/setup.py
+index aa08ada..3d07542 100644
+--- a/setup.py
++++ b/setup.py
+@@ -713,7 +713,7 @@ class PyBuildExt(build_ext):
          # Operations on audio samples
          # According to #993173, this one should actually work fine on
          # 64-bit platforms.
 -        exts.append( Extension('audioop', ['audioop.c']) )
 +        exts.append( Extension('audioop', ['audioop.c'], libraries=math_libs) )
-
+ 
          # Disabled on 64-bit platforms
          if sys.maxsize != 9223372036854775807L:
-@@ -1340,9 +1340,9 @@ class PyBuildExt(build_ext):
-             if (host_platform not in ['cygwin', 'atheos', 'qnx6'] and
-                 find_file('rpcsvc/yp_prot.h', inc_dirs, []) is not None):
-                 if (self.compiler.find_library_file(lib_dirs, 'nsl')):
--                    libs = ['nsl']
-+                    libs = ['nsl', 'tirpc']
-                 else:
--                    libs = []
-+                    libs = ['tirpc']
-                 exts.append( Extension('nis', ['nismodule.c'],
-                                        libraries = libs) )
-             else:
-@@ -1518,7 +1518,7 @@
+@@ -1554,7 +1554,7 @@ class PyBuildExt(build_ext):
              # This requires sizeof(int) == sizeof(long) == sizeof(char*)
              dl_inc = find_file('dlfcn.h', [], inc_dirs)
              if (dl_inc is not None) and (host_platform not in ['atheos']):
 -                exts.append( Extension('dl', ['dlmodule.c']) )
-+                exts.append( Extension('dl', ['dlmodule.c'], libraries = ['dl'] ) )
++                exts.append( Extension('dl', ['dlmodule.c'], libraries = ['dl']) )
              else:
                  missing.append('dl')
          else:
-@@ -2038,10 +2038,11 @@
+@@ -2115,10 +2115,11 @@ class PyBuildExt(build_ext):
                          include_dirs=include_dirs,
                          extra_compile_args=extra_compile_args,
                          extra_link_args=extra_link_args,
@@ -39,7 +35,7 @@
                          sources=sources,
                          depends=depends)
          ext_test = Extension('_ctypes_test',
-+			     libraries=['m'],
++                             libraries=['m'],
                               sources=['_ctypes/_ctypes_test.c'])
          self.extensions.extend([ext, ext_test])
-
+ 
