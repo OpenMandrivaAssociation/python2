@@ -6,3 +6,4 @@ for f in ('bsddb/dbshelve','encodings/rot_13','webbrowser','timeit','Cookie','di
 
 addFilter('lib(|64)python-devel\..*: non-executable-script (\(.*\) |)/usr/lib(64|)/python\d\.\d/test/.*\.py 0644 /usr/bin/env')
 addFilter("E: devel-file-in-non-devel-package")
+addFilter("E: non-standard-executable-perm")
