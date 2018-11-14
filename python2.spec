@@ -94,6 +94,7 @@ BuildRequires:	gmp-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(libnsl)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(sqlite3)
