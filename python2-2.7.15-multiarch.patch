@@ -1,0 +1,21 @@
+--- Python-2.7.15/setup.py.2	2018-11-14 18:20:33.230363470 +0000
++++ Python-2.7.15/setup.py	2018-11-14 18:20:49.544362848 +0000
+@@ -2143,18 +2143,6 @@
+         ffi_inc = [sysconfig.get_config_var("LIBFFI_INCLUDEDIR")]
+         if not ffi_inc or ffi_inc[0] == '':
+             ffi_inc = find_file('ffi.h', [], inc_dirs)
+-        if ffi_inc is not None:
+-            ffi_h = ffi_inc[0] + '/ffi.h'
+-            with open(ffi_h) as f:
+-                for line in f:
+-                    line = line.strip()
+-                    if line.startswith(('#define LIBFFI_H',
+-                                        '#define ffi_wrapper_h')):
+-                        break
+-                else:
+-                    ffi_inc = None
+-                    print('Header file {} does not define LIBFFI_H or '
+-                          'ffi_wrapper_h'.format(ffi_h))
+         ffi_lib = None
+         if ffi_inc is not None:
+             for lib_name in ('ffi_convenience', 'ffi_pic', 'ffi'):

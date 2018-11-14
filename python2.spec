@@ -84,6 +84,9 @@ Patch34:	python-2.7.11-rpath_opt.patch
 Patch36:	python-2.7.14-clearlinux-opt.patch
 Patch37:	python-2.7.14-modules-config.patch
 
+# (cb) disable ffi header check which fails due to multiarch
+Patch38:	python2-2.7.15-multiarch.patch
+
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
@@ -233,6 +236,7 @@ Various applications written using tkinter 2.x.
 %patch34 -p1
 %patch36 -p1
 %patch37 -p1
+%patch38 -p1
 
 %if "%_lib" != "lib"
 sed -i -e 's,^LIB=.*,LIB=%_lib,' Makefile.pre.in
