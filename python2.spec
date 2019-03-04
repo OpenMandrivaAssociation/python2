@@ -15,7 +15,7 @@
 
 %bcond_with tests
 
-%define docver 2.7.15
+%define docver 2.7.16
 %define dirver %(echo %{version} |cut -d. -f1-2)
 
 %define api %{dirver}
@@ -34,8 +34,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
-Version:	2.7.15
-Release:	7
+Version:	2.7.16
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -94,7 +94,7 @@ BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
 BuildRequires:	bzip2-devel
-BuildRequires:	db62-devel
+BuildRequires:	db18-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
 BuildRequires:	readline-devel
@@ -248,7 +248,7 @@ This is only useful to test Python itself.
 %patch33 -p1
 %patch34 -p1
 %patch36 -p1
-%patch37 -p1
+%patch37 -p1 -b .0037~
 
 %if "%_lib" != "lib"
 sed -i -e 's,^LIB=.*,LIB=%_lib,' Makefile.pre.in
