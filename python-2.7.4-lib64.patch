@@ -186,7 +186,7 @@ diff -Naur Python-2.7.14/Modules/getpath.c Python-2.7.14.tpg/Modules/getpath.c
  #endif
  
 +#ifndef LIB_PYTHON
-+#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__)
++#if defined(__x86_64__) || defined(__powerpc64__) || defined(__aarch64__) || defined(__riscv64__)
 +#define LIB_PYTHON "lib64/python" VERSION
 +#else
 +#define LIB_PYTHON "lib/python" VERSION
