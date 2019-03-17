@@ -285,7 +285,7 @@ diff -Naur Python-2.7.14/configure.ac Python-2.7.14.tpg/configure.ac
 +esac
 +
 +case $ARCH:$python_cv_cc_64bit_output in
-+ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes | aarch64:yes)
++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes | aarch64:yes | riscv64:yes)
 +  LIB="lib64"
 +  ;;
 +*:*)
