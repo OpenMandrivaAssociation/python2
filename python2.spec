@@ -35,7 +35,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.16
-Release:	1
+Release:	2
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -306,7 +306,11 @@ export ac_cv_have_long_long_format=yes
 	--without-cxx-main \
 	--with-signal-module \
 	--with-computed-gotos \
+%ifnarch %{ix86}
+	--enable-optimizations \
+%else
 	--disable-optimizations \
+%endif
 %ifnarch %{ix86}
 	--with-lto \
 %endif
