@@ -78,7 +78,6 @@ Patch25:	python-2.7.4-arch.patch
 
 Patch26:	Python-2.7.4-berkeley-db-5.3-2.patch
 
-Patch31:	00168-distutils-cflags.patch
 Patch32:	python-2.5-cflags.patch
 
 # configure erroneously adds invalid -OPT:Olimit=0 to cflags when using clang
@@ -243,7 +242,6 @@ This is only useful to test Python itself.
 %patch24 -p1 -b .db5~
 %patch25 -p1 -b .arch
 %patch26 -p1 -b .db5-2
-%patch31 -p1
 %patch32 -p1
 %patch33 -p1
 %patch34 -p1
