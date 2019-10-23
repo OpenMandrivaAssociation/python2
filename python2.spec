@@ -34,8 +34,8 @@
 
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
-Version:	2.7.16
-Release:	2
+Version:	2.7.17
+Release:	1
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		http://www.python.org/
@@ -93,11 +93,11 @@ Patch37:	python-2.7.14-modules-config.patch
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
-BuildRequires:	bzip2-devel
+BuildRequires:	pkgconfig(bzip2)
 BuildRequires:	db18-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gmp-devel
-BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(ncursesw)
@@ -204,7 +204,7 @@ the Python 2.x scripting language.
 You should install the tkinter2 package if you'd like to use a graphical
 user interface for Python 2.x programming.
 
-%package -n	tkinter2-apps
+%package -n tkinter2-apps
 Summary:	Various applications written using tkinter 2.x
 Group:		Development/Python
 Requires:	tkinter2 = %{EVRD}
@@ -323,7 +323,7 @@ export ac_cv_have_long_long_format=yes
 #perl -pi -e 's/^(LDFLAGS=.*)/$1 -lstdc++/' Makefile
 # (misc) if the home is nfs mounted, rmdir fails due to delay
 export TMP="/tmp" TMPDIR="/tmp"
-%make
+%make_build
 
 %if %{with tests}
 %check
@@ -375,7 +375,7 @@ echo 'install_dir='"%{buildroot}/usr/bin" >>setup.cfg
 
 # python is not GNU and does not know fsstd
 mkdir -p %{buildroot}%{_mandir}
-%makeinstall_std
+%make_install
 
 # Currently, _multiprocessing and future_builtins get renamed to *_failed.so
 # because of what seems to be a false negative running a test ("No module named
