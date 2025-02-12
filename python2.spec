@@ -35,7 +35,7 @@
 Summary:	An interpreted, interactive object-oriented programming language
 Name:		python2
 Version:	2.7.18
-Release:	5
+Release:	6
 License:	Modified CNRI Open Source License
 Group:		Development/Python
 Url:		https://www.python.org/
