@@ -89,6 +89,11 @@ Patch34:	python-2.7.11-rpath_opt.patch
 Patch36:	python-2.7.14-clearlinux-opt.patch
 Patch37:	python-2.7.14-modules-config.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	blt
 BuildRequires:	chrpath
 BuildRequires:	tix
